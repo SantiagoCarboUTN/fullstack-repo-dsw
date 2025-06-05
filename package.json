@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p ./tsconfig.json",
@@ -15,6 +15,7 @@
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "@types/express": "^5.0.2",
+    "@types/node": "^22.15.29",
     "tsc-watch": "6.0.4",
     "typescript": "5.1.3"
   },

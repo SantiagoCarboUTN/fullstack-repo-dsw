@@ -15,6 +15,9 @@ importers:
       '@types/express':
         specifier: ^5.0.2
         version: 5.0.2
+      '@types/node':
+        specifier: ^22.15.29
+        version: 22.15.29
       tsc-watch:
         specifier: 6.0.4
         version: 6.0.4(typescript@5.1.3)
