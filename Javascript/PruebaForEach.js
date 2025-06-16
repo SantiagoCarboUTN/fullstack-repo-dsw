@@ -6,4 +6,6 @@ function show(element) {
 }
 datos.forEach(show);
 
-datos.forEach(console.log(element))
+datos.forEach(element => console.log(element));
+
+datos.forEach(function(element) {console.log(element)})
