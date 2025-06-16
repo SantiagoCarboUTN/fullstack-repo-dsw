@@ -5,3 +5,5 @@ function show(element) {
   console.log(element)
 }
 datos.forEach(show);
+
+datos.forEach(console.log(element))
