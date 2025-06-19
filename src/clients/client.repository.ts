@@ -15,5 +15,8 @@ export class ClientRepository implements Repository<Cliente>{
   public async findAll(): Promise<Cliente[] | undefined> {
     return await clientes
   }
+  public async findOne(item: { id: string }): Promise<Cliente | undefined> {
+    return await clientes.find(cliente => cliente.id === item.id)
+  }
   
 }
