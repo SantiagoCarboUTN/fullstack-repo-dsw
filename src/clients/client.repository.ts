@@ -11,8 +11,9 @@ const clientes= [new Cliente(
 )
 ]
 
-export class ClientRepository implements Repository<Cliente>{
+/*export class ClientRepository implements Repository<Cliente>{
   public async findAll(): Promise<Cliente[] | undefined> {
     return await clientes
   }
 }
+  */
