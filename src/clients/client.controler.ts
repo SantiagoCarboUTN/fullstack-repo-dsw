@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { Cliente } from './client.entity.js';
 import { ClientRepository } from './client.repository.js';
 const repository = new ClientRepository();
 
@@ -21,17 +20,17 @@ Object.keys(req.body.sanitizedInput).forEach((key) => {
 next()
 }
 
-async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+function findAll(req: Request, res: Response) {
+  res.json({ data: repository.findAll() })
 }
 
-async function findOne(req: Request, res: Response) {
+function findOne(req: Request, res: Response) {
   const id = req.params.id;
-  const cliente = await repository.findOne({id});
+  const cliente = repository.findOne({id});
   if (!cliente) {
     return res.status(404).json({ error: 'No se encontro el cliente' });
-  }else{
-  res.json({ data: cliente })}
+  }
+  res.json({ data: cliente })
 }
 
-export { findAll, sanitizeClientInput, findOne };
+export { findAll, findOne , sanitizeClientInput};

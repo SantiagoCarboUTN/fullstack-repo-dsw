@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-export class Cliente {
+export class Client {
   constructor(
     public name:string, 
     public contraseña:string, 
