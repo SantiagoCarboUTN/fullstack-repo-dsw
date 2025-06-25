@@ -19,5 +19,27 @@ export class ClientRepository implements Repository<Client>{
   public findOne(item: { id: string }): Client | undefined {
     return clientes.find((cliente) => cliente.id === item.id)
   }
-  
+  public add(item: Client): Client | undefined {
+    clientes.push(item);
+    return item;
+  } 
+
+  public update(item: Client): Client | undefined {
+    const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
+    if (idCliente !== -1) {
+      clientes[idCliente] ={...clientes[idCliente], ...item}
+    }
+      return clientes[idCliente]; 
+  }  
+  public delete(item: { id: string }): Client | undefined {
+    const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
+    if (idCliente !== -1) {
+      const deletedCliente = clientes[idCliente];
+      clientes.splice(idCliente, 1)[0];
+      return deletedCliente;
+    }
+
+  }
+
+
 }

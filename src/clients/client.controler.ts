@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { ClientRepository } from './client.repository.js';
+import { Client } from './client.entity.js';
 const repository = new ClientRepository();
 
-function sanitizeClientInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedInput = {
+function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
+  req.body.sanitizedClientInput = {
   name: req.body.name,
   mail: req.body.mail,
   telefono: req.body.telefono,
@@ -11,9 +12,9 @@ function sanitizeClientInput(req: Request, res: Response, next: NextFunction) {
   contraseña: req.body.contraseña,
   id: req.body.id
 }
-Object.keys(req.body.sanitizedInput).forEach((key) => {
-  if (req.body.sanitizedInput[key] === undefined) {
-    delete req.body.sanitizedInput[key]
+Object.keys(req.body.sanitizedClientInput).forEach((key) => {
+  if (req.body.sanitizedClientInput[key] === undefined) {
+    delete req.body.sanitizedClientInput[key]
   } 
 
 })
@@ -33,4 +34,36 @@ function findOne(req: Request, res: Response) {
   res.json({ data: cliente })
 }
 
-export { findAll, findOne , sanitizeClientInput};
+function add(req: Request, res: Response) {
+  const input = req.body.sanitizedClientInput
+
+  const clientInput = new Client(
+    input.name,
+    input.contraseña,
+    input.mail,
+    input.telefono,
+    input.dni,
+  )
+  const cliente = repository.add(clientInput);
+  return res.status(201).json({message: 'Se creó el cliente', data: cliente });
+}
+
+function update(req: Request, res: Response) {
+  req.body.sanitizedClientInput.id = req.params.id;
+  const cliente= repository.update( req.body.sanitizedClientInput);
+  if (!cliente) {
+    return res.status(404).json({ error: 'No se encontro el cliente' });
+  }
+  return res.status(200).json({message: 'Se actualizó el cliente', data: cliente });
+}
+
+function remove(req: Request, res: Response) {
+  const id = req.params.id;
+  const cliente = repository.delete({id});
+  if (!cliente) {
+    return res.status(404).json({ error: 'No se encontro el cliente' });
+  }else{
+  return res.status(200).json({message: 'Se eliminó el cliente', data: cliente })}
+}
+
+export { findAll, findOne, add, update, remove, sanitizedClientInput};
