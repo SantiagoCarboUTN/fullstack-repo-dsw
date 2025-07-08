@@ -5,7 +5,7 @@
     "module": "ES2022",
     "moduleResolution": "bundler",
     "sourceMap": true,
-    "outDir": "apps/backend/dist",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -14,6 +14,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["apps/backend/src/**/*", "**/*.ts"],
+  "include": ["src/**/*", "**/*.ts"],
   "exclude": ["node_modules"]
 }
