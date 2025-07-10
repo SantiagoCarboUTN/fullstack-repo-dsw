@@ -1,0 +1,26 @@
+### obtener todos los tipos de servicio
+GET http://localhost:3000/api/cochera
+
+### obtener un tipo de servicio por id
+GET http://localhost:3000/api/cochera/12
+
+### crear un tipo de servicio
+POST http://localhost:3000/api/cochera
+Content-Type: application/json
+
+{
+    "numero": "8",
+    "estado": "disponible"
+}
+
+### actualizar un tipo de servicio
+PUT http://localhost:3000/api/cochera/42
+Content-Type: application/json
+
+{
+    "numero": "9999",
+    "estado": "ocupado"
+}
+
+### eliminar un tipo de servicio
+DELETE http://localhost:3000/api/cochera/1

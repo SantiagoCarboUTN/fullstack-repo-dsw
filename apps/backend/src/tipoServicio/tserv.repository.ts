@@ -1,6 +1,6 @@
 import { TipoServicio } from "./tserv.entity.js";
 import { Repository } from "../shared/repository.js";
-const tipoServicio = [
+const tipoServicios = [
   new TipoServicio(
     'anual',
     100000,
@@ -19,27 +19,27 @@ const tipoServicio = [
 ];
 export class TipoServicioRepository implements Repository<TipoServicio> {
   public findAll(): TipoServicio[] | undefined {
-    return tipoServicio;
+    return tipoServicios;
   }
   public findOne(item: { id: string }): TipoServicio | undefined {
-    return tipoServicio.find((ts) => ts.id === item.id);
+    return tipoServicios.find((ts) => ts.id === item.id);
   }
   public add(item: TipoServicio): TipoServicio | undefined {
-    tipoServicio.push(item);
+    tipoServicios.push(item);
     return item;
   }
   public update(item: TipoServicio): TipoServicio | undefined {
-    const idTipoServicio = tipoServicio.findIndex((ts) => ts.id === item.id);
+    const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
     if (idTipoServicio !== -1) {
-      tipoServicio[idTipoServicio] = { ...tipoServicio[idTipoServicio], ...item };
+      tipoServicios[idTipoServicio] = { ...tipoServicios[idTipoServicio], ...item };
     }
-    return tipoServicio[idTipoServicio];
+    return tipoServicios[idTipoServicio];
   }
   public delete(item: { id: string }): TipoServicio | undefined {
-    const idTipoServicio = tipoServicio.findIndex((ts) => ts.id === item.id);
+    const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
     if (idTipoServicio !== -1) {
-      const deletedTipoServicio = tipoServicio[idTipoServicio];
-      tipoServicio.splice(idTipoServicio, 1)[0];
+      const deletedTipoServicio = tipoServicios[idTipoServicio];
+      tipoServicios.splice(idTipoServicio, 1)[0];
       return deletedTipoServicio;
     }
   }
