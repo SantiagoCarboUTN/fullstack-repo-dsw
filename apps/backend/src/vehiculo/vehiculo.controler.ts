@@ -40,7 +40,7 @@ function add(req: Request, res: Response) {
 
   const vehiculoInput = new Vehiculo(
     input.patente,
-    input.descripcion
+    input.tipoVehiculo,
   );
 
   const vehiculo = repository.add(vehiculoInput);

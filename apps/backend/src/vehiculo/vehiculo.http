@@ -9,7 +9,7 @@ POST http://localhost:3000/api/vehiculo
 Content-Type: application/json
 
 {
-    "patente": "ABC123",
+    "patente": "ABC696969",
     "tipoVehiculo": "Camion"
 }
 

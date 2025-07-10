@@ -1,4 +1,4 @@
-import { Vehiculo } from "./vehiculo.entity";
+import { Vehiculo } from "./vehiculo.entity.js";
 import { Repository } from "../shared/repository.js"
 const vehiculo = [
   new Vehiculo(

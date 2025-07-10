@@ -1,5 +1,4 @@
 import { Router } from "express"
-import { Vehiculo } from "./vehiculo.entity.js"
 import {findAll, findOne, add, update, remove, sanitizedVehiculoInput} from "./vehiculo.controler.js" 
 export const VehiculoRouter = Router()
 

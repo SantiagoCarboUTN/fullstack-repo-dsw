@@ -1,4 +1,4 @@
-import { Vehiculo } from "./vehiculo.entity";
+import { Vehiculo } from "./vehiculo.entity.js";
 const vehiculo = [
     new Vehiculo('ABC123', 'Auto de cars'),
 ];

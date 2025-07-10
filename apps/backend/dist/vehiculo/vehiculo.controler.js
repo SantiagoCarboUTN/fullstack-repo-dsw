@@ -26,7 +26,7 @@ function findOne(req, res) {
 }
 function add(req, res) {
     const input = req.body.sanitizedVehiculoInput;
-    const vehiculoInput = new Vehiculo(input.patente, input.descripcion);
+    const vehiculoInput = new Vehiculo(input.patente, input.tipoVehiculo);
     const vehiculo = repository.add(vehiculoInput);
     return res.status(201).json({
         message: 'Se creó el vehículo',
