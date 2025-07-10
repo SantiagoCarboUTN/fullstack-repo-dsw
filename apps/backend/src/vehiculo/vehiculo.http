@@ -1,0 +1,25 @@
+### obtener todos los vehículos
+GET http://localhost:3000/api/vehiculo
+
+### obtener un vehículo por patente
+GET http://localhost:3000/api/vehiculo/ABC123
+
+### crear un vehículo
+POST http://localhost:3000/api/vehiculo
+Content-Type: application/json
+
+{
+    "patente": "ABC123",
+    "tipoVehiculo": "Camion"
+}
+
+### actualizar un vehículo  
+PUT http://localhost:3000/api/vehiculo/ABC123
+Content-Type: application/json
+
+{
+    "tipoVehiculo": "Camioneta"
+}
+
+### eliminar un vehículo
+DELETE http://localhost:3000/api/vehiculo/ABC123
