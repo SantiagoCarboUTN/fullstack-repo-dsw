@@ -3,7 +3,7 @@ import { Cochera } from "./cochera.entity.js";
 
 const cocheras = [
   new Cochera(
-    '12',
+    '12a',
     'Ocupada'
   ),
 ];
