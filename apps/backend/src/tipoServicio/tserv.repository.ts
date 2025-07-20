@@ -18,8 +18,8 @@ const tipoServicios = [
   )
 ];
 export class TipoServicioRepository implements Repository<TipoServicio> {
-  public findAll(): TipoServicio[] | undefined {
-    return tipoServicios;
+  public async findAll(): Promise<TipoServicio[] | undefined> {
+    return await tipoServicios;
   }
   public findOne(item: { id: string }): TipoServicio | undefined {
     return tipoServicios.find((ts) => ts.id === item.id);

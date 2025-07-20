@@ -13,8 +13,8 @@ const clientes= [
 ]
 
 export class ClientRepository implements Repository<Client>{
-  public findAll(): Client[] | undefined {
-    return clientes
+  public async findAll(): Promise<Client[] | undefined> {
+    return await clientes
   }
   public findOne(item: { id: string }): Client | undefined {
     return clientes.find((cliente) => cliente.id === item.id)

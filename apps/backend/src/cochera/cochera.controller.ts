@@ -16,8 +16,8 @@ function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) 
   next()
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response) {
+  res.json({ data: await repository.findAll() })
 } 
 
 function findOne(req: Request, res: Response) {

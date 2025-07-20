@@ -14,8 +14,8 @@ function sanitizedTipoServicioInput(req, res, next) {
     });
     next();
 }
-async function findAll(req, res) {
-    res.json({ data: await repository.findAll() });
+function findAll(req, res) {
+    res.json({ data: repository.findAll() });
 }
 function findOne(req, res) {
     const id = req.params.id;

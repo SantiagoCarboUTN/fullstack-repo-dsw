@@ -3,8 +3,8 @@ const clientes = [
     new Client('Juan', 'Password1234', 'juan123@gmail.com', '549-341-244-2356', 46392822, 'a02b91bc-3769-4221-beb1-d7a3aeba7dad'),
 ];
 export class ClientRepository {
-    findAll() {
-        return clientes;
+    async findAll() {
+        return await clientes;
     }
     findOne(item) {
         return clientes.find((cliente) => cliente.id === item.id);

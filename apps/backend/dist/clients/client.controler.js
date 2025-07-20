@@ -17,8 +17,8 @@ function sanitizedClientInput(req, res, next) {
     });
     next();
 }
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
+async function findAll(req, res) {
+    res.json({ data: await repository.findAll() });
 }
 function findOne(req, res) {
     const id = req.params.id;

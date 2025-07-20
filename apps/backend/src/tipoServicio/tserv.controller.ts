@@ -17,8 +17,8 @@ function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunct
   next()
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response) {
+  res.json({ data: await repository.findAll() })
 } 
 
 function findOne(req: Request, res: Response) {

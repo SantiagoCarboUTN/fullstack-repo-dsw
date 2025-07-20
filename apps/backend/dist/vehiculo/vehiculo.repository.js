@@ -3,8 +3,8 @@ const vehiculo = [
     new Vehiculo('ABC123', 'Auto de cars'),
 ];
 export class VehiculoRepository {
-    findAll() {
-        return vehiculo;
+    async findAll() {
+        return await vehiculo;
     }
     findOne(item) {
         return vehiculo.find((v) => v.patente === item.patente);

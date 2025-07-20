@@ -3,8 +3,8 @@ const cocheras = [
     new Cochera('12a', 'Ocupada'),
 ];
 export class CocheraRepository {
-    findAll() {
-        return cocheras;
+    async findAll() {
+        return await cocheras;
     }
     findOne(item) {
         return cocheras.find((co) => co.numero === item.numero);

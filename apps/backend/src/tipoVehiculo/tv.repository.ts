@@ -19,7 +19,7 @@ const tipoVehiculo= [
 ]
 
 export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
-  public findAll(): TipoVehiculo[] | undefined {
+  public async findAll(): Promise<TipoVehiculo[] | undefined> {
     return tipoVehiculo;
   }
   public findOne(item: { id: string }): TipoVehiculo | undefined {

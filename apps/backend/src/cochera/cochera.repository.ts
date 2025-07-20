@@ -9,8 +9,8 @@ const cocheras = [
 ];
 
 export class CocheraRepository implements Repository<Cochera> {
-  public findAll(): Cochera[] | undefined {
-    return cocheras;
+  public async findAll(): Promise<Cochera[] | undefined> {
+    return await cocheras;
   }
   public findOne(item: { numero: string }): Cochera | undefined {
     return cocheras.find((co) => co.numero === item.numero);

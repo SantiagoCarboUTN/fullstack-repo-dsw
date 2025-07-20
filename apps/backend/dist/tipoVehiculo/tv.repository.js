@@ -5,7 +5,7 @@ const tipoVehiculo = [
     new TipoVehiculo('Camioneta', 'Vehiculo utilitario', 'c02b91bc-3769-4221-beb1-d7a3aeba7dad')
 ];
 export class TipoVehiculoRepository {
-    findAll() {
+    async findAll() {
         return tipoVehiculo;
     }
     findOne(item) {

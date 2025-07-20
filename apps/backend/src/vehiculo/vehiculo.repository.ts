@@ -9,8 +9,8 @@ const vehiculo = [
 ]
 
 export class VehiculoRepository implements Repository<Vehiculo> {
-  public findAll(): Vehiculo[] | undefined {
-    return vehiculo;
+  public async findAll(): Promise<Vehiculo[] | undefined> {
+    return await vehiculo;
   }
 
   public findOne(item: { patente: string }): Vehiculo | undefined {
