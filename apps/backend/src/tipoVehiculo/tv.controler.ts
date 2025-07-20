@@ -17,8 +17,8 @@ Object.keys(req.body.sanitizedTipoVehiculoInput).forEach((key) => {
 next()
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response) {
+  res.json({ data: await repository.findAll() })
 }
 function findOne(req: Request, res: Response) {
   const id = req.params.id
