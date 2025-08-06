@@ -6,8 +6,8 @@ export class CocheraRepository {
     async findAll() {
         return await cocheras;
     }
-    findOne(item) {
-        return cocheras.find((co) => co.numero === item.numero);
+    async findOne(item) {
+        return await cocheras.find((co) => co.numero === item.numero);
     }
     add(item) {
         cocheras.push(item);

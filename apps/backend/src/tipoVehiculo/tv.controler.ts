@@ -20,9 +20,9 @@ next()
 async function findAll(req: Request, res: Response) {
   res.json({ data: await repository.findAll() })
 }
-function findOne(req: Request, res: Response) {
+async function findOne(req: Request, res: Response) {
   const id = req.params.id
-  const tipoVehiculo = repository.findOne({id})
+  const tipoVehiculo = await repository.findOne({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
   }

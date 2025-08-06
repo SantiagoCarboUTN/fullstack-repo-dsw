@@ -6,8 +6,8 @@ export class VehiculoRepository {
     async findAll() {
         return await vehiculo;
     }
-    findOne(item) {
-        return vehiculo.find((v) => v.patente === item.patente);
+    async findOne(item) {
+        return await vehiculo.find((v) => v.patente === item.patente);
     }
     add(item) {
         vehiculo.push(item);

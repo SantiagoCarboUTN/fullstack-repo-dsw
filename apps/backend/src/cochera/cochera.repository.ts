@@ -12,8 +12,8 @@ export class CocheraRepository implements Repository<Cochera> {
   public async findAll(): Promise<Cochera[] | undefined> {
     return await cocheras;
   }
-  public findOne(item: { numero: string }): Cochera | undefined {
-    return cocheras.find((co) => co.numero === item.numero);
+  public async findOne(item: { numero: string }): Promise <Cochera | undefined >{
+    return await cocheras.find((co) => co.numero === item.numero);
   }
   public add(item: Cochera): Cochera| undefined {
     cocheras.push(item);

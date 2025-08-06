@@ -14,12 +14,12 @@ function sanitizedTipoVehiculoInput(req, res, next) {
     });
     next();
 }
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
+async function findAll(req, res) {
+    res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const id = req.params.id;
-    const tipoVehiculo = repository.findOne({ id });
+    const tipoVehiculo = await repository.findOne({ id });
     if (!tipoVehiculo) {
         return res.status(404).json({ error: 'No se encontró el tipo de vehículo' });
     }

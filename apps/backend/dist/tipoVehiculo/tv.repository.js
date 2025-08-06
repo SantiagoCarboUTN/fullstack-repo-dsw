@@ -8,8 +8,8 @@ export class TipoVehiculoRepository {
     async findAll() {
         return tipoVehiculo;
     }
-    findOne(item) {
-        return tipoVehiculo.find((tv) => tv.id === item.id);
+    async findOne(item) {
+        return await tipoVehiculo.find((tv) => tv.id === item.id);
     }
     add(item) {
         tipoVehiculo.push(item);

@@ -17,9 +17,9 @@ function sanitizedTipoServicioInput(req, res, next) {
 async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const id = req.params.id;
-    const tipoServicio = repository.findOne({ id });
+    const tipoServicio = await repository.findOne({ id });
     if (!tipoServicio) {
         return res.status(404).json({ error: "No se encontró el tipo de servicio" });
     }

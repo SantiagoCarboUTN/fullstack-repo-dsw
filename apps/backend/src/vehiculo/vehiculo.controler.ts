@@ -24,9 +24,9 @@ async function findAll(req: Request, res: Response) {
   res.json({ data: await repository.findAll() });
 }
 
-function findOne(req: Request, res: Response) {
+async function findOne(req: Request, res: Response) {
   const patente = req.params.patente;
-  const vehiculo = repository.findOne({ patente });
+  const vehiculo = await repository.findOne({ patente });
 
   if (!vehiculo) {
     return res.status(404).json({ error: 'No se encontró el vehículo' });

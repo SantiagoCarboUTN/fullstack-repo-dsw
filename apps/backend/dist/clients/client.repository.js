@@ -6,8 +6,8 @@ export class ClientRepository {
     async findAll() {
         return await clientes;
     }
-    findOne(item) {
-        return clientes.find((cliente) => cliente.id === item.id);
+    async findOne(item) {
+        return await clientes.find((cliente) => cliente.id === item.id);
     }
     add(item) {
         clientes.push(item);

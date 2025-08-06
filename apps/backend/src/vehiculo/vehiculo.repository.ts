@@ -13,8 +13,8 @@ export class VehiculoRepository implements Repository<Vehiculo> {
     return await vehiculo;
   }
 
-  public findOne(item: { patente: string }): Vehiculo | undefined {
-    return vehiculo.find((v) => v.patente === item.patente);
+  public async findOne(item: { patente: string }): Promise<Vehiculo | undefined>{
+    return await vehiculo.find((v) => v.patente === item.patente);
   }
 
   public add(item: Vehiculo): Vehiculo | undefined {

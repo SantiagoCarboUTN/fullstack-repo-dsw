@@ -16,9 +16,9 @@ function sanitizedVehiculoInput(req, res, next) {
 async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const patente = req.params.patente;
-    const vehiculo = repository.findOne({ patente });
+    const vehiculo = await repository.findOne({ patente });
     if (!vehiculo) {
         return res.status(404).json({ error: 'No se encontró el vehículo' });
     }

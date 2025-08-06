@@ -20,9 +20,9 @@ function sanitizedClientInput(req, res, next) {
 async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const id = req.params.id;
-    const cliente = repository.findOne({ id });
+    const cliente = await repository.findOne({ id });
     if (!cliente) {
         return res.status(404).json({ error: 'No se encontro el cliente' });
     }

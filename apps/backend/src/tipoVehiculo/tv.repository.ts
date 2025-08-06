@@ -22,8 +22,8 @@ export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
   public async findAll(): Promise<TipoVehiculo[] | undefined> {
     return tipoVehiculo;
   }
-  public findOne(item: { id: string }): TipoVehiculo | undefined {
-    return tipoVehiculo.find((tv) => tv.id === item.id);
+  public async findOne(item: { id: string }): Promise<TipoVehiculo | undefined> {
+    return await tipoVehiculo.find((tv) => tv.id === item.id);
   }
   public add(item: TipoVehiculo): TipoVehiculo | undefined {
     tipoVehiculo.push(item);

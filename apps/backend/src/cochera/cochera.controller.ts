@@ -20,9 +20,9 @@ async function findAll(req: Request, res: Response) {
   res.json({ data: await repository.findAll() })
 } 
 
-function findOne(req: Request, res: Response) {
+async function findOne(req: Request, res: Response) {
   const numero = req.params.numero
-  const cochera = repository.findOne({ numero })
+  const cochera = await repository.findOne({ numero })
   if (!cochera) {
     return res.status(404).json({ error: "No se encontró la cochera" })
   }

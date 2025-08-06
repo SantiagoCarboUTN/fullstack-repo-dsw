@@ -16,9 +16,9 @@ function sanitizedCocheraInput(req, res, next) {
 async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const numero = req.params.numero;
-    const cochera = repository.findOne({ numero });
+    const cochera = await repository.findOne({ numero });
     if (!cochera) {
         return res.status(404).json({ error: "No se encontró la cochera" });
     }

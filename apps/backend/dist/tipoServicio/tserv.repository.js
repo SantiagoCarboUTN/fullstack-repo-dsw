@@ -8,8 +8,8 @@ export class TipoServicioRepository {
     async findAll() {
         return await tipoServicios;
     }
-    findOne(item) {
-        return tipoServicios.find((ts) => ts.id === item.id);
+    async findOne(item) {
+        return await tipoServicios.find((ts) => ts.id === item.id);
     }
     add(item) {
         tipoServicios.push(item);
