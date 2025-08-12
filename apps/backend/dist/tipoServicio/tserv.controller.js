@@ -25,23 +25,23 @@ async function findOne(req, res) {
     }
     res.json({ data: tipoServicio });
 }
-function add(req, res) {
+async function add(req, res) {
     const input = req.body.sanitizedTipoServicioInput;
     const tipoServicioInput = new TipoServicio(input.nombre, input.precio, input.id);
-    const tipoServicio = repository.add(tipoServicioInput);
+    const tipoServicio = await repository.add(tipoServicioInput);
     return res.status(201).json({ message: "Se creó el tipo de servicio", data: tipoServicio });
 }
-function update(req, res) {
+async function update(req, res) {
     req.body.sanitizedTipoServicioInput.id = req.params.id;
-    const tipoServicio = repository.update(req.body.sanitizedTipoServicioInput);
+    const tipoServicio = await repository.update(req.body.sanitizedTipoServicioInput);
     if (!tipoServicio) {
         return res.status(404).json({ error: "No se encontró el tipo de servicio" });
     }
     return res.status(200).json({ message: "Se actualizó el tipo de servicio", data: tipoServicio });
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const tipoServicio = repository.delete({ id });
+    const tipoServicio = await repository.delete({ id });
     if (!tipoServicio) {
         return res.status(404).json({ error: "No se encontró el tipo de servicio" });
     }

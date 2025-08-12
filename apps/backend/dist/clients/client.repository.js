@@ -9,22 +9,22 @@ export class ClientRepository {
     async findOne(item) {
         return await clientes.find((cliente) => cliente.id === item.id);
     }
-    add(item) {
-        clientes.push(item);
+    async add(item) {
+        await clientes.push(item);
         return item;
     }
-    update(item) {
+    async update(item) {
         const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
         if (idCliente !== -1) {
             clientes[idCliente] = { ...clientes[idCliente], ...item };
         }
-        return clientes[idCliente];
+        return await clientes[idCliente];
     }
-    delete(item) {
+    async delete(item) {
         const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
         if (idCliente !== -1) {
             const deletedCliente = clientes[idCliente];
-            clientes.splice(idCliente, 1)[0];
+            await clientes.splice(idCliente, 1)[0];
             return deletedCliente;
         }
     }

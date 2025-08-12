@@ -25,23 +25,23 @@ async function findOne(req, res) {
     }
     res.json({ data: tipoVehiculo });
 }
-function add(req, res) {
+async function add(req, res) {
     const input = req.body.sanitizedTipoVehiculoInput;
     const tipoVehiculoInput = new TipoVehiculo(input.name, input.descripcion, input.id);
-    const tipoVehiculo = repository.add(tipoVehiculoInput);
+    const tipoVehiculo = await repository.add(tipoVehiculoInput);
     return res.status(201).json({ message: 'Se creó el tipo de vehículo', data: tipoVehiculo });
 }
-function update(req, res) {
+async function update(req, res) {
     req.body.sanitizedTipoVehiculoInput.id = req.params.id;
-    const tipoVehiculo = repository.update(req.body.sanitizedTipoVehiculoInput);
+    const tipoVehiculo = await repository.update(req.body.sanitizedTipoVehiculoInput);
     if (!tipoVehiculo) {
         return res.status(404).json({ error: 'No se encontró el tipo de vehículo' });
     }
     return res.status(200).json({ message: 'Se actualizó el tipo de vehículo', data: tipoVehiculo });
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const tipoVehiculo = repository.delete({ id });
+    const tipoVehiculo = await repository.delete({ id });
     if (!tipoVehiculo) {
         return res.status(404).json({ error: 'No se encontró el tipo de vehículo' });
     }

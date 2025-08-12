@@ -17,24 +17,24 @@ export class VehiculoRepository implements Repository<Vehiculo> {
     return await vehiculo.find((v) => v.patente === item.patente);
   }
 
-  public add(item: Vehiculo): Vehiculo | undefined {
-    vehiculo.push(item);
+  public async add(item: Vehiculo):Promise<Vehiculo | undefined> {
+    await vehiculo.push(item);
     return item;
   }
 
-  public update(item: Vehiculo): Vehiculo | undefined {
+  public async update(item: Vehiculo): Promise<Vehiculo | undefined> {
     const patenteVehiculo = vehiculo.findIndex((v) => v.patente === item.patente);
     if (patenteVehiculo !== -1) {
       vehiculo[patenteVehiculo] = { ...vehiculo[patenteVehiculo], ...item };
     }
-    return vehiculo[patenteVehiculo];
+    return await vehiculo[patenteVehiculo];
   }
 
-  public delete(item: { patente: string }): Vehiculo | undefined {
+  public async delete(item: { patente: string }): Promise<Vehiculo | undefined> {
     const patenteVehiculo = vehiculo.findIndex((v) => v.patente === item.patente);
     if (patenteVehiculo !== -1) {
       const deletedVehiculo = vehiculo[patenteVehiculo];
-      vehiculo.splice(patenteVehiculo, 1);
+      await vehiculo.splice(patenteVehiculo, 1);
       return deletedVehiculo;
     }
   }

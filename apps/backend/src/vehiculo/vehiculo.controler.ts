@@ -35,7 +35,7 @@ async function findOne(req: Request, res: Response) {
   res.json({ data: vehiculo });
 }
 
-function add(req: Request, res: Response) {
+async function add(req: Request, res: Response) {
   const input = req.body.sanitizedVehiculoInput;
 
   const vehiculoInput = new Vehiculo(
@@ -43,7 +43,7 @@ function add(req: Request, res: Response) {
     input.tipoVehiculo,
   );
 
-  const vehiculo = repository.add(vehiculoInput);
+  const vehiculo = await repository.add(vehiculoInput);
 
   return res.status(201).json({
     message: 'Se creó el vehículo',
@@ -51,10 +51,10 @@ function add(req: Request, res: Response) {
   });
 }
 
-function update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
   req.body.sanitizedVehiculoInput.patente = req.params.patente;
 
-  const vehiculo = repository.update(req.body.sanitizedVehiculoInput);
+  const vehiculo = await repository.update(req.body.sanitizedVehiculoInput);
 
   if (!vehiculo) {
     return res.status(404).json({ error: 'No se encontró el vehículo' });
@@ -66,9 +66,9 @@ function update(req: Request, res: Response) {
   });
 }
 
-function remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
   const patente = req.params.patente;
-  const vehiculo = repository.delete({ patente });
+  const vehiculo = await repository.delete({ patente });
 
   if (!vehiculo) {
     return res.status(404).json({ error: 'No se encontró el vehículo' });

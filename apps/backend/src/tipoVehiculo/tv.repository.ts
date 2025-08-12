@@ -25,22 +25,22 @@ export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
   public async findOne(item: { id: string }): Promise<TipoVehiculo | undefined> {
     return await tipoVehiculo.find((tv) => tv.id === item.id);
   }
-  public add(item: TipoVehiculo): TipoVehiculo | undefined {
-    tipoVehiculo.push(item);
+  public async add(item: TipoVehiculo):Promise<TipoVehiculo | undefined> {
+    await tipoVehiculo.push(item);
     return item;
   }
-  public update(item: TipoVehiculo): TipoVehiculo | undefined {
+  public async update(item: TipoVehiculo): Promise<TipoVehiculo | undefined> {
     const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
     if (idTipoVehiculo !== -1) {
       tipoVehiculo[idTipoVehiculo] = { ...tipoVehiculo[idTipoVehiculo], ...item };
     }
-    return tipoVehiculo[idTipoVehiculo];
+    return await tipoVehiculo[idTipoVehiculo];
   }
-  public delete(item: { id: string }): TipoVehiculo | undefined {
+  public async delete(item: { id: string }): Promise<TipoVehiculo | undefined> {
     const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
     if (idTipoVehiculo !== -1) {
       const deletedTipoVehiculo = tipoVehiculo[idTipoVehiculo];
-      tipoVehiculo.splice(idTipoVehiculo, 1)[0];
+      await tipoVehiculo.splice(idTipoVehiculo, 1)[0];
       return deletedTipoVehiculo;
     }
   }

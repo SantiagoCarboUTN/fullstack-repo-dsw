@@ -24,23 +24,23 @@ async function findOne(req, res) {
     }
     res.json({ data: cochera });
 }
-function add(req, res) {
+async function add(req, res) {
     const input = req.body.sanitizedCocheraInput;
     const cocheraInput = new Cochera(input.numero, input.estado);
-    const cochera = repository.add(cocheraInput);
+    const cochera = await repository.add(cocheraInput);
     return res.status(201).json({ message: "Se creó la cochera", data: cochera });
 }
-function update(req, res) {
+async function update(req, res) {
     req.body.sanitizedCocheraInput.numero = req.params.numero;
-    const cochera = repository.update(req.body.sanitizedCocheraInput);
+    const cochera = await repository.update(req.body.sanitizedCocheraInput);
     if (!cochera) {
         return res.status(404).json({ error: "No se encontró la cochera" });
     }
     return res.status(200).json({ message: "Se actualizó la cochera", data: cochera });
 }
-function remove(req, res) {
+async function remove(req, res) {
     const numero = req.params.numero;
-    const cochera = repository.delete({ numero });
+    const cochera = await repository.delete({ numero });
     if (!cochera) {
         return res.status(404).json({ error: "No se encontró la cochera" });
     }

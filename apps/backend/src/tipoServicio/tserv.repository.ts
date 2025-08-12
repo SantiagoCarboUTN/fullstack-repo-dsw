@@ -24,22 +24,22 @@ export class TipoServicioRepository implements Repository<TipoServicio> {
   public async findOne(item: { id: string }): Promise<TipoServicio | undefined> {
     return await tipoServicios.find((ts) => ts.id === item.id);
   }
-  public add(item: TipoServicio): TipoServicio | undefined {
-    tipoServicios.push(item);
+  public async add(item: TipoServicio): Promise<TipoServicio | undefined> {
+    await tipoServicios.push(item);
     return item;
   }
-  public update(item: TipoServicio): TipoServicio | undefined {
+  public async update(item: TipoServicio): Promise<TipoServicio | undefined> {
     const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
     if (idTipoServicio !== -1) {
       tipoServicios[idTipoServicio] = { ...tipoServicios[idTipoServicio], ...item };
     }
-    return tipoServicios[idTipoServicio];
+    return await tipoServicios[idTipoServicio];
   }
-  public delete(item: { id: string }): TipoServicio | undefined {
+  public async delete(item: { id: string }): Promise<TipoServicio | undefined> {
     const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
     if (idTipoServicio !== -1) {
       const deletedTipoServicio = tipoServicios[idTipoServicio];
-      tipoServicios.splice(idTipoServicio, 1)[0];
+      await tipoServicios.splice(idTipoServicio, 1)[0];
       return deletedTipoServicio;
     }
   }

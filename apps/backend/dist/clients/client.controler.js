@@ -28,23 +28,23 @@ async function findOne(req, res) {
     }
     res.json({ data: cliente });
 }
-function add(req, res) {
+async function add(req, res) {
     const input = req.body.sanitizedClientInput;
     const clientInput = new Client(input.name, input.contraseña, input.mail, input.telefono, input.dni);
-    const cliente = repository.add(clientInput);
+    const cliente = await repository.add(clientInput);
     return res.status(201).json({ message: 'Se creó el cliente', data: cliente });
 }
-function update(req, res) {
+async function update(req, res) {
     req.body.sanitizedClientInput.id = req.params.id;
-    const cliente = repository.update(req.body.sanitizedClientInput);
+    const cliente = await repository.update(req.body.sanitizedClientInput);
     if (!cliente) {
         return res.status(404).json({ error: 'No se encontro el cliente' });
     }
     return res.status(200).json({ message: 'Se actualizó el cliente', data: cliente });
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const cliente = repository.delete({ id });
+    const cliente = await repository.delete({ id });
     if (!cliente) {
         return res.status(404).json({ error: 'No se encontro el cliente' });
     }

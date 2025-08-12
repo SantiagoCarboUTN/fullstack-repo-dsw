@@ -9,22 +9,22 @@ export class VehiculoRepository {
     async findOne(item) {
         return await vehiculo.find((v) => v.patente === item.patente);
     }
-    add(item) {
-        vehiculo.push(item);
+    async add(item) {
+        await vehiculo.push(item);
         return item;
     }
-    update(item) {
+    async update(item) {
         const patenteVehiculo = vehiculo.findIndex((v) => v.patente === item.patente);
         if (patenteVehiculo !== -1) {
             vehiculo[patenteVehiculo] = { ...vehiculo[patenteVehiculo], ...item };
         }
-        return vehiculo[patenteVehiculo];
+        return await vehiculo[patenteVehiculo];
     }
-    delete(item) {
+    async delete(item) {
         const patenteVehiculo = vehiculo.findIndex((v) => v.patente === item.patente);
         if (patenteVehiculo !== -1) {
             const deletedVehiculo = vehiculo[patenteVehiculo];
-            vehiculo.splice(patenteVehiculo, 1);
+            await vehiculo.splice(patenteVehiculo, 1);
             return deletedVehiculo;
         }
     }

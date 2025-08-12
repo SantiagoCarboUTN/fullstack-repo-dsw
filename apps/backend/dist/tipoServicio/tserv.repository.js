@@ -11,22 +11,22 @@ export class TipoServicioRepository {
     async findOne(item) {
         return await tipoServicios.find((ts) => ts.id === item.id);
     }
-    add(item) {
-        tipoServicios.push(item);
+    async add(item) {
+        await tipoServicios.push(item);
         return item;
     }
-    update(item) {
+    async update(item) {
         const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
         if (idTipoServicio !== -1) {
             tipoServicios[idTipoServicio] = { ...tipoServicios[idTipoServicio], ...item };
         }
-        return tipoServicios[idTipoServicio];
+        return await tipoServicios[idTipoServicio];
     }
-    delete(item) {
+    async delete(item) {
         const idTipoServicio = tipoServicios.findIndex((ts) => ts.id === item.id);
         if (idTipoServicio !== -1) {
             const deletedTipoServicio = tipoServicios[idTipoServicio];
-            tipoServicios.splice(idTipoServicio, 1)[0];
+            await tipoServicios.splice(idTipoServicio, 1)[0];
             return deletedTipoServicio;
         }
     }
