@@ -4,6 +4,7 @@ import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js";
 import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
 import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
+import { ReservaRouter } from "./reserva/reserva.routes.js";
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use("/api/vehiculo", VehiculoRouter)
 
 app.use("/api/cochera",CocheraRouter)
 
+app.use("/api/reserva",ReservaRouter)
 app.listen(3000, ()=>{
   console.log('Server runnning on http://localhost:3000/')
 })
