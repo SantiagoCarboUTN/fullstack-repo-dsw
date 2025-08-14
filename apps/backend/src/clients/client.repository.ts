@@ -13,29 +13,29 @@ const clientes= [
 ]
 
 export class ClientRepository implements Repository<Client>{
-  public findAll(): Client[] | undefined {
-    return clientes
+  public async findAll(): Promise<Client[] | undefined> {
+    return await clientes
   }
-  public findOne(item: { id: string }): Client | undefined {
-    return clientes.find((cliente) => cliente.id === item.id)
+  public async findOne(item: { id: string }): Promise< Client | undefined >{
+    return await clientes.find((cliente) => cliente.id === item.id)
   }
-  public add(item: Client): Client | undefined {
-    clientes.push(item);
+  public async add(item: Client): Promise<Client | undefined> {
+    await clientes.push(item);
     return item;
   } 
 
-  public update(item: Client): Client | undefined {
+  public async update(item: Client): Promise<Client | undefined> {
     const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
     if (idCliente !== -1) {
       clientes[idCliente] ={...clientes[idCliente], ...item}
     }
-      return clientes[idCliente]; 
+      return await clientes[idCliente]; 
   }  
-  public delete(item: { id: string }): Client | undefined {
+  public async delete(item: { id: string }): Promise<Client | undefined> {
     const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
     if (idCliente !== -1) {
       const deletedCliente = clientes[idCliente];
-      clientes.splice(idCliente, 1)[0];
+      await clientes.splice(idCliente, 1)[0];
       return deletedCliente;
     }
 

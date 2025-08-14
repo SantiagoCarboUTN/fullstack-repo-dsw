@@ -3,28 +3,28 @@ const clientes = [
     new Client('Juan', 'Password1234', 'juan123@gmail.com', '549-341-244-2356', 46392822, 'a02b91bc-3769-4221-beb1-d7a3aeba7dad'),
 ];
 export class ClientRepository {
-    findAll() {
-        return clientes;
+    async findAll() {
+        return await clientes;
     }
-    findOne(item) {
-        return clientes.find((cliente) => cliente.id === item.id);
+    async findOne(item) {
+        return await clientes.find((cliente) => cliente.id === item.id);
     }
-    add(item) {
-        clientes.push(item);
+    async add(item) {
+        await clientes.push(item);
         return item;
     }
-    update(item) {
+    async update(item) {
         const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
         if (idCliente !== -1) {
             clientes[idCliente] = { ...clientes[idCliente], ...item };
         }
-        return clientes[idCliente];
+        return await clientes[idCliente];
     }
-    delete(item) {
+    async delete(item) {
         const idCliente = clientes.findIndex((cliente) => cliente.id === item.id);
         if (idCliente !== -1) {
             const deletedCliente = clientes[idCliente];
-            clientes.splice(idCliente, 1)[0];
+            await clientes.splice(idCliente, 1)[0];
             return deletedCliente;
         }
     }

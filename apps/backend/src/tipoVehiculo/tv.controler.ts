@@ -17,18 +17,18 @@ Object.keys(req.body.sanitizedTipoVehiculoInput).forEach((key) => {
 next()
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({ data: repository.findAll() })
+async function findAll(req: Request, res: Response) {
+  res.json({ data: await repository.findAll() })
 }
-function findOne(req: Request, res: Response) {
+async function findOne(req: Request, res: Response) {
   const id = req.params.id
-  const tipoVehiculo = repository.findOne({id})
+  const tipoVehiculo = await repository.findOne({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
   }
   res.json({ data: tipoVehiculo })
 }
-function add(req: Request, res: Response) {
+async function add(req: Request, res: Response) {
   const input = req.body.sanitizedTipoVehiculoInput
 
   const tipoVehiculoInput = new TipoVehiculo(
@@ -36,20 +36,20 @@ function add(req: Request, res: Response) {
     input.descripcion,
     input.id
   )
-  const tipoVehiculo = repository.add(tipoVehiculoInput)
+  const tipoVehiculo = await repository.add(tipoVehiculoInput)
   return res.status(201).json({message: 'Se creó el tipo de vehículo', data: tipoVehiculo })
 } 
-function update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
   req.body.sanitizedTipoVehiculoInput.id = req.params.id
-  const tipoVehiculo = repository.update(req.body.sanitizedTipoVehiculoInput)
+  const tipoVehiculo = await repository.update(req.body.sanitizedTipoVehiculoInput)
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
   }
   return res.status(200).json({message: 'Se actualizó el tipo de vehículo', data: tipoVehiculo })
 }
-function remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
   const id = req.params.id
-  const tipoVehiculo = repository.delete({id})
+  const tipoVehiculo = await repository.delete({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
   }else {
