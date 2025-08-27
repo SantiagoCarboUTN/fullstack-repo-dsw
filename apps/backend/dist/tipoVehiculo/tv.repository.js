@@ -1,12 +1,19 @@
 import { TipoVehiculo } from "./tv.entity.js";
+import { pool } from "../shared/db/conn.js";
 const tipoVehiculo = [
-    new TipoVehiculo('Automovil', 'Vehiculo de cuatro ruedas', 'a02b91bc-3769-4221-beb1-d7a3aeba7dad'),
-    new TipoVehiculo('Motocicleta', 'Vehiculo de dos ruedas', 'b02b91bc-3769-4221-beb1-d7a3aeba7dad'),
-    new TipoVehiculo('Camioneta', 'Vehiculo utilitario', 'c02b91bc-3769-4221-beb1-d7a3aeba7dad')
+    new TipoVehiculo('Automovil', 'Vehiculo de cuatro ruedas', 1),
+    new TipoVehiculo('Motocicleta', 'Vehiculo de dos ruedas', 2),
+    new TipoVehiculo('Camioneta', 'Vehiculo utilitario', 4)
 ];
 export class TipoVehiculoRepository {
     async findAll() {
-        return tipoVehiculo;
+        try {
+            const [tvs] = await pool.query('SELECT * FROM tipo_vehiculo');
+            return tvs;
+        }
+        catch (err) {
+            console.error('Error en la consulta:', err);
+        }
     }
     async findOne(item) {
         return await tipoVehiculo.find((tv) => tv.id === item.id);

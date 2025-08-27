@@ -3,6 +3,6 @@ export class TipoVehiculo {
   constructor(
     public nombre: string,
     public descripcion: string,
-    public id = crypto.randomUUID()
+    public id? : number
   ) {}
 }

@@ -21,7 +21,7 @@ async function findAll(req: Request, res: Response) {
   res.json({ data: await repository.findAll() })
 }
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id
+  const id = Number(req.params.id)
   const tipoVehiculo = await repository.findOne({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
@@ -48,7 +48,7 @@ async function update(req: Request, res: Response) {
   return res.status(200).json({message: 'Se actualizó el tipo de vehículo', data: tipoVehiculo })
 }
 async function remove(req: Request, res: Response) {
-  const id = req.params.id
+  const id = Number(req.params.id)
   const tipoVehiculo = await repository.delete({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })

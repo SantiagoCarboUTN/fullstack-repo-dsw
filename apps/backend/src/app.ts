@@ -24,6 +24,7 @@ app.use("/api/cochera",CocheraRouter)
 app.use("/api/reserva",ReservaRouter)
 
 app.use("/api/cuota",CuotaRouter)
+
 app.listen(3000, ()=>{
   console.log('Server runnning on http://localhost:3000/')
 })
