@@ -16,7 +16,16 @@ export class TipoVehiculoRepository {
         }
     }
     async findOne(item) {
-        return await tipoVehiculo.find((tv) => tv.id === item.id);
+        try {
+            const [tv] = await pool.query('SELECT * FROM tipo_vehiculo WHERE id = ?', [item.id]);
+            if (tv.length > 0) {
+                return tv[0];
+            }
+            return undefined;
+        }
+        catch (err) {
+            console.error('Error en la consulta:', err);
+        }
     }
     async add(item) {
         await tipoVehiculo.push(item);

@@ -29,7 +29,16 @@ export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
     }
   }
   public async findOne(item: { id: number }): Promise<TipoVehiculo | undefined> {
-    return await tipoVehiculo.find((tv) => tv.id === item.id);
+    try{
+      const [tv] = await pool.query('SELECT * FROM tipo_vehiculo WHERE id = ?',[item.id])
+      if((tv as TipoVehiculo[]).length > 0 ){
+        return (tv as TipoVehiculo[])[0]
+      } 
+      return undefined
+    }catch (err) {
+      console.error('Error en la consulta:', err)
+    }
+
   }
   public async add(item: TipoVehiculo):Promise<TipoVehiculo | undefined> {
     await tipoVehiculo.push(item);
