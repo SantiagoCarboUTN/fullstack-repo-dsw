@@ -1,9 +1,9 @@
 import { TipoVehiculo } from "./tv.entity.js";
 import { pool } from "../shared/db/conn.js";
 const tipoVehiculo = [
-    new TipoVehiculo('Automovil', 'Vehiculo de cuatro ruedas', 1),
-    new TipoVehiculo('Motocicleta', 'Vehiculo de dos ruedas', 2),
-    new TipoVehiculo('Camioneta', 'Vehiculo utilitario', 4)
+    new TipoVehiculo('Automovil', 1),
+    new TipoVehiculo('Motocicleta', 2),
+    new TipoVehiculo('Camioneta', 4)
 ];
 export class TipoVehiculoRepository {
     async findAll() {
@@ -28,15 +28,30 @@ export class TipoVehiculoRepository {
         }
     }
     async add(item) {
-        await tipoVehiculo.push(item);
-        return item;
+        try {
+            const { ...tvatributes } = item;
+            const [inserted] = await pool.query('INSERT INTO tipo_vehiculo SET ?', [tvatributes]); /* --> insert no devuelve un arreglo, devuelve un resultSetHeader */
+            if (inserted.affectedRows === 0) {
+                return undefined;
+            }
+            return { ...item, id: inserted.insertId };
+        }
+        catch (err) {
+            console.error('Error en la consulta:', err);
+        }
     }
     async update(item) {
-        const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
-        if (idTipoVehiculo !== -1) {
-            tipoVehiculo[idTipoVehiculo] = { ...tipoVehiculo[idTipoVehiculo], ...item };
+        try {
+            const { id, ...tvAtributes } = item;
+            const [updated] = await pool.query('UPDATE tipo_vehiculo SET ? WHERE id = ?', [tvAtributes, id]);
+            if (updated.affectedRows === 0) {
+                return undefined;
+            }
+            return item;
         }
-        return await tipoVehiculo[idTipoVehiculo];
+        catch (err) {
+            console.error('Error en la consulta:', err);
+        }
     }
     async delete(item) {
         const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);

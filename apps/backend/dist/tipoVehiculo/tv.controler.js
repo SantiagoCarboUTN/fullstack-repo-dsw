@@ -3,8 +3,7 @@ import { TipoVehiculo } from './tv.entity.js';
 const repository = new TipoVehiculoRepository();
 function sanitizedTipoVehiculoInput(req, res, next) {
     req.body.sanitizedTipoVehiculoInput = {
-        name: req.body.name,
-        descripcion: req.body.descripcion,
+        nombre: req.body.nombre,
         id: req.body.id
     };
     Object.keys(req.body.sanitizedTipoVehiculoInput).forEach((key) => {
@@ -27,7 +26,7 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     const input = req.body.sanitizedTipoVehiculoInput;
-    const tipoVehiculoInput = new TipoVehiculo(input.name, input.descripcion, input.id);
+    const tipoVehiculoInput = new TipoVehiculo(input.nombre);
     const tipoVehiculo = await repository.add(tipoVehiculoInput);
     return res.status(201).json({ message: 'Se creó el tipo de vehículo', data: tipoVehiculo });
 }

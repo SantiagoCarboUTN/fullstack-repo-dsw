@@ -2,23 +2,22 @@
 GET http://localhost:3000/api/tipoVehiculo
 
 ### obtener un tipo de vehiculo por id
-GET http://localhost:3000/api/tipoVehiculo/3
+GET http://localhost:3000/api/tipoVehiculo/2
 
 ### crear un tipo de vehiculo
 POST http://localhost:3000/api/tipoVehiculo
 Content-Type: application/json
 
 {
-    "nombre": "Camion",
-    "descripcion": "Vehículo utilitario de carga masiva"
+    "nombre": "Camion"
 }
+
 ### actualizar un tipo de vehiculo  
-PUT http://localhost:3000/api/tipoVehiculo/c02b91bc-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:3000/api/tipoVehiculo/5
 Content-Type: application/json
 
 {
-    "nombre": "Camioneta",
-    "descripcion": "Vehículo utilitario de carga mediana"
+    "nombre": "Moto de agua"
 }
 ### eliminar un tipo de vehiculo
 DELETE http://localhost:3000/api/tipoVehiculo/a02b91bc-3769-4221-beb1-d7a3aeba7dad
