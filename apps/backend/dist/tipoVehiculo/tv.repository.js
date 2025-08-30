@@ -54,11 +54,16 @@ export class TipoVehiculoRepository {
         }
     }
     async delete(item) {
-        const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
-        if (idTipoVehiculo !== -1) {
-            const deletedTipoVehiculo = tipoVehiculo[idTipoVehiculo];
-            await tipoVehiculo.splice(idTipoVehiculo, 1)[0];
-            return deletedTipoVehiculo;
+        try {
+            const deletedtv = await this.findOne(item);
+            const [deleted] = await pool.query('DELETE FROM tipo_vehiculo WHERE id = ?', item.id);
+            if (deleted.affectedRows === 0) {
+                return undefined;
+            }
+            return deletedtv;
+        }
+        catch (err) {
+            console.error('Error en la consulta:', err);
         }
     }
 }

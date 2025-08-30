@@ -35,6 +35,9 @@ async function add(req: Request, res: Response) {
     input.nombre
   )
   const tipoVehiculo = await repository.add(tipoVehiculoInput)
+  if(!tipoVehiculo){
+    return res.status(400).json({ error: 'No se pudo realizar la insercion' })
+  }
   return res.status(201).json({message: 'Se creó el tipo de vehículo', data: tipoVehiculo })
 } 
 

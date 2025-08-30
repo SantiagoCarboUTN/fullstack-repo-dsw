@@ -28,6 +28,9 @@ async function add(req, res) {
     const input = req.body.sanitizedTipoVehiculoInput;
     const tipoVehiculoInput = new TipoVehiculo(input.nombre);
     const tipoVehiculo = await repository.add(tipoVehiculoInput);
+    if (!tipoVehiculo) {
+        return res.status(400).json({ error: 'No se pudo realizar la insercion' });
+    }
     return res.status(201).json({ message: 'Se creó el tipo de vehículo', data: tipoVehiculo });
 }
 async function update(req, res) {
