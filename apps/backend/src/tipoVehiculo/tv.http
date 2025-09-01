@@ -20,4 +20,4 @@ Content-Type: application/json
     "nombre": "Moto de agua"
 }
 ### eliminar un tipo de vehiculo
-DELETE http://localhost:3000/api/tipoVehiculo/7
+DELETE http://localhost:3000/api/tipoVehiculo/8

@@ -1,10 +1,4 @@
-import { TipoVehiculo } from "./tv.entity.js";
 import { pool } from "../shared/db/conn.js";
-const tipoVehiculo = [
-    new TipoVehiculo('Automovil', 1),
-    new TipoVehiculo('Motocicleta', 2),
-    new TipoVehiculo('Camioneta', 4)
-];
 export class TipoVehiculoRepository {
     async findAll() {
         try {
