@@ -1,5 +1,4 @@
 import React from 'react'
-import { Car } from 'iconoir-react'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
@@ -10,7 +9,6 @@ const Navbar = () => {
       {/* Logo a la izquierda */}
       <div>
         <Link to="/">
-          <Car width={24} height={24} color="black" />
           <p>MyGarage</p>
         </Link>
       </div>
