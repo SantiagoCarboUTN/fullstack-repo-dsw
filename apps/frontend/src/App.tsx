@@ -1,12 +1,9 @@
 import React from 'react'
+import {MyRouter} from './routes/Router'
 
-import Navbar from './components/Navbar'
 const App = () => {
   return (
-    <div>
-        <Navbar />
-
-    </div>
+    <MyRouter/>
   )
 }
 
