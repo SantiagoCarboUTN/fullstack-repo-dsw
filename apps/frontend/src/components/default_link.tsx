@@ -11,7 +11,7 @@ type DefaultLinkProps = {
 export const Default_Link = ({ route, text, isImg, imgSrc }: DefaultLinkProps) => {
   return isImg ? (
     <Link to={route} className="hover:scale-105 transform transition duration-200">
-      <img src={imgSrc} alt="Logo" className="h-25 w-auto" />
+      <img src={imgSrc} alt="Logo" className="h-25" />
       {text}
     </Link>
   ) : (
