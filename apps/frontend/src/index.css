@@ -5,6 +5,10 @@
   font-family: "Outfit", sans-serif;
 }
 
+body{
+  background-color: #f7f7f7;
+}
+
 @theme {
   --color-primary: #2563EB;
   --color-primary-dull: #1F58D8;
@@ -12,3 +16,45 @@
   --color-borderColor: #c4c7d2;
 }
 
+.animate-slide-in-right {
+  animation-duration: 2s;
+  animation-name: slide-in-right;
+}
+
+.animate-slide-in-left {
+  animation-duration: 2s;
+  animation-name: slide-in-left;
+}
+
+
+@keyframes slide-in-right {
+  from {
+    translate: 20vw 0;
+    scale: 100% 1;
+    opacity:0;
+    filter: blur(1px)
+  }
+
+  to {
+    translate: 0 0;
+    scale: 100% 1;
+    opacity: 1;
+    filter:blur(0)
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    translate: -20vw 0;
+    scale: 100% 1;
+    opacity: 0;
+    filter: blur(1px)
+  }
+
+  to {
+    translate: 0 0;
+    scale: 100% 1;
+    opacity:1;
+    filter: blur(0);
+  }
+}
