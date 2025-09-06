@@ -2,7 +2,7 @@
 import {Navbar} from '../components/Navbar'
 import '../index.css'
 import {Card} from '../components/Card'
-import main_foto from '../assets/main_foto.png'
+import fotolandingpage from '../assets/sin_fondo.png'
 import { Small_Card } from '../components/Small_Card'
 import {assets} from '../assets/index'
 
@@ -24,18 +24,27 @@ export const Home = () => {
   return (
     <>
       <Navbar/>
-      
-      
-      
-      <div className='flex flex-col items-center p-6 
-      space-y-6 text-2xl max-w-6-xl text center bg-gray-200 '>
-        <div className='flex flex-row items-start justify-center gap-20 w-full '>
-        <div className=' mt-20'>
-          <h1 className='text-5xl font-bold text-left my-8'>Administrador de cocheras</h1>
-          <h2 className='animate-slide-in-left max-w-2xl text-left'>Optimiza tu negocio al máximo</h2>
+
+      <div className='h-[80vh] bg-gray-200 flex items-center justify-center px-6 
+       '>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-20 w-full '>
+          
+          <div className="text-right space-y-6 justify-center ">
+
+            <h1 className='text-8xl font-extrabold   text-blue-800 '>Administrador de cocheras</h1>
+            <h2 className='animate-slide-in-left text-blue-600 italic font-semibold text-2xl '>Optimiza tu negocio al máximo</h2>
+            
+          <button className='bg-blue-800 text-white px-8 py-4 rounded-lg  text-xl font-semibold hover:bg-blue-700 transition-colors duration-300'>Registrar mi cochera</button>
+          
         </div>
-        <img src={main_foto} alt="estacionamiento" className='animate-slide-in-right w-100 h-100 rounded-full shadow-lg transition-transform object-cover duration-300 hover:scale-105 bg-blue-200'/>
-      </div>
+
+        <div className="flex justify-center">
+
+        <img src={fotolandingpage} alt="estacionamiento" className='animate-slide-in-right transition-transform w-[50vh] duration-300 hover:scale-105'/>
+        </div>
+
+        </div>
 
         
       </div>
@@ -50,7 +59,7 @@ export const Home = () => {
       </div>
       
       <div className='bg-gray-200 box-border py-12 mt-20'>
-        <h2 className='text-5xl font-bold text-center mb-10'>Top features</h2>
+        <h2 className='text-5xl font-bold text-center mb-10 text-blue-800'>Servicios de alta demanda</h2>
         <div className='grid grid-cols-3 gap-5 max-w-7xl mx-auto p-5 justify-center'>
           {SmallCardInfo.map((card, index) => (
             <Small_Card key={index} text={card.text} imgSrc={card.imgSrc} />
