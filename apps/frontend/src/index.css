@@ -26,35 +26,51 @@ body{
   animation-name: slide-in-left;
 }
 
-
-@keyframes slide-in-right {
-  from {
-    translate: 20vw 0;
-    scale: 100% 1;
-    opacity:0;
-    filter: blur(1px)
-  }
-
-  to {
-    translate: 0 0;
-    scale: 100% 1;
-    opacity: 1;
-    filter:blur(0)
-  }
+.animate-slide-in-bottom {
+  animation-duration: 2s;
+  animation-name: slide-in-bottom;
 }
 
 @keyframes slide-in-left {
   from {
-    translate: -20vw 0;
-    scale: 100% 1;
+    transform: translateX(-20vw) scale(1, 1);
     opacity: 0;
-    filter: blur(1px)
+    filter: blur(1px);
   }
 
   to {
-    translate: 0 0;
-    scale: 100% 1;
-    opacity:1;
+    transform: translateX(0) scale(1, 1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Entrada desde la derecha */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(20vw) scale(1, 1);
+    opacity: 0;
+    filter: blur(1px);
+  }
+
+  to {
+    transform: translateX(0) scale(1, 1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Entrada desde abajo */
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(20vh) scale(1, 1);
+    opacity: 0;
+    filter: blur(1px);
+  }
+
+  to {
+    transform: translateY(0) scale(1, 1);
+    opacity: 1;
     filter: blur(0);
   }
 }

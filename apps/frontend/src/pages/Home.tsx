@@ -25,18 +25,20 @@ export const Home = () => {
     <>
       <Navbar/>
 
-      <div className='h-[80vh] bg-gray-200 flex items-center justify-center px-6 
-       '>
+      <div className='h-[80vh] bg-gray-200 flex items-center justify-center px-6 '>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-20 w-full '>
+        <div className='grid grid-cols-1 md:grid-cols-2 items-center w-full'>
           
-          <div className="text-right space-y-6 justify-center ">
+          <div className="flex flex-col items-right gap-3 text-right">
 
-            <h1 className='text-8xl font-extrabold   text-blue-800 '>Administrador de cocheras</h1>
-            <h2 className='animate-slide-in-left text-blue-600 italic font-semibold text-2xl '>Optimiza tu negocio al máximo</h2>
+            <h1 className=' mt-10 text-8xl font-extrabold text-blue-800'>Administrador de cocheras</h1>
+            <h2 className='mb-10 animate-slide-in-left text-blue-600 italic font-semibold text-2xl  '>Optimiza tu negocio al máximo</h2>
             
-          <button className='bg-blue-800 text-white px-8 py-4 rounded-lg  text-xl font-semibold hover:bg-blue-700 transition-colors duration-300'>Registrar mi cochera</button>
-          
+            <div>
+              <button className=' animate-slide-in-bottom w-70 mt-5 self-end bg-blue-800 text-white  py-4 rounded-2xl  text-xl font-semibold hover:bg-blue-700 transition-colors duration-300  mx-5'>Registrar mi cochera</button>
+              <button className=' animate-slide-in-bottom w-70 border-box mt-5 self-end bg-blue-800 text-white  py-4 rounded-2xl  text-xl font-semibold hover:bg-blue-700 transition-colors duration-300 ml-5'>Iniciar sesion</button>
+            </div>
+
         </div>
 
         <div className="flex justify-center">
