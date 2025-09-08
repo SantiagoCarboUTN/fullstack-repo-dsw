@@ -7,6 +7,8 @@ import repair_jobs from './landing_icons/repair_jobs.svg';
 import stock_control from './landing_icons/stock_control.svg';
 import team from './landing_icons/team.svg';
 import vin_lookup from './landing_icons/vin_lookup.svg';
+import person from './login_icons/person.svg';
+import lock from './login_icons/lock.svg';
 
 export const assets = {
   calendar,
@@ -17,5 +19,7 @@ export const assets = {
   repair_jobs,
   stock_control,
   team,
-  vin_lookup
-};
+  vin_lookup,
+}
+;
+export { person, lock };
