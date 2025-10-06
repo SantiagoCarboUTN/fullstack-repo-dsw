@@ -3,8 +3,7 @@ import { TipoVehiculo } from './tv.entity.js';
 const repository = new TipoVehiculoRepository();
 function sanitizedTipoVehiculoInput(req, res, next) {
     req.body.sanitizedTipoVehiculoInput = {
-        name: req.body.name,
-        descripcion: req.body.descripcion,
+        nombre: req.body.nombre,
         id: req.body.id
     };
     Object.keys(req.body.sanitizedTipoVehiculoInput).forEach((key) => {
@@ -18,7 +17,7 @@ async function findAll(req, res) {
     res.json({ data: await repository.findAll() });
 }
 async function findOne(req, res) {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const tipoVehiculo = await repository.findOne({ id });
     if (!tipoVehiculo) {
         return res.status(404).json({ error: 'No se encontró el tipo de vehículo' });
@@ -27,8 +26,11 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     const input = req.body.sanitizedTipoVehiculoInput;
-    const tipoVehiculoInput = new TipoVehiculo(input.name, input.descripcion, input.id);
+    const tipoVehiculoInput = new TipoVehiculo(input.nombre);
     const tipoVehiculo = await repository.add(tipoVehiculoInput);
+    if (!tipoVehiculo) {
+        return res.status(400).json({ error: 'No se pudo realizar la insercion' });
+    }
     return res.status(201).json({ message: 'Se creó el tipo de vehículo', data: tipoVehiculo });
 }
 async function update(req, res) {
@@ -40,7 +42,7 @@ async function update(req, res) {
     return res.status(200).json({ message: 'Se actualizó el tipo de vehículo', data: tipoVehiculo });
 }
 async function remove(req, res) {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const tipoVehiculo = await repository.delete({ id });
     if (!tipoVehiculo) {
         return res.status(404).json({ error: 'No se encontró el tipo de vehículo' });

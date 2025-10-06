@@ -1,1 +1,1 @@
-{"version":3,"file":"tv.entity.js","sourceRoot":"","sources":["../../src/tipoVehiculo/tv.entity.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,aAAa,CAAA;AAChC,MAAM,OAAO,YAAY;IACvB,YACS,MAAc,EACd,WAAmB,EACnB,KAAK,MAAM,CAAC,UAAU,EAAE;QAFxB,WAAM,GAAN,MAAM,CAAQ;QACd,gBAAW,GAAX,WAAW,CAAQ;QACnB,OAAE,GAAF,EAAE,CAAsB;IAC9B,CAAC;CACL"}
+{"version":3,"file":"tv.entity.js","sourceRoot":"","sources":["../../src/tipoVehiculo/tv.entity.ts"],"names":[],"mappings":"AACA,MAAM,OAAO,YAAY;IACvB,YACS,MAAc,EACd,EAAY;QADZ,WAAM,GAAN,MAAM,CAAQ;QACd,OAAE,GAAF,EAAE,CAAU;IAClB,CAAC;CACL"}

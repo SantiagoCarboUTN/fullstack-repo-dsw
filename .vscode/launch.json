@@ -7,7 +7,7 @@
     {
       "name": "build",
       "request": "launch",
-      "runtimeArgs": ["build"],
+      "runtimeArgs": ["--filter", "./apps/backend","build"],
       "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
@@ -15,7 +15,7 @@
     {
       "name": "start:dev",
       "request": "launch",
-      "runtimeArgs": ["start:dev"],
+      "runtimeArgs": ["--filter", "./apps/backend","start:dev"],
       "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"

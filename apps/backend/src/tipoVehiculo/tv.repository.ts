@@ -1,47 +1,65 @@
 import { TipoVehiculo } from "./tv.entity.js";
 import { Repository } from "../shared/repository.js"
-const tipoVehiculo= [
-  new TipoVehiculo(
-    'Automovil',
-    'Vehiculo de cuatro ruedas',
-    'a02b91bc-3769-4221-beb1-d7a3aeba7dad'
-  ),
-  new TipoVehiculo(
-    'Motocicleta',
-    'Vehiculo de dos ruedas',
-    'b02b91bc-3769-4221-beb1-d7a3aeba7dad'
-  ),
-  new TipoVehiculo(
-    'Camioneta',
-    'Vehiculo utilitario',
-    'c02b91bc-3769-4221-beb1-d7a3aeba7dad'
-  )
-]
+import { pool } from "../shared/db/conn.js";
+import { ResultSetHeader } from "mysql2";
 
 export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
   public async findAll(): Promise<TipoVehiculo[] | undefined> {
-    return tipoVehiculo;
+    try{
+      const [tvs] = await pool.query('SELECT * FROM tipo_vehiculo')
+      return tvs as TipoVehiculo[]
+    }catch (err) {
+      console.error('Error en la consulta:', err)
+    }
   }
-  public async findOne(item: { id: string }): Promise<TipoVehiculo | undefined> {
-    return await tipoVehiculo.find((tv) => tv.id === item.id);
+  public async findOne(item: { id: number }): Promise<TipoVehiculo | undefined> {
+    try{
+      const [tv] = await pool.query('SELECT * FROM tipo_vehiculo WHERE id = ?',[item.id])
+      if((tv as TipoVehiculo[]).length > 0 ){
+        return (tv as TipoVehiculo[])[0]
+      } 
+      return undefined
+    }catch (err) {
+      console.error('Error en la consulta:', err)
+    }
+
   }
   public async add(item: TipoVehiculo):Promise<TipoVehiculo | undefined> {
-    await tipoVehiculo.push(item);
-    return item;
+    try{
+    const {...tvatributes} = item
+    const [inserted] = await pool.query<ResultSetHeader>('INSERT INTO tipo_vehiculo SET ?', [tvatributes])  /* --> insert no devuelve un arreglo, devuelve un resultSetHeader */
+    if(inserted.affectedRows === 0){
+      return undefined
+    }
+    return {...item, id:inserted.insertId}
+  }catch (err) {
+      console.error('Error en la consulta:', err)
+    }
+
   }
   public async update(item: TipoVehiculo): Promise<TipoVehiculo | undefined> {
-    const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
-    if (idTipoVehiculo !== -1) {
-      tipoVehiculo[idTipoVehiculo] = { ...tipoVehiculo[idTipoVehiculo], ...item };
+    try{
+      const {id, ...tvAtributes} = item
+      const [updated]=await pool.query<ResultSetHeader>('UPDATE tipo_vehiculo SET ? WHERE id = ?', [tvAtributes,id])
+      if(updated.affectedRows === 0){
+        return undefined
+      }
+      return item
+    }catch(err){
+      console.error('Error en la consulta:', err)
     }
-    return await tipoVehiculo[idTipoVehiculo];
+
   }
-  public async delete(item: { id: string }): Promise<TipoVehiculo | undefined> {
-    const idTipoVehiculo = tipoVehiculo.findIndex((tv) => tv.id === item.id);
-    if (idTipoVehiculo !== -1) {
-      const deletedTipoVehiculo = tipoVehiculo[idTipoVehiculo];
-      await tipoVehiculo.splice(idTipoVehiculo, 1)[0];
-      return deletedTipoVehiculo;
-    }
+  public async delete(item: { id: number }): Promise<TipoVehiculo | undefined> {
+   try{
+    const deletedtv = await this.findOne(item)
+    const [deleted]=await pool.query<ResultSetHeader>('DELETE FROM tipo_vehiculo WHERE id = ?', item.id)
+    if(deleted.affectedRows === 0){
+        return undefined
+      }
+    return deletedtv
+   }catch(err){
+    console.error('Error en la consulta:', err)
+   }
   }
 }

@@ -7,6 +7,7 @@ import { CocheraRouter } from "./cochera/cochera.routes.js";
 import { ReservaRouter } from "./reserva/reserva.routes.js";
 import { CuotaRouter } from "./cuotas/cuotas.routes.js";
 const app = express();
+console.log("hola mundo");
 app.use(express.json());
 app.use("/api/clients", Clientrouter);
 app.use("/api/tipoVehiculo", TipoVehiculoRouter);

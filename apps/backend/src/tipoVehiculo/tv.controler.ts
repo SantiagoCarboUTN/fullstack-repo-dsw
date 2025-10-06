@@ -4,9 +4,8 @@ import { TipoVehiculo } from './tv.entity.js'
 const repository = new TipoVehiculoRepository()
 function sanitizedTipoVehiculoInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedTipoVehiculoInput = {
-  name: req.body.name,
-  descripcion: req.body.descripcion,
-  id: req.body.id
+  nombre: req.body.nombre,
+  id:req.body.id
 }
 Object.keys(req.body.sanitizedTipoVehiculoInput).forEach((key) => {
   if (req.body.sanitizedTipoVehiculoInput[key] === undefined) {
@@ -20,8 +19,9 @@ next()
 async function findAll(req: Request, res: Response) {
   res.json({ data: await repository.findAll() })
 }
+
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id
+  const id = Number(req.params.id)
   const tipoVehiculo = await repository.findOne({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
@@ -32,13 +32,15 @@ async function add(req: Request, res: Response) {
   const input = req.body.sanitizedTipoVehiculoInput
 
   const tipoVehiculoInput = new TipoVehiculo(
-    input.name,
-    input.descripcion,
-    input.id
+    input.nombre
   )
   const tipoVehiculo = await repository.add(tipoVehiculoInput)
+  if(!tipoVehiculo){
+    return res.status(400).json({ error: 'No se pudo realizar la insercion' })
+  }
   return res.status(201).json({message: 'Se creó el tipo de vehículo', data: tipoVehiculo })
 } 
+
 async function update(req: Request, res: Response) {
   req.body.sanitizedTipoVehiculoInput.id = req.params.id
   const tipoVehiculo = await repository.update(req.body.sanitizedTipoVehiculoInput)
@@ -47,8 +49,9 @@ async function update(req: Request, res: Response) {
   }
   return res.status(200).json({message: 'Se actualizó el tipo de vehículo', data: tipoVehiculo })
 }
+
 async function remove(req: Request, res: Response) {
-  const id = req.params.id
+  const id = Number(req.params.id)
   const tipoVehiculo = await repository.delete({id})
   if (!tipoVehiculo) {
     return res.status(404).json({ error: 'No se encontró el tipo de vehículo' })
