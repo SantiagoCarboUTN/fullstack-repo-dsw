@@ -1,0 +1,3 @@
+--> Usamos proxy en monorepo para poder correr tanto el front como el back y se pueden comunicar entre ellos
+
+-->
