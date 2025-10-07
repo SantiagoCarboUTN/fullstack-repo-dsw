@@ -4,7 +4,7 @@ import {person, lock} from '../assets/index'
 export const Acess = () => {
   return (
     <>
-      <div className='flex justify-center h-screen items-center bg-gradient-to-br from-blue-700 via-blue-400 to-indigo-400 '>
+      <div className='flex justify-center h-screen items-center bg-gradient-to-br from-indigo-400 via-blue-400 to-blue-700'>
   <div className='bg-white rounded-3xl shadow-2xl w-[900px] h-[500px] flex overflow-hidden'>
 
     {/* Lado izquierdo */}

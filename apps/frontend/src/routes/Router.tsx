@@ -3,6 +3,7 @@ import App from '../App'
 import { Home } from '../pages/Home'
 import { Acess } from '../pages/Acess'
 import { AdminDashboard } from '../pages/AdminDashboard'
+import { ClientDashboard } from '../pages/ClientDashboard'
 
 export const MyRouter = () => {
   return (
@@ -12,6 +13,7 @@ export const MyRouter = () => {
       <Route path='login' element={<Acess/>} />
       <Route path='register' element={<App/>} />
       <Route path='admin' element={<AdminDashboard/>} />
+      <Route path='client' element={<ClientDashboard/>} />
     </Routes>
   )
 }
