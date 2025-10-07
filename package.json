@@ -12,6 +12,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
+    "@nx/workspace": "^21.6.3",
     "nx": "21.6.3"
   }
 }
