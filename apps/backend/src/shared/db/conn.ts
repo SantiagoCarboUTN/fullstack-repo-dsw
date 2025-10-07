@@ -1,10 +1,11 @@
 import mysql from 'mysql2/promise'
-
+import 'dotenv/config'
 export const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER ||'root',
-  password: process.env.DB_PASSWORD || 'dsw2025',
-  database: process.env.DB_NAME ||  'CocheraTpDSW',
-  connectionLimit: 10 ,
-  port: 3308
+ uri: process.env.MYSQL_URL
 })
+async function testDB():Promise<void> {
+  const [rows] = await pool.query('SELECT NOW() as now');
+  console.log(rows);
+}
+
+testDB();

@@ -14,5 +14,8 @@
   "devDependencies": {
     "@nx/workspace": "^21.6.3",
     "nx": "21.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }
