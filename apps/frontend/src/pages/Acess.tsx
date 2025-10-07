@@ -45,13 +45,7 @@ export const Acess = () => {
         >
           Ingresar
         </button>
-        <p className='text-sm text-gray-500 text-center'>o ingresa con</p>
-        <div className='flex justify-center gap-4'>
-          <button className='border p-2 rounded-lg'>G</button>
-          <button className='border p-2 rounded-lg'>F</button>
-          <button className='border p-2 rounded-lg'>GH</button>
-          <button className='border p-2 rounded-lg'>IN</button>
-        </div>
+        
       </form>
     </div>
   </div>

@@ -1,10 +1,16 @@
 import mysql from 'mysql2/promise'
-
+import 'dotenv/config'
 export const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER ||'root',
-  password: process.env.DB_PASSWORD || 'dsw2025',
-  database: process.env.DB_NAME ||  'CocheraTpDSW',
-  connectionLimit: 10 ,
-  port: 3308
+ uri: process.env.MYSQL_URL
 })
+
+/* async function testDB():Promise<void> {
+  const [rows] = await pool.query(`CREATE TABLE IF NOT EXISTS tipo_vehiculo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(40)
+  );`);
+  console.log(rows);
+}
+
+testDB();
+console.log(process.env.MYSQL_URL) */

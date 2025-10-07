@@ -1,14 +1,21 @@
 {
   "name": "tpdsw",
   "version": "1.0.0",
-  "private":"true",
+  "private": "true",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "pnpm --filter \"**\" run dev"
+    "dev": "pnpm --filter \"**\" run dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "@nx/workspace": "^21.6.3",
+    "nx": "21.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
 }
