@@ -18,4 +18,5 @@ export const orm = await MikroORM.init({
 export const syncSchema = async ()=>{
   const generator = orm.getSchemaGenerator()
   await generator.updateSchema()
+  console.log('📦 Esquema sincronizado con la base de datos');
 }

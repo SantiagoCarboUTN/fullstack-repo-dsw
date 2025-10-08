@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+/* import { Request, Response, NextFunction } from 'express'
 import { TipoVehiculoRepository } from './tv.repository.js'
 import { TipoVehiculo } from './tv.entity.js'
 const repository = new TipoVehiculoRepository()
@@ -59,4 +59,4 @@ async function remove(req: Request, res: Response) {
     return res.status(200).json({message: 'Se eliminó el tipo de vehículo', data: tipoVehiculo })
   }
 }  
-export { findAll, findOne, add, update, remove, sanitizedTipoVehiculoInput};
+export { findAll, findOne, add, update, remove, sanitizedTipoVehiculoInput}; */

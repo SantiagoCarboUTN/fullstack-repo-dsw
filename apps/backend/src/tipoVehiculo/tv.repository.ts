@@ -1,4 +1,4 @@
-import { TipoVehiculo } from "./tv.entity.js";
+/* import { TipoVehiculo } from "./tv.entity.js";
 import { Repository } from "../shared/repository.js"
 import { pool } from "../shared/db/conn.js";
 import { ResultSetHeader } from "mysql2";
@@ -27,7 +27,7 @@ export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
   public async add(item: TipoVehiculo):Promise<TipoVehiculo | undefined> {
     try{
     const {...tvatributes} = item
-    const [inserted] = await pool.query<ResultSetHeader>('INSERT INTO tipo_vehiculo SET ?', [tvatributes])  /* --> insert no devuelve un arreglo, devuelve un resultSetHeader */
+    const [inserted] = await pool.query<ResultSetHeader>('INSERT INTO tipo_vehiculo SET ?', [tvatributes])  /* --> insert no devuelve un arreglo, devuelve un resultSetHeader 
     if(inserted.affectedRows === 0){
       return undefined
     }
@@ -63,3 +63,4 @@ export class TipoVehiculoRepository implements Repository<TipoVehiculo> {
    }
   }
 }
+ */
