@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+/* import { Request, Response, NextFunction } from "express"
 import { TipoServicioRepository } from "./tserv.repository.js"
 import { TipoServicio } from "./tserv.entity.js"
 const repository = new TipoServicioRepository()
@@ -62,3 +62,4 @@ async function remove(req: Request, res: Response) {
 
 export { findAll, findOne, add, update, remove, sanitizedTipoServicioInput };
 
+ */

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+/* import { Request, Response, NextFunction } from 'express';
 import { ClientRepository } from './client.repository.js';
 import { Client } from './client.entity.js';
 const repository = new ClientRepository();
@@ -66,4 +66,4 @@ async function remove(req: Request, res: Response) {
   return res.status(200).json({message: 'Se eliminó el cliente', data: cliente })}
 }
 
-export { findAll, findOne, add, update, remove, sanitizedClientInput};
+export { findAll, findOne, add, update, remove, sanitizedClientInput}; */

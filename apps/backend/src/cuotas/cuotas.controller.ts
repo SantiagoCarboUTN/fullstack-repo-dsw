@@ -1,4 +1,4 @@
-
+/* 
 import { Request, Response, NextFunction } from 'express'
 import { Cuota } from "./cuotas.entity.js";
 import { CuotaRepository } from "./cuotas.repository.js";
@@ -56,4 +56,4 @@ async function remove(req: Request, res: Response) {
     return res.status(200).json({message: 'Se eliminó la cuota', data: cuota})
   }
 }  
-export { findAll, findOne, add, update, remove, sanitizedCuotaInput};
+export { findAll, findOne, add, update, remove, sanitizedCuotaInput}; */

@@ -4,13 +4,13 @@ import { Cochera} from "../cochera/cochera.entity.js";
 
 @Entity()
 export class Admin extends BaseEntity {
-  @Property()
+  @Property({nullable:false})
   nombre!: string;
 
-  @Property()
+  @Property({nullable:false, unique:true})
   email!: string;
 
-  @Property()
+  @Property({nullable:false})
   password!: string;  
 
   @OneToMany(() => Cochera, (cochera) => cochera.admin, { cascade: [Cascade.ALL] })

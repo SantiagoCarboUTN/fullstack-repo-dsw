@@ -1,12 +1,12 @@
 import express from "express"
 import 'reflect-metadata'
-import { Clientrouter } from "./clients/client.routes.js";
-/* import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; */
+/* import { Clientrouter } from "./clients/client.routes.js";
+import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; 
 import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
 import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
 import { ReservaRouter } from "./reserva/reserva.routes.js";
-import { CuotaRouter } from "./cuotas/cuotas.routes.js";
+import { CuotaRouter } from "./cuotas/cuotas.routes.js";  */
 import { orm, syncSchema } from "./shared/db/orm.js";
 import { RequestContext } from "@mikro-orm/mysql";
 

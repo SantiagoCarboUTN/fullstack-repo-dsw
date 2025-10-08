@@ -1,4 +1,4 @@
-import { Router } from "express"
+/* import { Router } from "express"
 import { findAll, findOne, add, update, remove, sanitizedClientInput } from "./client.controler.js";
 import { Client } from "./client.entity.js";
 
@@ -9,4 +9,4 @@ Clientrouter.get('/', findAll);
 Clientrouter.get('/:id',findOne)
 Clientrouter.post('/', sanitizedClientInput , add)
 Clientrouter.put('/:id', sanitizedClientInput, update)
-Clientrouter.delete('/:id', remove)
+Clientrouter.delete('/:id', remove) */

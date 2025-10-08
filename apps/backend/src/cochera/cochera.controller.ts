@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+/* import { Request, Response, NextFunction } from "express"
 import { CocheraRepository } from "./cochera.repository.js"
 import { Cochera } from "./cochera.entity.js"
 const repository = new CocheraRepository()
@@ -59,3 +59,4 @@ async function remove(req: Request, res: Response) {
 }  
 
 export { findAll, findOne, add, update, remove, sanitizedCocheraInput };
+ */

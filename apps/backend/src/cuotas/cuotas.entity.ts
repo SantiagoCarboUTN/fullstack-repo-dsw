@@ -4,10 +4,10 @@ import { Reserva } from "../reserva/reserva.entity.js";
 @Entity()
 export class Cuota {
 
-  @ManyToOne(() => Reserva, {primary:true, cascade: [Cascade.ALL] })
+  @ManyToOne(() => Reserva, {primary:true, cascade: [Cascade.ALL],nullable:false })
   reserva!: Reserva;
 
-  @PrimaryKey()
+  @PrimaryKey({nullable: false} )
   date!: number;
 
   @Property()

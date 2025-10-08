@@ -1,4 +1,4 @@
-import { Reserva } from "./reserva.entity.js";
+/* import { Reserva } from "./reserva.entity.js";
 import { ReservaRepository } from "./reserva.repository.js";
 import { Request, Response, NextFunction } from 'express'
 const repository = new ReservaRepository()
@@ -55,4 +55,4 @@ async function remove(req: Request, res: Response) {
     return res.status(200).json({message: 'Se eliminó la reserva', data: reserva})
   }
 }  
-export { findAll, findOne, add, update, remove, sanitizedReservaInput};
+export { findAll, findOne, add, update, remove, sanitizedReservaInput}; */

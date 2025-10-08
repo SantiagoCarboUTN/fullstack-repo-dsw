@@ -4,7 +4,7 @@ import { Reserva } from "../reserva/reserva.entity.js";
 
 
 @Entity()
-export class tipoServicio extends BaseEntity {
+export class TipoServicio extends BaseEntity {
   @Property({ nullable: false })
   nombre!: string;
 

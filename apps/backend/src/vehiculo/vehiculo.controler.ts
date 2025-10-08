@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+/* import { Request, Response, NextFunction } from 'express';
 import { VehiculoRepository } from './vehiculo.repository.js';
 import { Vehiculo } from './vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
@@ -81,3 +81,4 @@ async function remove(req: Request, res: Response) {
 }
 
 export {findAll,findOne,add,update,remove,sanitizedVehiculoInput};
+ */

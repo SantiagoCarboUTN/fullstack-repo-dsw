@@ -1,5 +1,5 @@
 import {Entity,Property,OneToMany, Cascade, Collection} from "@mikro-orm/core";
-import { BaseEntity } from "../shared/db/baseEntity.entity";
+import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 @Entity()
 export class Client extends BaseEntity {
