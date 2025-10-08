@@ -19,6 +19,6 @@ export class Client extends BaseEntity {
     dni!: string;
 
     
-  @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.PERSIST, Cascade.REMOVE]})
+  @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.ALL]})
     vehiculos = new Collection<Vehiculo>(this);
 }

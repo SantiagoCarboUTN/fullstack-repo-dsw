@@ -1,10 +1,8 @@
-import { Property, Entity, OneToMany } from "@mikro-orm/core";
+import { Property, Entity, OneToMany, Cascade } from "@mikro-orm/core";
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Reserva } from "../reserva/reserva.entity.js";
 
-/* id
-nombre
-precio */
+
 @Entity()
 export class tipoServicio extends BaseEntity {
   @Property({ nullable: false })
@@ -13,6 +11,6 @@ export class tipoServicio extends BaseEntity {
   @Property({ nullable: false })
   precio!: number;
 
-  @OneToMany(() => Reserva, (reserva) => reserva.tipoServicio)
+  @OneToMany(() => Reserva, (reserva) => reserva.tipoServicio, {cascade:[Cascade.ALL]} )
   reservas!: Reserva[];
 }
