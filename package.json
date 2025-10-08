@@ -16,6 +16,7 @@
     "nx": "21.6.3"
   },
   "dependencies": {
+    "@mikro-orm/core": "6.5.7",
     "dotenv": "^17.2.3"
   }
 }
