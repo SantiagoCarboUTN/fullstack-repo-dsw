@@ -1,58 +1,96 @@
-/* import { Reserva } from "./reserva.entity.js";
-import { ReservaRepository } from "./reserva.repository.js";
-import { Request, Response, NextFunction } from 'express'
-const repository = new ReservaRepository()
+import { Request, Response, NextFunction } from "express"
+import { Reserva } from "./reserva.entity.js"
+import { orm } from '../shared/db/orm.js'
 
-function sanitizedReservaInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedReservaInput = {
-  tarifa: req.body.tarifa,
-  id: req.body.id
-}
-Object.keys(req.body.sanitizedReservaInput).forEach((key) => {
-  if (req.body.sanitizedReservaInput[key] === undefined) {
-    delete req.body.sanitizedReservaInput[key]
-  } 
+const em = orm.em
+function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
+  req.body.sanitizedInput = {
+    cocheraNumero: req.body.cocheraNumero,   
+    vehiculoPatente: req.body.vehiculoPatente, 
+    tipoServicioId: req.body.tipoServicioId, 
+    fechaInicio: req.body.fechaInicio,       
+    fechaFin: req.body.fechaFin,
+    estado: req.body.estado              
+  };
 
-})
-next()
+
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key];
+    }
+  });
+
+  next();
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
-}
-async function findOne(req: Request, res: Response) {
-  const id = req.params.id
-  const reserva = await repository.findOne({id})
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
+  try{
+    const reservas = await em.find(Reserva, {})
+    res.status(200).json({message: 'found all reservas', data:reservas})
+  }catch(error:any){
+    res.status(500).json({message: error.message})
   }
-  res.json({ data: reserva })
-}
-async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedReservaInput
-
-  const reservaInput = new Reserva(
-    input.tarifa,
-    input.id
-  )
-  const reserva = await repository.add(reservaInput)
-  return res.status(201).json({message: 'Se creó la reserva', data: reserva })
 } 
-async function update(req: Request, res: Response) {
-  req.body.sanitizedReservaInput.id = req.params.id
-  const reserva = await repository.update(req.body.sanitizedReservaInput)
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
+
+async function findOne(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculoPatente
+    const numeroCochera = Number.parseInt(req.params.cocheraNumero)
+    const fechaini = new Date(req.params.fechaInicio)
+    const reserva = await em.findOneOrFail(Reserva, {
+      cochera: { numero:numeroCochera },
+      vehiculo: { patente: patenteVehiculo },
+      fechaInicio: fechaini}
+    )
+    res.status(200).json({message: 'found reserva', data:reserva})
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
   }
-  return res.status(200).json({message: 'Se actualizó la reserva', data: reserva })
 }
-async function remove(req: Request, res: Response) {
-  const id = req.params.id
-  const reserva = await repository.delete({id})
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
-  }else {
-    return res.status(200).json({message: 'Se eliminó la reserva', data: reserva})
+
+async function add(req: Request, res: Response) {
+  try{
+    const reserva = em.create(Reserva,req.body)
+    await em.flush()
+    res.status(201).json({ message: "Se creó la reserva", data: reserva })
+  }catch(error:any) {
+    res.status(500).json({ message: error.message })
   }
+}
+
+async function update(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculoPatente
+    const numeroCochera = Number.parseInt(req.params.cocheraNumero)
+    const fechaini = new Date(req.params.fechaInicio)
+    const reservaUpdated = await em.findOneOrFail(Reserva, {
+        cochera: { numero:numeroCochera },
+        vehiculo: { patente: patenteVehiculo },
+        fechaInicio: fechaini}
+    )
+  em.assign(reservaUpdated, req.body.sanitizedInput)
+  await em.flush()
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
+  }
+}
+
+async function remove(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculoPatente
+    const numeroCochera = Number.parseInt(req.params.cocheraNumero)
+    const fechaini = new Date(req.params.fechaInicio)
+    const reservaDeleted = await em.findOneOrFail(Reserva, {
+      cochera: { numero:numeroCochera },
+      vehiculo: { patente: patenteVehiculo },
+      fechaInicio: fechaini}
+    )
+    await em.removeAndFlush(reservaDeleted)
+    return res.status(200).json({ message: "Se eliminó la reserva", data: reservaDeleted })
+}catch(error:any){
+  res.status(500).json({ message: error.message })
+}
 }  
-export { findAll, findOne, add, update, remove, sanitizedReservaInput}; */
+
+export { findAll,findOne, add,sanitizedReservaInput, update, remove };
+
