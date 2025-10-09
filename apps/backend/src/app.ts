@@ -1,7 +1,7 @@
 import express from "express"
 import 'reflect-metadata'
 import { ClientRouter } from "./clients/client.routes.js";
-import { TipoServicioRouter } from "./tipoServicio/tserv.routes";
+import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
 import { ReservaRouter } from "./reserva/reserva.routes.js";
 import { CuotaRouter } from "./cuotas/cuotas.routes.js";

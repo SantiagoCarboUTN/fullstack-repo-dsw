@@ -10,16 +10,15 @@ Content-Type: application/json
 
 {
     
-    "description": "Vehiculo grande de carga"
+    "description": "Motocicleta"
 }
 
 ### actualizar un tipo de vehiculo  
-PUT http://localhost:3000/api/tipoVehiculo/5
+PUT http://localhost:3000/api/tipoVehiculo/2
 Content-Type: application/json
 
 {
-    
     "nombre": "Moto de agua"
 }
 ### eliminar un tipo de vehiculo
-DELETE http://localhost:3000/api/tipoVehiculo/8
+DELETE http://localhost:3000/api/tipoVehiculo/2

@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
     "numero": "8",
-    "estado": "disponible"
+    "estado": "disponible",
+    "tipoVehiculo": 1
 }
 
 ### actualizar un tipo de servicio
