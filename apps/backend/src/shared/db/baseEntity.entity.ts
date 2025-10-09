@@ -1,4 +1,4 @@
-import { PrimaryKey } from "@mikro-orm/mysql";
+import { PrimaryKey } from "@mikro-orm/core";
 
 export abstract class BaseEntity {
   @PrimaryKey()

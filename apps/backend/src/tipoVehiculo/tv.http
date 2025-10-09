@@ -9,7 +9,8 @@ POST http://localhost:3000/api/tipoVehiculo
 Content-Type: application/json
 
 {
-    "nombre": "Camion"
+    
+    "description": "Vehiculo grande de carga"
 }
 
 ### actualizar un tipo de vehiculo  

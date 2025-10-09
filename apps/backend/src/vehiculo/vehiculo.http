@@ -10,7 +10,10 @@ Content-Type: application/json
 
 {
     "patente": "ABC696969",
-    "tipoVehiculo": "Camion"
+    "modelo": "Toyota Hilux",
+    "tipoVehiculo": 1,
+    
+    
 }
 
 ### actualizar un vehículo  

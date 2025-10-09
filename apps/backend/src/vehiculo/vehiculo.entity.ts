@@ -6,7 +6,7 @@ import { Reserva } from '../reserva/reserva.entity.js';
 
 @Entity()
 export class Vehiculo{
-  @PrimaryKey()
+  @PrimaryKey({ nullable: false })
   patente!: string;
   @Property({ nullable: false })
   modelo!: string
