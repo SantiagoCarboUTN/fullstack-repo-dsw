@@ -1,84 +1,76 @@
-/* import { Request, Response, NextFunction } from 'express';
-import { VehiculoRepository } from './vehiculo.repository.js';
+import { Request, Response, NextFunction } from 'express';
 import { Vehiculo } from './vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
+import { orm } from '../shared/db/orm.js'
 
-const repository = new VehiculoRepository();
+const em = orm.em
 
-function sanitizedVehiculoInput(req: Request, res: Response, next: NextFunction) {
+
+/* function sanitizedVehiculoInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedVehiculoInput = {
     patente: req.body.patente,
     tipoVehiculo: req.body.tipoVehiculo, 
-  };
-
+  }; */
+/* 
   Object.keys(req.body.sanitizedVehiculoInput).forEach((key) => {
     if (req.body.sanitizedVehiculoInput[key] === undefined) {
       delete req.body.sanitizedVehiculoInput[key];
     }
-  });
+  }); 
 
   next();
 }
+ */
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() });
-}
-
-async function findOne(req: Request, res: Response) {
-  const patente = req.params.patente;
-  const vehiculo = await repository.findOne({ patente });
-
-  if (!vehiculo) {
-    return res.status(404).json({ error: 'No se encontró el vehículo' });
+  try {
+    const vehiculos = await em.find(Vehiculo, {}, { populate: ['tipoVehiculo'] });
+    res.json({ data: vehiculos });
+  } catch(error: any) {
+    res.status(500).json({ error: error.message})
   }
-
-  res.json({ data: vehiculo });
 }
+async function findOne(req: Request, res: Response) {
+  try {
+  const patente = req.params.patente;
+  const vehiculo = await em.findOneOrFail(Vehiculo,{patente},{ populate: ['tipoVehiculo'] });
+    res.status(200).json({ data: vehiculo });
+  } catch(error: any) {
+    res.status(500).json({ error: error.message})
+  }}
+
 
 async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedVehiculoInput;
-
-  const vehiculoInput = new Vehiculo(
-    input.patente,
-    input.tipoVehiculo,
-  );
-
-  const vehiculo = await repository.add(vehiculoInput);
-
-  return res.status(201).json({
-    message: 'Se creó el vehículo',
-    data: vehiculo
-  });
+  try {
+    const vehiculo = em.create(Vehiculo, req.body)
+    await em.flush();
+    res.status(201).json({ message: 'Vehículo creado', data: vehiculo });
+  } catch(error: any) {
+    res.status(500).json({ error: error.message})} 
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedVehiculoInput.patente = req.params.patente;
-
-  const vehiculo = await repository.update(req.body.sanitizedVehiculoInput);
-
-  if (!vehiculo) {
-    return res.status(404).json({ error: 'No se encontró el vehículo' });
+  try {
+    const patente = req.params.patente;
+    const vehiculoToUpdate = await em.findOneOrFail(Vehiculo, { patente });
+    em.assign(vehiculoToUpdate, req.body);
+    await em.flush();
+    res.status(200).json({ message: 'Vehículo actualizado', data: vehiculoToUpdate });  
+  }catch(error: any) {
+    res.status(500).json({ error: error.message}) 
   }
-
-  return res.status(200).json({
-    message: 'Se actualizó el vehículo',
-    data: vehiculo
-  });
 }
 
 async function remove(req: Request, res: Response) {
-  const patente = req.params.patente;
-  const vehiculo = await repository.delete({ patente });
-
-  if (!vehiculo) {
-    return res.status(404).json({ error: 'No se encontró el vehículo' });
-  } else {
-    return res.status(200).json({
-      message: 'Se eliminó el vehículo',
-      data: vehiculo
-    });
+  try {
+    const patente = req.params.patente;
+    
+    const vehiculoToRemove = await em.findOneOrFail(Vehiculo, { patente });
+    await em.removeAndFlush(vehiculoToRemove);
+  } catch(error: any) {
+    res.status(500).json({ error: error.message}) 
   }
 }
 
-export {findAll,findOne,add,update,remove,sanitizedVehiculoInput};
- */
+
+export {findAll,findOne,add,update,remove}
