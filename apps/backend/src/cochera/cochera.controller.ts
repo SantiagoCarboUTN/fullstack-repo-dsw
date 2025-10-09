@@ -1,7 +1,9 @@
-/* import { Request, Response, NextFunction } from "express"
-import { CocheraRepository } from "./cochera.repository.js"
+ import { Request, Response, NextFunction } from "express"
 import { Cochera } from "./cochera.entity.js"
-const repository = new CocheraRepository()
+
+import { orm } from '../shared/db/orm.js'
+import { t } from '@mikro-orm/core'
+const em = orm.em
 
 function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedCocheraInput = {
@@ -17,46 +19,59 @@ function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) 
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+  try{
+    const cocheras = await em.find(Cochera, {})
+    res.status(200).json({message: 'found all cocheras', data:cocheras})
+  }catch(error:any){
+    res.status(500).json({message: error.message})
+  }
 } 
 
 async function findOne(req: Request, res: Response) {
-  const numero = req.params.numero
-  const cochera = await repository.findOne({ numero })
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
+  try{
+    const numero = Number.parseInt(req.params.numero)
+    const cochera = await em.findOneOrFail(Cochera, {numero})
+    res.status(200).json({message: 'found cochera', data:cochera})
+    if (!cochera) {
+      return res.status(404).json({ error: "cochera not found" })
+    }
+    res.json({ data: cochera })
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
   }
-  res.json({ data: cochera })
 }
 
 async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedCocheraInput
-  const cocheraInput = new Cochera(
-    input.numero,
-    input.estado
-  )
-  const cochera = await repository.add(cocheraInput)
-  return res.status(201).json({ message: "Se creó la cochera", data: cochera })
+  try{
+    const cochera = em.create(Cochera,req.body)
+    await em.flush()
+    res.status(201).json({ message: "Se creó la cochera", data: cochera })
+  }catch(error:any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedCocheraInput.numero = req.params.numero
-  const cochera = await repository.update(req.body.sanitizedCocheraInput)
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
+  try{
+    const numero = Number.parseInt(req.params.numero)
+    const cocheraUpdated =  em.findOneOrFail(Cochera, {numero})
+    em.assign(cocheraUpdated, req.body.sanitizedInput)
+    await em.flush()
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
   }
-  return res.status(200).json({ message: "Se actualizó la cochera", data: cochera})
 }
 
 async function remove(req: Request, res: Response) {
-  const numero = req.params.numero
-  const cochera = await repository.delete({ numero })
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
-  }else {
-    return res.status(200).json({ message: "Se eliminó la cochera", data: cochera })
-  } 
+  try{
+    const numero = Number.parseInt(req.params.numero)
+    const cocheraDeleted =  em.findOneOrFail(Cochera, {numero})
+    await em.removeAndFlush(cocheraDeleted)
+    return res.status(200).json({ message: "Se eliminó la cochera", data: cocheraDeleted })
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
+  }
 }  
 
-export { findAll, findOne, add, update, remove, sanitizedCocheraInput };
- */
+export { findAll,findOne, add,sanitizedCocheraInput, update, remove };
+

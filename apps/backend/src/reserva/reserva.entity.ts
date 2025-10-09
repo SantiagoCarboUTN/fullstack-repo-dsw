@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Rel,Property , PrimaryKey} from '@mikro-orm/core';
+import { Entity, ManyToOne, Rel,Property , PrimaryKey, DateType} from '@mikro-orm/core';
 import { Cochera } from '../cochera/cochera.entity.js';
 import { Vehiculo } from '../vehiculo/vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
@@ -11,8 +11,10 @@ export class Reserva{
   vehiculo!: Rel<Vehiculo>;
 @ManyToOne(() => TipoServicio)
   tipoServicio!: Rel<TipoServicio>;
-@PrimaryKey()
-  fechaInicio!: string;
+@PrimaryKey({type:Date})
+  fechaInicio!: Date;
 @Property({ nullable: false })
   fechaFin!: string
+@Property({nullable:false})
+  estado!: 'ACTIVA' | 'FINALIZADA';
 }

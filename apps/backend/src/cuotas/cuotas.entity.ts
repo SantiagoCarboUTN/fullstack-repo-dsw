@@ -8,12 +8,12 @@ export class Cuota {
   reserva!: Reserva;
 
   @PrimaryKey({nullable: false} )
-  date!: number;
+  fechaPago!: number;
 
-  @Property()
+  @Property({nullable:false})
   monto!: number;
 
-  @Property()
+  @Property({nullable:false})
   estado!: 'PENDIENTE' | 'PAGADA';
 
 }
