@@ -1,7 +1,9 @@
-/* import { Request, Response, NextFunction } from "express"
-import { TipoServicioRepository } from "./tserv.repository.js"
+import { Request, Response, NextFunction } from "express"
+import {orm} from "../shared/db/orm.js"
 import { TipoServicio } from "./tserv.entity.js"
-const repository = new TipoServicioRepository()
+const em = orm.em
+
+
 
 function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedTipoServicioInput = {
@@ -18,48 +20,56 @@ function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunct
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+  try{
+    const tipoServicios = await em.find(TipoServicio, {});
+    res.status(200).json({message: 'Lista de tipos de servicios', data: tipoServicios }); 
+  }catch (error){
+    res.status(500).json({ error: 'Error al obtener los tipos de servicios' });
+  }
 } 
 
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id
-  const tipoServicio = await repository.findOne({ id })
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
+  try{
+    const id = Number.parseInt(req.params.id);
+    const tipoServicio = await em.findOneOrFail(TipoServicio, { id}); 
+    res.status(200).json({message: 'Tipo de servicio encontrado', data: tipoServicio })
+  }catch (error: any) {
+    res.status(500).json({ error: 'Error al obtener el tipo de servicio' });
   }
-  res.json({ data: tipoServicio })
 }
 
 async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedTipoServicioInput
-  const tipoServicioInput = new TipoServicio(
-    input.nombre,
-    input.precio,
-    input.id
-  )
-  const tipoServicio = await repository.add(tipoServicioInput)
-  return res.status(201).json({ message: "Se creó el tipo de servicio", data: tipoServicio })
+  try {
+    const newTipoServicio = em.create(TipoServicio, req.body);
+    await em.flush();
+    res.status(201).json({ message: 'Tipo de servicio creado', data: newTipoServicio });
+  }catch (error:any) { 
+    res.status(500).json({ error: 'Error al crear el tipo de servicio' });
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedTipoServicioInput.id = req.params.id
-  const tipoServicio = await repository.update(req.body.sanitizedTipoServicioInput)
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
+  try {
+    const id = Number.parseInt(req.params.id);
+    const tipoServicio = em.getReference (TipoServicio,  id );
+    em.assign(tipoServicio, req.body);
+    await em.flush();
+    res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
+  } catch (error:any) { 
+    res.status(500).json({ error: 'Error al actualizar el tipo de servicio' });
   }
-  return res.status(200).json({ message: "Se actualizó el tipo de servicio", data: tipoServicio })
 }
 
 async function remove(req: Request, res: Response) {
-  const id = req.params.id
-  const tipoServicio = await repository.delete({ id })
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
-  }else {
-    return res.status(200).json({ message: "Se eliminó el tipo de servicio", data: tipoServicio })
-  } 
+  try { 
+    const id = Number.parseInt(req.params.id);
+    const tipoServicio = em.getReference (TipoServicio,  id );
+    await em.removeAndFlush(tipoServicio);
+    res.status(200).json({ message: 'Tipo de servicio eliminado' });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al eliminar el tipo de servicio' });
+  }
 }  
 
 export { findAll, findOne, add, update, remove, sanitizedTipoServicioInput };
 
- */

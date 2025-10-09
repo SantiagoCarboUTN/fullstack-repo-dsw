@@ -1,7 +1,7 @@
-/* import { Request, Response, NextFunction } from 'express';
-import { ClientRepository } from './client.repository.js';
+import { Request, Response, NextFunction } from 'express';
+import { orm} from '../shared/db/orm.js';
 import { Client } from './client.entity.js';
-const repository = new ClientRepository();
+const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedClientInput = {
@@ -22,48 +22,56 @@ next()
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+  try {
+    const clientes = await em.find(Client, {});
+    res.status(200).json({message: 'Lista de clientes', data: clientes });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener los clientes' }); 
+  }
 }
 
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id;
-  const cliente = await repository.findOne({id});
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
+  try{
+  const id = Number.parseInt(req.params.id)
+  ;
+  const cliente = await em.findOneOrFail(Client, {id}); res.status(200).json({message: 'Cliente encontrado', data: cliente })
+}catch (error: any) {
+  res.status(500).json({ error: 'Error al obtener el cliente' });
   }
-  res.json({ data: cliente })
 }
 
-async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedClientInput
 
-  const clientInput = new Client(
-    input.name,
-    input.contraseña,
-    input.mail,
-    input.telefono,
-    input.dni,
-  )
-  const cliente = await repository.add(clientInput);
-  return res.status(201).json({message: 'Se creó el cliente', data: cliente });
+async function add(req: Request, res: Response) {
+  try {
+    const newClient = em.create(Client, req.body);
+    await em.flush();
+    res.status(201).json({ message: 'Cliente creado', data: newClient });
+  }catch (error:any) { 
+    res.status(500).json({ error: 'Error al crear el cliente' });
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedClientInput.id = req.params.id;
-  const cliente= await repository.update( req.body.sanitizedClientInput);
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
+  try {
+    const id = Number.parseInt(req.params.id);
+    const cliente = em.getReference (Client,  id );
+    em.assign(cliente, req.body);
+    await em.flush();
+    res.status(200).json({ message: 'Cliente actualizado', data: cliente });
+  } catch (error: any) {
+    res.status(500).json({ error: 'Error al actualizar el cliente' });
   }
-  return res.status(200).json({message: 'Se actualizó el cliente', data: cliente });
 }
 
 async function remove(req: Request, res: Response) {
-  const id = req.params.id;
-  const cliente = await repository.delete({id});
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
-  }else{
-  return res.status(200).json({message: 'Se eliminó el cliente', data: cliente })}
+  try { 
+    const id = Number.parseInt(req.params.id);
+    const cliente = em.getReference (Client,  id );
+    await em.removeAndFlush(cliente);
+    res.status(200).json({ message: 'Cliente eliminado' });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al eliminar el cliente' });
+  }
 }
 
-export { findAll, findOne, add, update, remove, sanitizedClientInput}; */
+export { findAll, findOne, add, update, remove, sanitizedClientInput}; 
