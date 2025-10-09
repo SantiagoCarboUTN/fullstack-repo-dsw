@@ -1,12 +1,12 @@
-/* import { Router } from "express"
+import { Router } from "express"
 import { findAll, findOne, add, update, remove, sanitizedClientInput } from "./client.controler.js";
 import { Client } from "./client.entity.js";
 
 
-export const Clientrouter = Router();
+export const ClientRouter = Router();
 
-Clientrouter.get('/', findAll);
-Clientrouter.get('/:id',findOne)
-Clientrouter.post('/', sanitizedClientInput , add)
-Clientrouter.put('/:id', sanitizedClientInput, update)
-Clientrouter.delete('/:id', remove) */
+ClientRouter.get('/', findAll);
+ClientRouter.get('/:id',findOne)
+ClientRouter.post('/', sanitizedClientInput , add)
+ClientRouter.put('/:id', sanitizedClientInput, update)
+ClientRouter.delete('/:id', remove)

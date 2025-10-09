@@ -1,9 +1,7 @@
 import express from "express"
 import 'reflect-metadata'
-/* import { Clientrouter } from "./clients/client.routes.js";
-import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
-import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
-  */
+import { ClientRouter } from "./clients/client.routes.js";
+import { TipoServicioRouter } from "./tipoServicio/tserv.routes";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
 import { ReservaRouter } from "./reserva/reserva.routes.js";
 import { CuotaRouter } from "./cuotas/cuotas.routes.js";
@@ -22,12 +20,12 @@ app.use((req,res,next)=>{
 
 app.use("/api/vehiculo", VehiculoRouter)
 app.use("/api/tipoVehiculo", TipoVehiculoRouter)
-/* app.use("/api/clients", Clientrouter)
+app.use("/api/clients", ClientRouter)
 
 app.use("/api/tipoServicio", TipoServicioRouter)
 
 app.use("/api/vehiculo", VehiculoRouter)
- */
+
 app.use("/api/cochera",CocheraRouter)
 
 app.use("/api/reserva",ReservaRouter)
