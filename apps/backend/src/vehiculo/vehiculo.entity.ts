@@ -11,7 +11,7 @@ export class Vehiculo{
   @Property({ nullable: false })
   modelo!: string
   
-  @ManyToOne(() => Client, { nullable: false })
+  @ManyToOne(() => Client, { nullable: true })
   client!: Rel<Client>
 
   @ManyToOne(() => TipoVehiculo, { nullable: false })
@@ -20,5 +20,5 @@ export class Vehiculo{
   @OneToMany(() => Reserva, (reserva) => reserva.vehiculo, {
       cascade: [Cascade.ALL],
     })
-     reservas = new Collection<Reserva>(this)
+    reservas = new Collection<Reserva>(this)
 }

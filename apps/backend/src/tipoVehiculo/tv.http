@@ -18,6 +18,7 @@ PUT http://localhost:3000/api/tipoVehiculo/5
 Content-Type: application/json
 
 {
+    
     "nombre": "Moto de agua"
 }
 ### eliminar un tipo de vehiculo
