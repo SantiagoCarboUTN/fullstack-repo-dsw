@@ -5,11 +5,11 @@ const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedClientInput = {
-  name: req.body.name,
+  complete_name: req.body.complete_name,
   mail: req.body.mail,
-  telefono: req.body.telefono,
+  phone: req.body.phone,
   dni: req.body.dni,
-  contraseña: req.body.contraseña,
+  password: req.body.password,
   id: req.body.id
 }
 Object.keys(req.body.sanitizedClientInput).forEach((key) => {

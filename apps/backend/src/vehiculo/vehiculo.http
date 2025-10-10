@@ -9,9 +9,9 @@ POST http://localhost:3000/api/vehiculo
 Content-Type: application/json
 
 {
-    "patente": "ABC696969",
+    "patente": "ABC123",
     "modelo": "Toyota Hilux",
-    "tipoVehiculo": 1,
+    "tipoVehiculo": 1
     
     
 }

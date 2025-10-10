@@ -6,12 +6,15 @@ import { orm } from '../shared/db/orm.js'
 const em = orm.em
 
 
-/* function sanitizedVehiculoInput(req: Request, res: Response, next: NextFunction) {
+ function sanitizedVehiculoInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedVehiculoInput = {
     patente: req.body.patente,
+    modelo: req.body.modelo,
+    client: req.body.client,
     tipoVehiculo: req.body.tipoVehiculo, 
-  }; */
-/* 
+    reservas: req.body.reservas
+  }; 
+
   Object.keys(req.body.sanitizedVehiculoInput).forEach((key) => {
     if (req.body.sanitizedVehiculoInput[key] === undefined) {
       delete req.body.sanitizedVehiculoInput[key];
@@ -20,7 +23,7 @@ const em = orm.em
 
   next();
 }
- */
+
 
 async function findAll(req: Request, res: Response) {
   try {
@@ -42,7 +45,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const vehiculo = em.create(Vehiculo, req.body)
+    const vehiculo = em.create(Vehiculo, req.body.sanitizedVehiculoInput)
     await em.flush();
     res.status(201).json({ message: 'Vehículo creado', data: vehiculo });
   } catch(error: any) {
@@ -53,7 +56,7 @@ async function update(req: Request, res: Response) {
   try {
     const patente = req.params.patente;
     const vehiculoToUpdate = await em.findOneOrFail(Vehiculo, { patente });
-    em.assign(vehiculoToUpdate, req.body);
+    em.assign(vehiculoToUpdate, req.body.sanitizedVehiculoInput);
     await em.flush();
     res.status(200).json({ message: 'Vehículo actualizado', data: vehiculoToUpdate });  
   }catch(error: any) {
@@ -73,4 +76,4 @@ async function remove(req: Request, res: Response) {
 }
 
 
-export {findAll,findOne,add,update,remove}
+export {findAll,findOne,add,update,remove, sanitizedVehiculoInput}
