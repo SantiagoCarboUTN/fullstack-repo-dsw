@@ -9,8 +9,8 @@ POST http://localhost:3000/api/cochera
 Content-Type: application/json
 
 {
-    "numero": "8",
-    "estado": "disponible",
+    "number": "8",
+    "state": "disponible",
     "tipoVehiculo": 1
 }
 

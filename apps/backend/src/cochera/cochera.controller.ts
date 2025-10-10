@@ -7,8 +7,10 @@ const em = orm.em
 
 function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    numero: req.body.numero,
-    estado: req.body.estado
+    number: req.body.number,
+    estado: req.body.estado,
+    admin: req.body.admin,
+    reservas: req.body.reservas
   }
   Object.keys(req.body.sanitizedInput).forEach((key) => {
     if (req.body.sanitizedInput[key] === undefined) {
@@ -29,8 +31,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try{
-    const numero = Number.parseInt(req.params.numero)
-    const cochera = await em.findOneOrFail(Cochera, {numero})
+    const number = Number.parseInt(req.params.number)
+    const cochera = await em.findOneOrFail(Cochera, {number})
     res.status(200).json({message: 'found cochera', data:cochera})
     if (!cochera) {
       return res.status(404).json({ error: "cochera not found" })
@@ -53,8 +55,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try{
-    const numero = Number.parseInt(req.params.numero)
-    const cocheraUpdated =  em.findOneOrFail(Cochera, {numero})
+    const number = Number.parseInt(req.params.number)
+    const cocheraUpdated =  em.findOneOrFail(Cochera, {number})
     em.assign(cocheraUpdated, req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: "Se actualizó la cochera", data: cocheraUpdated })
@@ -65,14 +67,14 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try{
-    const numero = Number.parseInt(req.params.numero)
-    const cocheraDeleted =  em.findOneOrFail(Cochera, {numero})
+    const number = Number.parseInt(req.params.number)
+    const cocheraDeleted =  em.findOneOrFail(Cochera, {number})
     await em.removeAndFlush(cocheraDeleted)
     return res.status(200).json({ message: "Se eliminó la cochera", data: cocheraDeleted })
   }catch(error:any){
     res.status(500).json({ message: error.message })
   }
-}  
+}
 
 export { findAll,findOne, add,sanitizedCocheraInput, update, remove };
 
