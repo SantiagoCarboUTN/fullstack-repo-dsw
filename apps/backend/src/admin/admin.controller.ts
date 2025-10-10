@@ -23,8 +23,8 @@ async function findAll(req: Request, res: Response) {
   try {
     const admins = await em.find(Admin, {});
     res.status(200).json({message: 'Lista de administradores', data: admins });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener los administradores' }); 
+  } catch (error: any) {
+    res.status(500).json({message: error.message}); 
   }
 }
 
@@ -34,7 +34,7 @@ async function findOne(req: Request, res: Response) {
     const admin = await em.findOneOrFail(Admin, { id}); 
     res.status(200).json({message: 'Administrador encontrado', data: admin })
   }catch (error: any) {
-    res.status(500).json({ error: 'Error al obtener el administrador' });
+    res.status(500).json({ message: error.message });
   } 
 }
 
@@ -44,7 +44,7 @@ async function add(req: Request, res: Response) {
     await em.flush();
     res.status(201).json({ message: 'Administrador creado', data: newAdmin });
   }catch (error:any) { 
-    res.status(500).json({ error: 'Error al crear el administrador' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -56,7 +56,7 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'Administrador actualizado', data: admin });
   } catch (error:any) { 
-    res.status(500).json({ error: 'Error al actualizar el administrador' });
+    res.status(500).json({ message: error.message });
 }
 }
 
@@ -67,7 +67,7 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(admin);
     res.status(200).json({ message: 'Administrador eliminado' });
     } catch (error: any) {
-      res.status(500).json({ error: 'Error al eliminar el administrador' });
+      res.status(500).json({ message: error.message });
   }
 }
 

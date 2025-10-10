@@ -23,8 +23,8 @@ async function findAll(req: Request, res: Response) {
   try{
     const tipoServicios = await em.find(TipoServicio, {});
     res.status(200).json({message: 'Lista de tipos de servicios', data: tipoServicios }); 
-  }catch (error){
-    res.status(500).json({ error: 'Error al obtener los tipos de servicios' });
+  }catch (error:any){
+    res.status(500).json({ message: error.message});
   }
 } 
 
@@ -34,7 +34,7 @@ async function findOne(req: Request, res: Response) {
     const tipoServicio = await em.findOneOrFail(TipoServicio, { id}); 
     res.status(200).json({message: 'Tipo de servicio encontrado', data: tipoServicio })
   }catch (error: any) {
-    res.status(500).json({ error: 'Error al obtener el tipo de servicio' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -44,7 +44,7 @@ async function add(req: Request, res: Response) {
     await em.flush();
     res.status(201).json({ message: 'Tipo de servicio creado', data: newTipoServicio });
   }catch (error:any) { 
-    res.status(500).json({ error: 'Error al crear el tipo de servicio' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -56,7 +56,7 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
   } catch (error:any) { 
-    res.status(500).json({ error: 'Error al actualizar el tipo de servicio' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -67,7 +67,7 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(tipoServicio);
     res.status(200).json({ message: 'Tipo de servicio eliminado' });
     } catch (error: any) {
-      res.status(500).json({ error: 'Error al eliminar el tipo de servicio' });
+      res.status(500).json({ message: error.message});
   }
 }  
 
