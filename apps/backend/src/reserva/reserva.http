@@ -9,13 +9,13 @@ POST http://localhost:3000/api/reserva
 Content-Type: application/json
 
 {
-    "cocheraNumber": "req.body.cocheraNumber",   
-    "vehiculoPatente": "req.body.vehiculoPatente", 
-    "tipoServicioId": "req.body.tipoServicioId", 
-    "fechaInicio": "req.body.fechaInicio",       
-    "fechaFin": "req.body.fechaFin",
-    "estado": "req.body.estado" 
-  }
+  "cochera": 8,
+  "vehiculo": "ABC123",
+  "tipoServicio": 1,
+  "fechaInicio": "2025-10-10T10:00:00Z",
+  "fechaFin": "2025-10-10T12:00:00Z",
+  "estado": "ACTIVA"
+}
 
 ### actualizar un cliente
 PUT http://localhost:3000/api/reserva/a02b91bc-3769-4221-beb1-d7a3aeba7dad

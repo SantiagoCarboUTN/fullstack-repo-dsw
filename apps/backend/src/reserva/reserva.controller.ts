@@ -5,8 +5,8 @@ import { orm } from '../shared/db/orm.js'
 const em = orm.em
 function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
   req.body.sanitizedInput = {
-    cocheraNumber: req.body.cocheraNumber,   
-    vehiculo: req.body.vehiculoPatente, 
+    cochera: req.body.cochera,   
+    vehiculo: req.body.vehiculo, 
     tipoServicio: req.body.tipoServicio, 
     fechaInicio: req.body.fechaInicio,       
     fechaFin: req.body.fechaFin,
@@ -34,8 +34,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try{
-    const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
+    const patenteVehiculo = req.params.vehiculo
+    const numberCochera = Number.parseInt(req.params.cochera)
     const fechaini = new Date(req.params.fechaInicio)
     const reserva = await em.findOneOrFail(Reserva, {
       cochera: { number:numberCochera },
@@ -50,7 +50,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try{
-    const reserva = em.create(Reserva,req.body.sanitizedImput)
+    const reserva = em.create(Reserva,req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: "Se creó la reserva", data: reserva })
   }catch(error:any) {
@@ -60,8 +60,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try{
-    const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
+    const patenteVehiculo = req.params.vehiculo
+    const numberCochera = Number.parseInt(req.params.cochera)
     const fechaini = new Date(req.params.fechaInicio)
     const reservaUpdated = await em.findOneOrFail(Reserva, {
         cochera: { number:numberCochera },
@@ -77,8 +77,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try{
-    const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
+    const patenteVehiculo = req.params.vehiculo
+    const numberCochera = Number.parseInt(req.params.cochera)
     const fechaini = new Date(req.params.fechaInicio)
     const reservaDeleted = await em.findOneOrFail(Reserva, {
       cochera: { number:numberCochera },

@@ -7,8 +7,7 @@ import { Reserva } from "../reserva/reserva.entity.js";
 const em = orm.em
 function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
   req.body.sanitizedInput = {
-    cocheraNumber: req.body.cocheraNumber,   
-    vehiculoPatente: req.body.vehiculoPatente, 
+    reserva:req.body.reserva,
     fechaInicio: req.body.fechaInicio,       
     estado:req.body.estado,
     monto:req.body.monto,    
@@ -36,13 +35,14 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try{
-    const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
-    const fechaIni = new Date(req.params.fechaInicio)
+   const patenteVehiculo = req.params.vehiculo
+    const numeroCochera = Number.parseInt(req.params.cochera)
+    const fechaIni = new Date(req.params.fechaInicio) 
+    const reservaPago = req.params.reserva
     const fechaPago = Number(req.params.fechaPago);
     const cuota = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: { number:numberCochera },
+        cochera: { number: numeroCochera },
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },
@@ -56,7 +56,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try{
-    const cuota = em.create(Cuota,req.body)
+    const cuota = em.create(Cuota,req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: "Se creó la cuota", data: cuota })
   }catch(error:any) {
@@ -66,13 +66,13 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try{
-    const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
+    const patenteVehiculo = req.params.vehiculo
+    const numeroCochera = Number.parseInt(req.params.cochera)
     const fechaIni = new Date(req.params.fechaInicio)
     const fechaPago = Number(req.params.fechaPago);
     const cuotaUpdated = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: {number: numberCochera },
+        cochera: { number: numeroCochera },
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },
@@ -88,12 +88,12 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculoPatente
-    const numberCochera = Number.parseInt(req.params.cocheraNumber)
+    const numeroCochera = Number.parseInt(req.params.cocheraNumero)
     const fechaIni = new Date(req.params.fechaInicio)
     const fechaPago = Number(req.params.fechaPago);
     const cuotaDeleted = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: {number: numberCochera },
+        cochera: { number: numeroCochera },
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },
