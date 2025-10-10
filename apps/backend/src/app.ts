@@ -9,6 +9,7 @@ import { orm, syncSchema } from "./shared/db/orm.js";
 import { RequestContext } from "@mikro-orm/mysql";
 import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; 
+import { AdminRouter } from "./admin/admin.routes.js";
 
 const app = express()
 
@@ -31,6 +32,8 @@ app.use("/api/cochera",CocheraRouter)
 app.use("/api/reserva",ReservaRouter)
 
 app.use("/api/cuota",CuotaRouter)
+
+app.use("/api/admin",AdminRouter)
 
 await syncSchema() //solo en desarrollo, nunca en produccion
 app.listen(3000, ()=>{

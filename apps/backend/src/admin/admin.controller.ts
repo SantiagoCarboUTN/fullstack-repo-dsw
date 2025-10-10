@@ -6,7 +6,7 @@ const em = orm.em
 
 function sanitizedAdminInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedAdminInput = {
-    nombre: req.body.nombre,
+    name: req.body.nombre,
     email: req.body.email,
     password: req.body.password,
     id: req.body.id

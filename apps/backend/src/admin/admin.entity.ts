@@ -5,7 +5,7 @@ import { Cochera} from "../cochera/cochera.entity.js";
 @Entity()
 export class Admin extends BaseEntity {
   @Property({nullable:false})
-  nombre!: string;
+  name!: string;
 
   @Property({nullable:false, unique:true})
   email!: string;
