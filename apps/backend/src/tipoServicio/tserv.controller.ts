@@ -6,14 +6,14 @@ const em = orm.em
 
 
 function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedTipoServicioInput = {
+  req.body.sanitizedInput = {
     nombre: req.body.nombre,
     precio: req.body.precio,
     id: req.body.id
   }
-  Object.keys(req.body.sanitizedTipoServicioInput).forEach((key) => {
-    if (req.body.sanitizedTipoServicioInput[key] === undefined) {
-      delete req.body.sanitizedTipoServicioInput[key]
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
     } 
   })
   next()
@@ -40,7 +40,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const newTipoServicio = em.create(TipoServicio, req.body);
+    const newTipoServicio = em.create(TipoServicio, req.body.sanitizedInput);
     await em.flush();
     res.status(201).json({ message: 'Tipo de servicio creado', data: newTipoServicio });
   }catch (error:any) { 
@@ -52,7 +52,7 @@ async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const tipoServicio = em.getReference (TipoServicio,  id );
-    em.assign(tipoServicio, req.body);
+    em.assign(tipoServicio, req.body.sanitizedInput);
     await em.flush();
     res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
   } catch (error:any) { 
