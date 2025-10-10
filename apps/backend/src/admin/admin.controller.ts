@@ -5,15 +5,15 @@ import { Admin } from './admin.entity.js';
 const em = orm.em
 
 function sanitizedAdminInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedAdminInput = {
-    name: req.body.nombre,
+  req.body.sanitizedInput = {
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     id: req.body.id
   } 
-  Object.keys(req.body.sanitizedAdminInput).forEach((key) => {
-    if (req.body.sanitizedAdminInput[key] === undefined) {
-      delete req.body.sanitizedAdminInput[key]
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
     }
   }) 
   next()
@@ -40,7 +40,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const newAdmin = em.create(Admin, req.body);
+    const newAdmin = em.create(Admin, req.body.sanitizedInput);
     await em.flush();
     res.status(201).json({ message: 'Administrador creado', data: newAdmin });
   }catch (error:any) { 
@@ -52,7 +52,7 @@ async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const admin = em.getReference (Admin,  id );
-    em.assign(admin, req.body);
+    em.assign(admin, req.body.sanitizedInput);
     await em.flush();
     res.status(200).json({ message: 'Administrador actualizado', data: admin });
   } catch (error:any) { 

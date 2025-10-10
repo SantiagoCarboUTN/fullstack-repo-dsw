@@ -4,7 +4,7 @@ import { Client } from './client.entity.js';
 const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedClientInput = {
+  req.body.sanitizedInput = {
   complete_name: req.body.complete_name,
   mail: req.body.mail,
   phone: req.body.phone,
@@ -12,9 +12,9 @@ function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
   password: req.body.password,
   id: req.body.id
 }
-Object.keys(req.body.sanitizedClientInput).forEach((key) => {
-  if (req.body.sanitizedClientInput[key] === undefined) {
-    delete req.body.sanitizedClientInput[key]
+Object.keys(req.body.sanitizedInput).forEach((key) => {
+  if (req.body.sanitizedInput[key] === undefined) {
+    delete req.body.sanitizedInput[key]
   } 
 
 })
@@ -43,7 +43,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const newClient = em.create(Client, req.body);
+    const newClient = em.create(Client, req.body.SanitizedInput);
     await em.flush();
     res.status(201).json({ message: 'Cliente creado', data: newClient });
   }catch (error:any) { 
@@ -55,7 +55,7 @@ async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const cliente = em.getReference (Client,  id );
-    em.assign(cliente, req.body);
+    em.assign(cliente, req.body.sanitizedInput);
     await em.flush();
     res.status(200).json({ message: 'Cliente actualizado', data: cliente });
   } catch (error: any) {

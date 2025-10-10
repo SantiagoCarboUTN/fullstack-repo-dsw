@@ -33,7 +33,7 @@ app.use("/api/reserva",ReservaRouter)
 
 app.use("/api/cuota",CuotaRouter)
 
-app.use("/api/admin",AdminRouter)
+app.use("/api/admins",AdminRouter)
 
 await syncSchema() //solo en desarrollo, nunca en produccion
 app.listen(3000, ()=>{
