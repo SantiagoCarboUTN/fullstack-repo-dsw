@@ -9,24 +9,28 @@ POST http://localhost:3000/api/cuota
 Content-Type: application/json
 
 {
-    "name": "Felipe González",
-    "contraseña": "miContraseñaSegura123",
-    "mail": "felipe@example.com",
-    "telefono": "+54 9 341 1234567",
-    "dni": "32123456"
-  }
-
+    "reserva": {
+    "cochera": 9,
+    "vehiculo": "ABC123",
+    "fechaInicio": "2025-10-10T10:00:00Z"
+  },
+  "fechaPago":"2025-11-10T10:00:00Z" ,
+  "monto": 2000,
+  "estado": "PENDIENTE"
+}
 ### actualizar un cliente
 PUT http://localhost:3000/api/clients/a02b91bc-3769-4221-beb1-d7a3aeba7dad
 Content-Type: application/json
 
 {
-    "name": "Juan",
-    "contraseña": "miNUEVAContraseñaSegura123",
-    "mail": "felipe@example.com",
-    "telefono": "+54 9 341 1234567",
-    "dni": "32123456"
+  "reserva": {
+    "cochera": 1,
+    "vehiculo": "ABC123",
+    "fechaInicio": "2025-10-10T10:00:00Z"
+  },
+  "fechaPago": 1,
+  "monto": 2000,
+  "estado": "PENDIENTE"
 }
-
 ### eliminar un cliente
 DELETE http://localhost:3000/api/clients/a02b91bc-3769-4221-beb1-d7a3aeba7dad

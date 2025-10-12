@@ -43,7 +43,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const newClient = em.create(Client, req.body.SanitizedInput);
+    const newClient = em.create(Client, req.body.sanitizedInput);
     await em.flush();
     res.status(201).json({ message: 'Cliente creado', data: newClient });
   }catch (error:any) { 

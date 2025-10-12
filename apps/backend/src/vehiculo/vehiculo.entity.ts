@@ -11,7 +11,7 @@ export class Vehiculo{
   @Property({ nullable: false })
   modelo!: string
   
-  @ManyToOne(() => Client, { nullable: true })
+  @ManyToOne(() => Client, { nullable: false})
   client!: Rel<Client>
 
   @ManyToOne(() => TipoVehiculo, { nullable: false })

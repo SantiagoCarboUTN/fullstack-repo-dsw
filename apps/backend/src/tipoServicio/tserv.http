@@ -9,7 +9,7 @@ POST http://localhost:3000/api/tipoServicio
 Content-Type: application/json
 
 {
-    "nombre": "Trimestral",
+    "nombre": "mensual",
     "precio": 25000
 }
 
@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ### eliminar un tipo de servicio
-DELETE http://localhost:3000/api/tipoServicio/1
+DELETE http://localhost:3000/api/tipoServicio/2

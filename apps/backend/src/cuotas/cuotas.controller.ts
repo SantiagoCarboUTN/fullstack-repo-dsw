@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express"
 import { Cuota } from "./cuotas.entity.js"
 import { orm } from '../shared/db/orm.js'
 import { Reserva } from "../reserva/reserva.entity.js";
+import { Cochera } from "../cochera/cochera.entity.js";
+import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 
 const em = orm.em
 function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
@@ -36,11 +38,10 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
    const patenteVehiculo = req.params.vehiculo
-    const numeroCochera = Number.parseInt(req.params.cochera)
-    const fechaIni = new Date(req.params.fechaInicio) 
-    const reservaPago = req.params.reserva
-    const fechaPago = Number(req.params.fechaPago);
-    const cuota = await em.findOneOrFail(Cuota, {
+   const numeroCochera = Number.parseInt(req.params.cochera)
+   const fechaIni = new Date(req.params.fechaInicio) 
+   const fechaPago = Number(req.params.fechaPago);
+   const cuota = await em.findOneOrFail(Cuota, {
       reserva: {
         cochera: { number: numeroCochera },
         vehiculo: { patente: patenteVehiculo },
@@ -56,7 +57,16 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try{
-    const cuota = em.create(Cuota,req.body.sanitizedInput)
+    const cocheraRef = em.getReference(Cochera, req.body.sanitizedInput.reserva.cochera)
+    const vehiculoRef = em.getReference(Vehiculo,req.body.sanitizedInput.reserva.vehiculo )
+    const fechaini = new Date(req.body.sanitizedInput.reserva.fechaInicio)
+    const reservaRef = await em.findOne(Reserva,{
+      cochera: cocheraRef,
+      vehiculo: vehiculoRef,
+      fechaInicio: fechaini
+    }
+    );
+    const cuota = em.create(Cuota,{...req.body.sanitizedInput,reserva: reservaRef})
     await em.flush()
     res.status(201).json({ message: "Se creó la cuota", data: cuota })
   }catch(error:any) {

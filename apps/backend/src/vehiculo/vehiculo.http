@@ -11,8 +11,8 @@ Content-Type: application/json
 {
     "patente": "ABC123",
     "modelo": "Toyota Hilux",
-    "tipoVehiculo": 1
-    
+    "tipoVehiculo": 1,
+    "client":1
     
 }
 
@@ -21,7 +21,7 @@ PUT http://localhost:3000/api/vehiculo/ABC123
 Content-Type: application/json
 
 {
-    "tipoVehiculo": "Camioneta"
+    "modelo":"yamaha2000"
 }
 
 ### eliminar un vehículo

@@ -13,8 +13,8 @@ export class Reserva{
   tipoServicio!: Rel<TipoServicio>;
 @PrimaryKey({type:Date})
   fechaInicio!: Date;
-@Property({ nullable: false })
-  fechaFin!: string
+@Property({ type:Date,nullable: false })
+  fechaFin!: Date
 @Property({nullable:false})
   estado!: 'ACTIVA' | 'FINALIZADA';
 }

@@ -8,8 +8,9 @@ const em = orm.em
 function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     number: req.body.number,
-    estado: req.body.estado,
+    state: req.body.state,
     admin: req.body.admin,
+    tipoVehiculo: req.body.tipoVehiculo,
     reservas: req.body.reservas
   }
   Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -45,7 +46,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try{
-    const cochera = em.create(Cochera,req.body)
+    const cochera = em.create(Cochera,req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: "Se creó la cochera", data: cochera })
   }catch(error:any) {

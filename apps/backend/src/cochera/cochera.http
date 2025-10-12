@@ -2,20 +2,21 @@
 GET http://localhost:3000/api/cochera
 
 ### obtener un tipo de servicio por id
-GET http://localhost:3000/api/cochera/12a
+GET http://localhost:3000/api/cochera/8
 
 ### crear un tipo de servicio
 POST http://localhost:3000/api/cochera
 Content-Type: application/json
 
 {
-    "number": "8",
+    "number": 9,
+    "tipoVehiculo": 1,
     "state": "disponible",
-    "tipoVehiculo": 1
+    "admin": 1
 }
 
 ### actualizar un tipo de servicio
-PUT http://localhost:3000/api/cochera/12a
+PUT http://localhost:3000/api/cochera/8
 Content-Type: application/json
 
 {

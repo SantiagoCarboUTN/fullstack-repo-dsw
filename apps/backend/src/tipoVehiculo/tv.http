@@ -14,11 +14,11 @@ Content-Type: application/json
 }
 
 ### actualizar un tipo de vehiculo  
-PUT http://localhost:3000/api/tipoVehiculo/2
+PUT http://localhost:3000/api/tipoVehiculo/1
 Content-Type: application/json
 
 {
-    "nombre": "Moto de agua"
+    "description": "Moto de agua"
 }
 ### eliminar un tipo de vehiculo
 DELETE http://localhost:3000/api/tipoVehiculo/2
