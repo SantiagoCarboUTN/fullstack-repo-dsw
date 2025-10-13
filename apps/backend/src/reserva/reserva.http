@@ -1,6 +1,8 @@
 ### obtener todos los clientes
 GET http://localhost:3000/api/reserva
 
+### obtener reservas filtradas
+GET http://localhost:3000/api/reserva?state=ACTIVA&client=2
 ### obtener un cliente por id
 GET http://localhost:3000/api/reserva?vehiculo=ABC123&cochera=8&tipoServicio=1&fechaInicio=2025-10-10T10:00:00Z
 
@@ -14,7 +16,7 @@ Content-Type: application/json
   "tipoServicio": 1,
   "fechaInicio": "2025-10-10T10:00:00Z",
   "fechaFin": "2025-12-10T12:00:00Z",
-  "estado": "ACTIVA"
+  "state": "ACTIVA"
 }
 
 ### actualizar una reserva

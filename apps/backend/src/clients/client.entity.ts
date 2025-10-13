@@ -28,6 +28,10 @@ export class Client extends BaseEntity {
     
   @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.ALL]})
     vehiculos = new Collection<Vehiculo>(this);
+  toJSON() {
+    const { password, ...rest } = this;
+    return rest;
+  }
   
   async verificarPassword(plain: string): Promise<boolean> {
     return bcrypt.compare(plain, this.password);
