@@ -16,5 +16,5 @@ export class Reserva{
 @Property({ type:Date,nullable: false })
   fechaFin!: Date
 @Property({nullable:false})
-  estado!: 'ACTIVA' | 'FINALIZADA';
+  state!: 'ACTIVA' | 'FINALIZADA';
 }

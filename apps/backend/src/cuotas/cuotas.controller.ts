@@ -40,7 +40,7 @@ async function findOne(req: Request, res: Response) {
    const patenteVehiculo = req.params.vehiculo
    const numeroCochera = Number.parseInt(req.params.cochera)
    const fechaIni = new Date(req.params.fechaInicio) 
-   const fechaPago = Number(req.params.fechaPago);
+   const fechaPago = new Date(req.params.fechaPago);
    const cuota = await em.findOneOrFail(Cuota, {
       reserva: {
         cochera: { number: numeroCochera },
@@ -79,7 +79,7 @@ async function update(req: Request, res: Response) {
     const patenteVehiculo = req.params.vehiculo
     const numeroCochera = Number.parseInt(req.params.cochera)
     const fechaIni = new Date(req.params.fechaInicio)
-    const fechaPago = Number(req.params.fechaPago);
+    const fechaPago = new Date(req.params.fechaPago);
     const cuotaUpdated = await em.findOneOrFail(Cuota, {
       reserva: {
         cochera: { number: numeroCochera },
@@ -100,7 +100,7 @@ async function remove(req: Request, res: Response) {
     const patenteVehiculo = req.params.vehiculoPatente
     const numeroCochera = Number.parseInt(req.params.cocheraNumero)
     const fechaIni = new Date(req.params.fechaInicio)
-    const fechaPago = Number(req.params.fechaPago);
+    const fechaPago = new Date(req.params.fechaPago);
     const cuotaDeleted = await em.findOneOrFail(Cuota, {
       reserva: {
         cochera: { number: numeroCochera },

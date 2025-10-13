@@ -4,7 +4,7 @@ import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 import bcrypt from 'bcrypt'
 @Entity()
 export class Client extends BaseEntity {
-  @Property({nullable:false})
+  @Property({nullable:false, unique:true})
     mail!: string;
 
   @Property({nullable:false})

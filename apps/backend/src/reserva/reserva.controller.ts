@@ -25,6 +25,11 @@ function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try{
+  /*   const {state}= req.params
+    if(state){
+      const reservas = await em.find(Reserva, {state: state },{ populate: ['vehiculo', 'cochera'] })
+      res.status(200).json({message: `found all ${req.params.state} reservas`, data:reservas})
+    } */
     const reservas = await em.find(Reserva, {},{ populate: ['vehiculo', 'cochera'] })
     res.status(200).json({message: 'found all reservas', data:reservas})
   }catch(error:any){
