@@ -3,6 +3,7 @@ import { Cochera } from "./cochera.entity.js"
 
 import { orm } from '../shared/db/orm.js'
 import { t } from '@mikro-orm/core'
+import { Admin } from "../admin/admin.entity.js"
 const em = orm.em
 
 function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) {
@@ -20,25 +21,52 @@ function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) 
   })
   next()
 }
-
 async function findAll(req: Request, res: Response) {
-  try{
-    const cocheras = await em.find(Cochera, {})
-    res.status(200).json({message: 'found all cocheras', data:cocheras})
-  }catch(error:any){
-    res.status(500).json({message: error.message})
+  try {
+    const { state, vehicleType, admin } = req.query;
+
+    
+    const filters: any = {};
+
+    if (state ) {
+      filters.state = state; 
+    }
+
+    if (admin) {
+      filters.admin = admin;
+    }
+
+    if (vehicleType) {
+      filters.tipoVehiculo = vehicleType; 
+    }
+
+    if (!admin && !state && !vehicleType){
+      const cocheras = await em.find(Cochera, {});
+
+    res.status(200).json({
+      message: "found cocheras",
+      data: cocheras,
+    });
+    return;
+    }
+
+    const cocheras = await em.find(Cochera, filters, { populate: ['reservas'],filters: { reservas: {state: 'ACTIVA'} } });
+
+    res.status(200).json({
+      message: "found filtered cocheras",
+      data: cocheras,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-} 
+}
+
 
 async function findOne(req: Request, res: Response) {
   try{
     const number = Number.parseInt(req.params.number)
     const cochera = await em.findOneOrFail(Cochera, {number})
     res.status(200).json({message: 'found cochera', data:cochera})
-    if (!cochera) {
-      return res.status(404).json({ error: "cochera not found" })
-    }
-    res.json({ data: cochera })
   }catch(error:any){
     res.status(500).json({ message: error.message })
   }
