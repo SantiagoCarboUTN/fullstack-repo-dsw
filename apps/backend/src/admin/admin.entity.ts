@@ -24,6 +24,10 @@ export class Admin extends BaseEntity {
   @OneToMany(() => Cochera, (cochera) => cochera.admin, { cascade: [Cascade.ALL] })
   cocheras = new Collection<Cochera>(this);
   
+  toJSON() {
+    const { password, ...rest } = this;
+    return rest;
+  }
   async verificarPassword(plain: string): Promise<boolean> {
       return bcrypt.compare(plain, this.password);
     }
