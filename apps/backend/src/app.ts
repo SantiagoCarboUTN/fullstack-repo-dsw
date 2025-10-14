@@ -1,5 +1,6 @@
 import express from "express"
 import 'reflect-metadata'
+import cors from "cors"
 import { ClientRouter } from "./clients/client.routes.js";
 import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
@@ -12,6 +13,14 @@ import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js";
 import { AdminRouter } from "./admin/admin.routes.js";
 
 const app = express()
+
+
+// 🧩 Middleware CORS
+app.use(cors({
+  origin: "http://localhost:5173", // Cambiá por la URL del front
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use(express.json())
 

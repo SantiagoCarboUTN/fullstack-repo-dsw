@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/reserva
 
 ### obtener reservas filtradas
-GET http://localhost:3000/api/reserva?state=ACTIVA&client=2
+GET http://localhost:3000/api/reserva?state=ACTIVA&client=1
 ### obtener un cliente por id
 GET http://localhost:3000/api/reserva?vehiculo=ABC123&cochera=8&tipoServicio=1&fechaInicio=2025-10-10T10:00:00Z
 
