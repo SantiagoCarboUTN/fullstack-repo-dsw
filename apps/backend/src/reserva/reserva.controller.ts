@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { Reserva } from "./reserva.entity.js"
 import { orm } from '../shared/db/orm.js'
+import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 
 const em = orm.em
 function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
@@ -10,7 +11,7 @@ function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
     tipoServicio: req.body.tipoServicio, 
     fechaInicio: req.body.fechaInicio,       
     fechaFin: req.body.fechaFin,
-    estado: req.body.estado              
+    state: req.body.state              
   };
 
 
@@ -25,8 +26,27 @@ function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try{
-    const reservas = await em.find(Reserva, {},{ populate: ['vehiculo', 'cochera'] })
-    res.status(200).json({message: 'found all reservas', data:reservas})
+    const {client,state}= req.query
+    const filters: any = {};
+    if (client) {
+     filters.vehiculo = { client: { id: Number(client) } };
+    }
+    if (state) {
+     filters.state = state; 
+    }
+    if(!state && !client){
+      const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera'] })
+      res.status(200).json({message: `found all reservas`, data:reservas})
+      
+      return ;
+    }
+    
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client'] })
+    if(reservas.length === 0){
+      res.status(404).json({message:'reservas not found'})
+    }else{
+      res.status(200).json({message: `found all ${req.params.state || ''} client reservas`, data:reservas})
+    }
   }catch(error:any){
     res.status(500).json({message: error.message})
   }

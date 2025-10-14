@@ -12,6 +12,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
+    "@nx/express": "^21.6.4",
+    "@nx/react": "^21.6.4",
     "@nx/workspace": "^21.6.3",
     "nx": "21.6.3"
   },

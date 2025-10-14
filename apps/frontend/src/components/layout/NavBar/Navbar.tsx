@@ -7,7 +7,6 @@ export const Navbar = () => {
     <div  className="flex justify-center items-center gap-7  text-xl">
 
         <Default_Link route='/'  isImg={true} imgSrc = {brand_logo}/>
-        <Default_Link route="/" text="Home" />
         <Default_Link route="/reservas" text="Reservar cochera" />
         <Default_Link route="/pago" text="Realizar pago" />
         <Default_Link route="/singUp" text="Registrarse" />
