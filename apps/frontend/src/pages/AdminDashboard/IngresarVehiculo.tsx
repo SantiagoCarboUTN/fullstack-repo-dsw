@@ -14,6 +14,7 @@ export const IngresarVehiculo = () => (
           <input
             type="text"
             placeholder="Ej: ABC123"
+            required
             className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
           />
         </div>
@@ -26,6 +27,7 @@ export const IngresarVehiculo = () => (
           <input
             type="text"
             placeholder="Ej: Corolla"
+            required
             className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
           />
         </div>
@@ -39,8 +41,7 @@ export const IngresarVehiculo = () => (
             <option value="">Seleccione un tipo</option>
             <option value="auto">Auto</option>
             <option value="moto">Moto</option>
-            <option value="camion">Camión</option>
-            <option value="van">Van</option>
+            <option value="camion">SUV</option>
           </select>
         </div>
 
@@ -52,6 +53,7 @@ export const IngresarVehiculo = () => (
           <input
             type="text"
             placeholder="Ej: Juan Pérez"
+            required
             className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
           />
         </div>
