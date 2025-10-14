@@ -9,7 +9,7 @@ export function UseReservas() {
   useEffect(() => {
     const fetchReservas = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/reservas");
+        const res = await fetch("http://localhost:3000/api/reserva");
         if (!res.ok) throw new Error("Error al traer reservas");
         const data = await res.json();
         setReservas(data.data); // data.data viene de tu función findAll

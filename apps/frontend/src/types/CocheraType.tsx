@@ -1,5 +1,5 @@
 import type { TipoVehiculo } from "./TipoVehiculoType";
-import type { Admin } from "./admin";
+import type { Admin } from "./AdminType";
 import type { Reserva } from "./ReservaType";
 
 export interface Cochera {

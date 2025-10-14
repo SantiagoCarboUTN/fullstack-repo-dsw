@@ -1,4 +1,4 @@
-import { Vehiculo } from "./VehiculoType";
+import type { Vehiculo } from "./VehiculoType";
 
 export interface Client {
   id: number;               // viene de BaseEntity

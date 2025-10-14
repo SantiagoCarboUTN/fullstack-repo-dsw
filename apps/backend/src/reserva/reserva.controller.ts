@@ -35,7 +35,7 @@ async function findAll(req: Request, res: Response) {
      filters.state = state; 
     }
     if(!state && !client){
-      const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera'] })
+      const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera', 'vehiculo.client'] })
       res.status(200).json({message: `found all reservas`, data:reservas})
       
       return ;
