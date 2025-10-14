@@ -37,7 +37,7 @@ export const IngresarVehiculo = () => (
           <label className="block text-gray-700 font-semibold mb-2 text-lg">
             Tipo de Vehículo
           </label>
-          <select className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700">
+          <select className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700" required>
             <option value="">Seleccione un tipo</option>
             <option value="auto">Auto</option>
             <option value="moto">Moto</option>
