@@ -1,9 +1,9 @@
 
-import { Navbar } from '../components/Navbar'
+ import { Navbar } from '../components/layout//NavBar/Navbar'
 import '../index.css'
-import {Card} from '../components/Card'
+import {Card} from '../components/ui/Card'
 import fotolandingpage from '../assets/sin_fondo.png'
-import { Small_Card } from '../components/Small_Card'
+import { Small_Card } from '../components/ui/Small_Card'
 import {assets} from '../assets/index'
 
 const SmallCardInfo = [
@@ -21,7 +21,7 @@ const SmallCardInfo = [
 export const Home = () => {
   return (
     <>
-      <Navbar/>
+    <Navbar/> 
 
       <div className='h-auto bg-gray-200 flex items-center justify-center py-30  '>
 
