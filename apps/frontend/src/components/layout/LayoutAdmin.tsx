@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom"
-import { Sidebar } from "./SideBar"
+import { SideBarAdmin } from "./Sidebar/SideBarAdmin"
 
-export const Layout = () => {
+export const LayoutAdmin = () => {
   return (
     <div className="flex">
-      <Sidebar />
+      <SideBarAdmin />
       <main className="flex-1  bg-gray-100 min-h-screen ">
         <Outlet />
       </main>

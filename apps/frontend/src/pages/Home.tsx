@@ -1,5 +1,5 @@
 
- import { Navbar } from '../components/layout/Navbar'
+ import { Navbar } from '../components/layout//NavBar/Navbar'
 import '../index.css'
 import {Card} from '../components/ui/Card'
 import fotolandingpage from '../assets/sin_fondo.png'

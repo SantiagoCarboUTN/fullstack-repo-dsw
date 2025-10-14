@@ -1,5 +1,5 @@
-import { Default_Link } from '../ui/default_link'
-import brand_logo from '../../assets/brand_logo.svg'
+import { Default_Link } from '../../ui/default_link'
+import brand_logo from '../../../assets/brand_logo.svg'
 
 export const Navbar = () => {
   return (
