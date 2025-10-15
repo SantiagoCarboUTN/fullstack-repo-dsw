@@ -24,8 +24,6 @@ function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) 
 async function findAll(req: Request, res: Response) {
   try {
     const { state, vehicleType, admin } = req.query;
-
-    
     const filters: any = {};
 
     if (state ) {
@@ -40,27 +38,46 @@ async function findAll(req: Request, res: Response) {
       filters.tipoVehiculo = vehicleType; 
     }
 
-    if (!admin && !state && !vehicleType){
+    if (!admin && !state && !vehicleType){ //Todas las cocheras
       const cocheras = await em.find(Cochera, {});
-
-    res.status(200).json({
-      message: "found cocheras",
-      data: cocheras,
-    });
-    return;
+      if (cocheras.length === 0){
+        res.status(404).json({message:'cocheras not found'})
+      }else{
+      res.status(200).json({
+        message: "found cocheras",
+        data: cocheras,
+        })
+      }
+      return;
+    
     }
 
-    const cocheras = await em.find(Cochera, filters, { populate: ['reservas'],filters: { reservas: {state: 'ACTIVA'} } });
+    if(state =='ocupada'){ //listado de cocheras ocupadas
+      const cocheras = await em.find(Cochera, filters, { populate: ['reservas'],filters: { reservas: {state: 'ACTIVA'} } });
+      if (cocheras.length === 0){
+        res.status(404).json({message:'cocheras not found'})
+      }else{
+      res.status(200).json({
+        message: "found cocheras",
+        data: cocheras,
+        })
+      }
+      return;
+    }
 
-    res.status(200).json({
-      message: "found filtered cocheras",
-      data: cocheras,
-    });
+    const cocheras = await em.find(Cochera, filters,{ populate: ['tipoVehiculo']});
+    if (cocheras.length === 0){
+      res.status(404).json({message:'cocheras not found'})
+    }else{
+      res.status(200).json({
+        message: "found cocheras",
+        data: cocheras,
+        })
+    }
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
-
 
 async function findOne(req: Request, res: Response) {
   try{

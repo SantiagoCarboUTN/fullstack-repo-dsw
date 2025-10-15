@@ -1,5 +1,5 @@
 ### obtener todos los tipos de servicio
-GET http://localhost:3000/api/cochera
+GET http://localhost:3000/api/cochera?state=disponible
 
 ### obtener un tipo de servicio por id
 GET http://localhost:3000/api/cochera/9
