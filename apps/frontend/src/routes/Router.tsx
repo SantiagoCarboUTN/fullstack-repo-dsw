@@ -6,6 +6,9 @@ import { Dashboard } from '../pages/AdminDashboard/Dashboard'
 import { IngresarVehiculo } from '../pages/AdminDashboard/IngresarVehiculo'
 import { Reportes } from '../pages/AdminDashboard/Reportes'
 import { LayoutAdmin } from '../components/layout/LayoutAdmin'
+import { AgregarCochera } from '../pages/AdminDashboard/AgregarCochera'
+import { AltaCliente } from '../pages/AdminDashboard/AltaCliente'
+
 export const MyRouter = () => {
   return (
     <Routes>
@@ -17,8 +20,10 @@ export const MyRouter = () => {
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="alta-cliente" element={<IngresarVehiculo />} />
+        <Route path="realizar-reserva" element={<IngresarVehiculo />} />
         <Route path="reportes" element={<Reportes />} />
+        <Route path="agregar-cochera" element={<AgregarCochera />} />
+        <Route path="alta-cliente" element={<AltaCliente />} />
       </Route>
     </Routes>
 
