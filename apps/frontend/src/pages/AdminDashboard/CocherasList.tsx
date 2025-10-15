@@ -6,13 +6,13 @@ import { UseCocheras } from "../../hooks/UseCocheras.tsx";
 
 export const CocherasList = () => {
  
-  const {cocheras, loading, error} = UseCocheras('1')
+  const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = UseCocheras('1')
 
   return (
     <>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
-        <InfoCard label="Cocheras Ocupadas:" value={34} />
-        <InfoCard label="Cocheras Disponibles:" value={16} />
+        <InfoCard label="Cocheras Ocupadas:" value={cantOcupadas} />
+        <InfoCard label="Cocheras Disponibles:" value={cantDesocupadas} />
       </div>
 
       <div className="p-8 bg-gray-100 min-h-screen">

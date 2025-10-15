@@ -66,12 +66,19 @@ async function findAll(req: Request, res: Response) {
     }
 
     const cocheras = await em.find(Cochera, filters,{ populate: ['tipoVehiculo']});
+    
+    const filtersCount: any = []
+    filtersCount.state='ocupada'
+    filtersCount.admin = admin
+    const cantOcupadas = await em.count(Cochera, filtersCount);
+    const cantCocheras = await em.count(Cochera);
+    const cantDesocupadas = cantCocheras - cantOcupadas
     if (cocheras.length === 0){
       res.status(404).json({message:'cocheras not found'})
     }else{
       res.status(200).json({
         message: "found cocheras",
-        data: cocheras,
+        data: cocheras, cantDesocupadas, cantOcupadas
         })
     }
   } catch (error: any) {
@@ -88,7 +95,6 @@ async function findOne(req: Request, res: Response) {
     res.status(500).json({ message: error.message })
   }
 }
-
 async function add(req: Request, res: Response) {
   try{
     const cochera = em.create(Cochera,req.body.sanitizedInput)
