@@ -13,7 +13,7 @@ export const Dashboard = () => {
         <InfoCard label="Cocheras Disponibles:" value={16} />
       </div>
 
-      <div className="p-8 bg-gray-100 min-h-screen">
+      <div className="p-8 bg-gray-100 ">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Lista de Cocheras</h1>
           <button className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition">
