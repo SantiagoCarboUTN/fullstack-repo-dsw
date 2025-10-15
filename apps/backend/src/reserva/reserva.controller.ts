@@ -26,27 +26,35 @@ function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try{
-    const {client,state}= req.query
+    const {client,state}= req.query //Query params para los filtros
     const filters: any = {};
+    
     if (client) {
      filters.vehiculo = { client: { id: Number(client) } };
     }
+
     if (state) {
      filters.state = state; 
     }
-    if(!state && !client){
+
+    if(!state && !client){ //Todas las reservas
       const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera', 'vehiculo.client'] })
-      res.status(200).json({message: `found all reservas`, data:reservas})
-      
+      if(reservas.length === 0){
+        res.status(404).json({message:'reservas not found'})
+      }else{
+        res.status(200).json({message: `found all reservas`, data:reservas})
+      }
       return ;
     }
     
-    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client'] })
-    if(reservas.length === 0){
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client'] }) //listado filtrado 
+    
+    if(reservas.length === 0){ 
       res.status(404).json({message:'reservas not found'})
     }else{
       res.status(200).json({message: `found all ${req.params.state || ''} client reservas`, data:reservas})
     }
+
   }catch(error:any){
     res.status(500).json({message: error.message})
   }
