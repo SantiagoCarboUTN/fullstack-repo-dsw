@@ -1,18 +1,13 @@
 import React from "react";
 
-interface CocheraRowProps {
+interface ReservaRowProps {
   patente: string;
   hora: string;
   cliente: string;
   cochera: string;
 }
 
-export const CocheraRow: React.FC<CocheraRowProps> = ({
-  patente,
-  hora,
-  cliente,
-  cochera,
-}) => {
+export const ListReservaRow = ({patente,hora,cliente,cochera}:ReservaRowProps) => {
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors">
       <td className="py-3 px-4">{patente}</td>
