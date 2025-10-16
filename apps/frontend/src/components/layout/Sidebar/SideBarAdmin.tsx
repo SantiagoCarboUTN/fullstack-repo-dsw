@@ -1,6 +1,7 @@
 import { BiHomeAlt, BiCar, BiBarChart } from "react-icons/bi"
 import { SideBarLink } from "./SideBarLink"
 import { FaParking, FaUserCheck, FaSignOutAlt, FaUserCircle } from 'react-icons/fa'
+import { GiGearStickPattern } from 'react-icons/gi';
 
 export const SideBarAdmin = () => {
   const links = [
@@ -10,6 +11,7 @@ export const SideBarAdmin = () => {
   /*   { to: "/admin/agregar-cochera", label: "Agregar Cochera", icon: FaParking }, */
     { to: "/admin/alta-cliente", label: "Agregar Cliente", icon: FaUserCheck },
     { to: "/admin/cocheras", label: "Administrar Cocheras", icon: FaParking },
+    { to: "/admin/agregar-tipo-vehiculo", label: "Agregar Tipo Vehículo", icon: GiGearStickPattern },
   ]
 
   return (

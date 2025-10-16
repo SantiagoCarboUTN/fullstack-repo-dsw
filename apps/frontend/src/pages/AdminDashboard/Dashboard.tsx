@@ -1,6 +1,6 @@
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
 import { ListReservaRow } from "../../components/ui/AdminDashboardUi/ListReservaRow"
-import { UseReservas } from "../../hooks/UseReservas";
+import { UseReservas } from "../../hooks/Reserva/UseReservas";
 
 export const Dashboard = () => {
   // Llamada al hook dentro del componente

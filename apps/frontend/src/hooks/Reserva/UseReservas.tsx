@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Reserva } from '../types/index';
+import type { Reserva } from '../../types/index';
 
 export function UseReservas() {
   const [reservas, setReservas] = useState<Reserva[]>([]);
