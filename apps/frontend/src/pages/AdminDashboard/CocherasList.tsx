@@ -1,13 +1,12 @@
 import { CocheraRows } from "../../components/ui/AdminDashboardUi/CocheraRow.tsx";
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
-
+import { Default_Link } from "../../components/ui/default_link.tsx";
 import { UseCocheras } from "../../hooks/UseCocheras.tsx";
 
 
 export const CocherasList = () => {
  
-  const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = UseCocheras('1')
-
+  const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = UseCocheras()
   return (
     <>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
@@ -19,7 +18,7 @@ export const CocherasList = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Cocheras</h1>
           <button className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition">
-            + Agregar cochera
+            <Default_Link route="/admin/alta-cochera" text="Crear Cochera" />
           </button>
         </div>
 
@@ -38,11 +37,10 @@ export const CocherasList = () => {
                 </tr>
               </thead>
               <tbody>
-                {cocheras.map((cochera,index) => (
+                {cocheras.map((cochera) => (
                   <CocheraRows
-                    key={index}
                     number={cochera.number}
-                    state={cochera.state} // o formateada con toLocaleTimeString()
+                    state={cochera.state} 
                     tipoVehiculo={cochera.tipoVehiculo.description}
                   />
                 ))}

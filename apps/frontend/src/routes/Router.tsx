@@ -9,6 +9,7 @@ import { LayoutAdmin } from '../components/layout/LayoutAdmin'
 /* import { AgregarCochera } from '../pages/AdminDashboard/AgregarCochera' */
 import { AltaCliente } from '../pages/AdminDashboard/AltaCliente'
 import { CocherasList } from '../pages/AdminDashboard/CocherasList.tsx'
+import { AltaCochera } from '../pages/AdminDashboard/AltaCochera.tsx'
 
 export const MyRouter = () => {
   return (
@@ -26,6 +27,7 @@ export const MyRouter = () => {
         {/* <Route path="agregar-cochera" element={<AgregarCochera />} /> */} {/* agregar cochera estaria en el listado */}
         <Route path="cocheras" element={<CocherasList />} />
         <Route path="alta-cliente" element={<AltaCliente />} />
+        <Route path="alta-cochera" element={<AltaCochera />} />
       </Route>
     </Routes>
 
