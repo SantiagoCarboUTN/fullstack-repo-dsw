@@ -3,7 +3,7 @@ import App from '../App'
 import { Home } from '../pages/Home'
 import { Acess } from '../pages/Acess'
 import { Dashboard } from '../pages/AdminDashboard/Dashboard'
-import { IngresarVehiculo } from '../pages/AdminDashboard/IngresarVehiculo'
+import { RealizarReserva } from '../pages/AdminDashboard/RealizarReserva.tsx'
 import { Reportes } from '../pages/AdminDashboard/Reportes'
 import { LayoutAdmin } from '../components/layout/LayoutAdmin'
 /* import { AgregarCochera } from '../pages/AdminDashboard/AgregarCochera' */
@@ -21,7 +21,7 @@ export const MyRouter = () => {
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="realizar-reserva" element={<IngresarVehiculo />} />
+        <Route path="realizar-reserva" element={<RealizarReserva />} />
         <Route path="reportes" element={<Reportes />} />
         {/* <Route path="agregar-cochera" element={<AgregarCochera />} /> */} {/* agregar cochera estaria en el listado */}
         <Route path="cocheras" element={<CocherasList />} />
