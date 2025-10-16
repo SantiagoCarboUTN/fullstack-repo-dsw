@@ -7,8 +7,9 @@ export const SideBarAdmin = () => {
     { to: "/admin/dashboard", label: "Dashboard", icon: BiHomeAlt },
     { to: "/admin/realizar-reserva", label: "Realizar reserva", icon: BiCar },
     { to: "/admin/reportes", label: "Reportes", icon: BiBarChart },
-    { to: "/admin/agregar-cochera", label: "Agregar Cochera", icon: FaParking },
+  /*   { to: "/admin/agregar-cochera", label: "Agregar Cochera", icon: FaParking }, */
     { to: "/admin/alta-cliente", label: "Agregar Cliente", icon: FaUserCheck },
+    { to: "/admin/cocheras", label: "Administrar Cocheras", icon: FaParking },
   ]
 
   return (
