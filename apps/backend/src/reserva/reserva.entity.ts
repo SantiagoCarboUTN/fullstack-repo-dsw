@@ -1,8 +1,9 @@
-import { Entity, ManyToOne, Rel,Property , PrimaryKey, DateType} from '@mikro-orm/core';
+import { Entity, ManyToOne, Rel,Property , PrimaryKey, OneToMany,Cascade,Collection} from '@mikro-orm/core';
 import { Cochera } from '../cochera/cochera.entity.js';
 import { Vehiculo } from '../vehiculo/vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
 import { TipoServicio } from '../tipoServicio/tserv.entity.js';
+import { Cuota } from '../cuotas/cuotas.entity.js';
 @Entity()
 export class Reserva{
  @ManyToOne(() => Cochera, { primary: true })
@@ -11,6 +12,8 @@ export class Reserva{
   vehiculo!: Rel<Vehiculo>;
 @ManyToOne(() => TipoServicio)
   tipoServicio!: Rel<TipoServicio>;
+@OneToMany(() => Cuota, cuota => cuota.reserva, { cascade: [Cascade.ALL] })
+  cuotas = new Collection<Cuota>(this);
 @PrimaryKey({type:Date})
   fechaInicio!: Date;
 @Property({ type:Date,nullable: false })

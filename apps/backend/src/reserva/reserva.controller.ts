@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express"
 import { Reserva } from "./reserva.entity.js"
 import { orm } from '../shared/db/orm.js'
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
+import { TipoServicio } from "../tipoServicio/tserv.entity.js";
+import { Cuota } from "../cuotas/cuotas.entity.js";
 
 const em = orm.em
 function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
@@ -78,6 +80,48 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try{
+    try {
+    await em.transactional(async (tem) => {
+      const { tipoServicioId, ...reservaData } = req.body.sanitizedInput;
+
+      const tipoServicio = await tem.findOne(TipoServicio, { id: tipoServicioId });
+      if (!tipoServicio) {
+        res.status(400).json({ message: "Tipo de servicio no encontrado" });
+        return;
+      }
+
+      const reserva = tem.create(Reserva, {
+        ...reservaData,
+        tipoServicio,
+      });
+      
+      const fechaInicio = new Date(reserva.fechaInicio);
+
+      for (let i = 0; i < tipoServicio.cantCoutas; i++) {
+        const fechaPago = new Date(fechaInicio);
+        fechaPago.setMonth(fechaPago.getMonth() + i);
+
+        const cuota = tem.create(Cuota, {
+          reserva,
+          fechaPago,
+          monto: tipoServicio.precioCuota,
+          state: "Pendiente",
+        });
+
+        reserva.cuotas.add(cuota);
+      }
+
+      await tem.persistAndFlush(reserva);
+
+      res.status(201).json({
+        message: "Reserva creada con sus cuotas",
+        data: reserva,
+      });
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
     const reserva = em.create(Reserva,req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: "Se creó la reserva", data: reserva })

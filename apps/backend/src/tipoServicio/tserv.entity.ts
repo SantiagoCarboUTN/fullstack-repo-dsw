@@ -9,8 +9,11 @@ export class TipoServicio extends BaseEntity {
   nombre!: string;
 
   @Property({ nullable: false })
-  precio!: number;
+  precioCuota!: number;
 
+  @Property({ nullable: false })
+  cantCoutas!: number;
+  
   @OneToMany(() => Reserva, (reserva) => reserva.tipoServicio, {cascade:[Cascade.ALL]} )
   reservas!: Reserva[];
 }

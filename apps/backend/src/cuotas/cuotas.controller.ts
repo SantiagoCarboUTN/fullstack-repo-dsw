@@ -11,7 +11,7 @@ function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
   req.body.sanitizedInput = {
     reserva:req.body.reserva,
     fechaInicio: req.body.fechaInicio,       
-    estado:req.body.estado,
+    state:req.body.state,
     monto:req.body.monto,    
     fechaPago: req.body.fechaPago
   };

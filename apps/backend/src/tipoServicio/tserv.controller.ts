@@ -8,7 +8,8 @@ const em = orm.em
 function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     nombre: req.body.nombre,
-    precio: req.body.precio,
+    precioCuota: req.body.precioCuota,
+    cantCuotas: req.body.cantCuotas,
     id: req.body.id
   }
   Object.keys(req.body.sanitizedInput).forEach((key) => {
