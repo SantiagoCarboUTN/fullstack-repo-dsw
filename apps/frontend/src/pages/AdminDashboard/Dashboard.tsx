@@ -1,6 +1,6 @@
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
-import { CocheraRow } from "../../components/ui/AdminDashboardUi/ListClientRow"
-import { UseReservas } from "../../hooks/UseReservas";
+import { ListReservaRow } from "../../components/ui/AdminDashboardUi/ListReservaRow"
+import { UseReservas } from "../../hooks/Reserva/UseReservas";
 
 export const Dashboard = () => {
   // Llamada al hook dentro del componente
@@ -8,6 +8,7 @@ export const Dashboard = () => {
 
   return (
     <>
+    <div className = 'h-screen'>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
         <InfoCard label="Cocheras Ocupadas:" value={34} />
         <InfoCard label="Cocheras Disponibles:" value={16} />
@@ -15,9 +16,9 @@ export const Dashboard = () => {
 
       <div className="p-8 bg-gray-100 ">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Lista de Cocheras</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Lista de Reservas</h1>
           <button className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition">
-            + Agregar Registro
+            + Agregar Reserva
           </button>
         </div>
 
@@ -39,7 +40,7 @@ export const Dashboard = () => {
               </thead>
               <tbody>
                 {reservas.map((reserva, index) => (
-                  <CocheraRow
+                  <ListReservaRow
                     key={index}
                     patente={reserva.vehiculo.patente}
                     hora={reserva.fechaInicio} // o formateada con toLocaleTimeString()
@@ -52,6 +53,7 @@ export const Dashboard = () => {
           )}
         </div>
       </div>
+    </div>
     </>
   );
 };
