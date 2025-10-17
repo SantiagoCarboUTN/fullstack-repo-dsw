@@ -18,10 +18,8 @@
     "nx": "21.6.3"
   },
   "dependencies": {
-    "@mikro-orm/core": "6.5.7",
     "@types/cors": "^2.8.19",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "react-icons": "^5.5.0"
+    "dotenv": "^17.2.3"
   }
 }
