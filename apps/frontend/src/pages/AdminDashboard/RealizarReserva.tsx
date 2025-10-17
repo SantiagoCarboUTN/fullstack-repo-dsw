@@ -1,14 +1,40 @@
+import { useState} from "react";
+import { Default_Link } from "../../components/ui/default_link.tsx";
+import { useCreateReserva } from "../../hooks/Reserva/useCreateReserva.tsx";
+import type { ReservaInput } from "../../types/ReservaType.tsx";
+
 export const RealizarReserva = () => {
   const hoy = new Date().toISOString().split("T")[0];
+  const { createReserva, loading, error, reserva } = useCreateReserva();
+  const [patente, setPatente] = useState("");
+  const [cocheraId, setCocheraId] = useState("");
+  const [clienteDni, setClienteDni] = useState("");
+  const [tipoServicio, setTipoServicio] = useState("");
+  const [fechaInicio, setFechaInicio] = useState(hoy);
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+
+    const nuevaReserva: ReservaInput = {
+      patente: String(patente),
+      clienteDni: Number.parseInt(clienteDni),
+      cochera: Number.parseInt(cocheraId),
+      tipoServicio,
+      fechaInicio : new Date(fechaInicio),
+    };
+    await createReserva(nuevaReserva);      
+  
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-700 text-center">
-          Ingresar Vehículo
+          Realizar Reserva  
         </h2>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Patente */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
@@ -16,44 +42,13 @@ export const RealizarReserva = () => {
             </label>
             <input
               type="text"
+              name="patnete"
               placeholder="Ej: ABC123"
               required
+              value={patente}
+              onChange={(e) => setPatente(e.target.value)}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
-          </div>
-
-          {/* Modelo */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              Modelo
-            </label>
-            <input
-              type="text"
-              placeholder="Ej: Corolla"
-              required
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
-            />
-          </div>
-
-          {/* Tipo de vehículo */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              Tipo de Vehículo
-            </label>
-            <select
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
-              required
-            >
-              <option value="">Seleccione un tipo</option>
-              <option value="auto">Auto</option>
-              <option value="moto">Moto</option>
-              <option value="suv">SUV</option>
-              <option value="camioneta">Camioneta</option>
-            </select>
-
-            <p className="mt-2 text-blue-700 hover:underline cursor-pointer text-base">
-              Registrar nuevo tipo de vehículo
-            </p>
           </div>
 
           {/* Número de cochera */}
@@ -64,6 +59,8 @@ export const RealizarReserva = () => {
             <select
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
               required
+              value={cocheraId}
+              onChange={(e) => setCocheraId(e.target.value)}
             >
               <option value="">Seleccione una cochera</option>
               <option value="1">Cochera 1</option>
@@ -73,23 +70,26 @@ export const RealizarReserva = () => {
             </select>
           </div>
 
-          {/* Cliente */}
+          {/* Cliente dni */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              Cliente
+              DNI del cliente
             </label>
-            <select
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+            <input 
+            type="number"
+            onWheel={(e) => e.currentTarget.blur()} 
+            onKeyDown={(e) => {
+              if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
+            }}
+              placeholder="Ej: 12345678"
               required
-            >
-              <option value="">Seleccione un cliente</option>
-              <option value="1">Juan Pérez</option>
-              <option value="2">María López</option>
-              <option value="3">Carlos Gómez</option>
-            </select>
+              value={clienteDni}
+              onChange={(e) => setClienteDni(e.target.value)}
+            className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
 
             <p className="mt-2 text-blue-700 hover:underline cursor-pointer text-base">
-              Registrar nuevo cliente
+              <Default_Link route="/admin/alta-cliente" text="Registrar nuevo cliente" />
             </p>
           </div>
 
@@ -98,17 +98,24 @@ export const RealizarReserva = () => {
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
               Tipo de Servicio
             </label>
-            <select
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
-              required
-            >
-              <option value="">Seleccione un servicio</option>
-              <option value="lavado">Lavado</option>
-              <option value="pulido">Pulido</option>
-              <option value="encerado">Encerado</option>
-              <option value="estacionamiento">Estacionamiento</option>
-            </select>
-
+            <div className=" flex gap-4">
+            {["Anual", "Mensual", "Trimestral"].map((servicio) => (
+              <label
+                key={servicio}
+                className="flex items-center border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-700 transition-colors"
+              >
+                <input
+                  type="radio"
+                  name="tipoServicio"
+                  value={servicio.toLowerCase()}
+                  required
+                  onChange={(e) => setTipoServicio(e.target.value)}
+                  className="mr-3 accent-blue-700"
+                />
+                <span className="text-lg text-gray-700 font-medium">{servicio}</span>
+              </label>
+            ))}
+  </div>
           </div>
 
           {/* Fecha de inicio */}
@@ -120,6 +127,8 @@ export const RealizarReserva = () => {
               type="date"
               defaultValue={hoy}
               required
+              value={fechaInicio}
+              onChange={(e) => setFechaInicio(e.target.value)}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -128,11 +137,14 @@ export const RealizarReserva = () => {
           <div className="text-center">
             <button
               type="submit"
+              disabled={loading}
               className="bg-blue-700 text-white px-8 py-3 rounded-md text-lg hover:bg-blue-800 transition-colors w-full sm:w-auto"
             >
-              Guardar Vehículo
+              {loading ? "Creando..." : "Crear Reserva"}
             </button>
           </div>
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+          {reserva && <p className="text-green-500 text-center mt-4">Reserva creada con éxito</p>}
         </form>
       </div>
     </div>

@@ -10,3 +10,11 @@ export interface Reserva {
   fechaFin: string;
   estado: "ACTIVA" | "FINALIZADA";
 }
+
+export interface ReservaInput {
+  patente: string;
+  clienteDni: number;
+  cochera: number;
+  tipoServicio: string;
+  fechaInicio: Date;
+}
