@@ -4,12 +4,15 @@ import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 import { useTipoVehiculo } from "../../hooks/UseTipoVehiculos.tsx";
 import type { CocheraForm } from "../../types/CocheraType.tsx";
 import { useCreateCochera } from "../../hooks/UseCreateCochera.tsx";
+import { useNavigate } from "react-router-dom";
 
 export const AltaCochera = ()=>{
+  const navigate = useNavigate()
   const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculo();
   const { createCochera, loading: loadingCreate, error: errorCreate } = useCreateCochera();
   const [tipoVehiculoId, setTipoVehiculoId] = useState("");
   const [numero, setNumero] = useState("");
+
   const  handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
@@ -23,7 +26,7 @@ export const AltaCochera = ()=>{
       alert(`Cochera creada con numero: ${res.number}`);
       setTipoVehiculoId("");
       setNumero("");
-      
+      navigate("/admin/cocheras")
     }
    
   };

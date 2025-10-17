@@ -37,8 +37,9 @@ export const CocherasList = () => {
                 </tr>
               </thead>
               <tbody>
-                {cocheras.map((cochera) => (
+                {cocheras.map((cochera,index) => (
                   <CocheraRows
+                    key={index}
                     number={cochera.number}
                     state={cochera.state} 
                     tipoVehiculo={cochera.tipoVehiculo.description}

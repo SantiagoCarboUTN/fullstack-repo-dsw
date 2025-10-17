@@ -7,13 +7,14 @@ export const UseCocheras = ()=>{
   const [error, setError] = useState<string | null>(null);
   const [cantOcupadas,setCantocupadas] = useState<number>(0)
   const [cantDesocupadas,setCantdesocupadas] = useState<number>(0)
-    const fetchCocheras = async ()=>{
+  
+  const fetchCocheras = async ()=>{
       setLoading(true)
       try{
        const res = await fetch(`http://localhost:3000/api/cochera?state=disponible&admin=1`) 
        if (!res.ok) throw new Error("Error al traer las cocheras")
        const data = await res.json()
-       setCocheras(data); 
+       setCocheras(data.data); 
        setCantdesocupadas(data.cantDesocupadas)
        setCantocupadas(data.cantOcupadas)
       }catch(err:unknown){

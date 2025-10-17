@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type { Cochera, CocheraForm } from "../types/CocheraType.tsx"
 
+
 export const useCreateCochera = ()=>{
 const [cochera,setCochera] = useState<Cochera>()
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
+
 
   const createCochera = async (nuevaCochera:CocheraForm)=>{
     setLoading(true)
@@ -18,10 +20,10 @@ const [error, setError] = useState<string | null>(null);
           body: JSON.stringify({...nuevaCochera,state:"disponible"}),
         })
 
-        if (!res.ok) throw new Error("Error al traer las cocheras")
+        if (!res.ok) throw new Error("Error en la creacion")
         const data = await res.json()
         setCochera(data.data)
-        return data
+        return data.data
 
       } catch (err: unknown) {
         if (err instanceof Error) {
