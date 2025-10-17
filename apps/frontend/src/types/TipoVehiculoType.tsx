@@ -9,3 +9,4 @@ export interface TipoVehiculo {
   createdAt?: string;
   updatedAt?: string;
 }
+
