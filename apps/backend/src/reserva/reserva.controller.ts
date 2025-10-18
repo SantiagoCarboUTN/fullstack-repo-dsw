@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from "express"
 import { Reserva } from "./reserva.entity.js"
 import { orm } from '../shared/db/orm.js'
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
+import { TipoServicio } from "../tipoServicio/tserv.entity.js";
+import { Cuota } from "../cuotas/cuotas.entity.js";
+import { Admin } from "../admin/admin.entity.js";
+import { Cochera } from "../cochera/cochera.entity.js";
 
 const em = orm.em
 function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
@@ -26,9 +30,14 @@ function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try{
-    const {client,state}= req.query //Query params para los filtros
+    const {client,state,admin}= req.query //Query params para los filtros
     const filters: any = {};
     
+    if (admin) {
+     filters.cochera = { admin: { id: Number(admin) } };
+    }
+
+
     if (client) {
      filters.vehiculo = { client: { id: Number(client) } };
     }
@@ -47,7 +56,7 @@ async function findAll(req: Request, res: Response) {
       return ;
     }
     
-    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client'] }) //listado filtrado 
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas"] }) //listado filtrado 
     
     if(reservas.length === 0){ 
       res.status(404).json({message:'reservas not found'})
@@ -77,12 +86,57 @@ async function findOne(req: Request, res: Response) {
 }
 
 async function add(req: Request, res: Response) {
-  try{
-    const reserva = em.create(Reserva,req.body.sanitizedInput)
-    await em.flush()
-    res.status(201).json({ message: "Se creó la reserva", data: reserva })
-  }catch(error:any) {
-    res.status(500).json({ message: error.message })
+    try {
+    await em.transactional(async (tem) => {
+      const { tipoServicio } = req.body.sanitizedInput;
+
+      const ts = await tem.findOne(TipoServicio, { id: tipoServicio });
+      if (!ts) {
+        res.status(400).json({ message: "Tipo de servicio no encontrado" });
+        return;
+      }
+
+      const adminRef = tem.getReference(Admin,req.body.cochera.admin)
+      const cocheraRef = await tem.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.body.cochera.number)
+      })
+      if(!cocheraRef){
+        res.status(404).json({ message: "Cochera no encontrada" })
+        return;
+      }
+      const reserva = tem.create(Reserva, {
+        ...req.body.sanitizedInput,
+        tipoServicio:ts,
+        cochera: cocheraRef
+      });
+      
+      const fechaInicio = new Date(reserva.fechaInicio);
+
+      for (let i = 0; i < ts.cantCuotas; i++) {
+        const fechaPago = new Date(fechaInicio);
+        fechaPago.setMonth(fechaPago.getMonth() + i);
+
+        const cuota = tem.create(Cuota, {
+          reserva,
+          fechaPago,
+          monto: ts.precioCuota,
+          state: "pendiente",
+        });
+
+        reserva.cuotas.add(cuota);
+      }
+      
+      await tem.persistAndFlush(reserva);
+
+      res.status(201).json({
+        message: "Reserva creada con sus cuotas",
+        data: reserva,
+      });
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 }
 

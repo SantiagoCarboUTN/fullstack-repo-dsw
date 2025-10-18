@@ -5,13 +5,14 @@ import { orm } from '../shared/db/orm.js'
 import { Reserva } from "../reserva/reserva.entity.js";
 import { Cochera } from "../cochera/cochera.entity.js";
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
+import { Client } from "../clients/client.entity.js";
 
 const em = orm.em
 function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
   req.body.sanitizedInput = {
     reserva:req.body.reserva,
     fechaInicio: req.body.fechaInicio,       
-    estado:req.body.estado,
+    state:req.body.state,
     monto:req.body.monto,    
     fechaPago: req.body.fechaPago
   };
@@ -28,7 +29,14 @@ function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try{
-    const cuotas = await em.find(Cuota, {})
+    const {state} = req.query //filtrado por estado
+    const filters:any = {}
+    if(state){
+      filters.state = state
+    }
+
+    const cuotas = await em.find(Cuota, filters) 
+    
     res.status(200).json({message: 'found all cuotas', data:cuotas})
   }catch(error:any){
     res.status(500).json({message: error.message})
@@ -66,6 +74,10 @@ async function add(req: Request, res: Response) {
       fechaInicio: fechaini
     }
     );
+    if(!reservaRef){
+      res.status(404).json({ message: "Reserva no encontrada" })
+      return;
+    }
     const cuota = em.create(Cuota,{...req.body.sanitizedInput,reserva: reservaRef})
     await em.flush()
     res.status(201).json({ message: "Se creó la cuota", data: cuota })

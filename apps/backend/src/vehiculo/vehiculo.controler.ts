@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Vehiculo } from './vehiculo.entity.js';
-import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
 import { orm } from '../shared/db/orm.js'
 
 const em = orm.em
-
 
  function sanitizedVehiculoInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedVehiculoInput = {
@@ -24,10 +22,14 @@ const em = orm.em
   next();
 }
 
-
 async function findAll(req: Request, res: Response) {
   try {
     const vehiculos = await em.find(Vehiculo, {}, { populate: ['tipoVehiculo'] });
+    if(vehiculos.length === 0){
+        res.status(404).json({message:'vehiculos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de vehiculos', data: vehiculos });
+      }
     res.json({ data: vehiculos });
   } catch(error: any) {
     res.status(500).json({ error: error.message})
@@ -41,7 +43,6 @@ async function findOne(req: Request, res: Response) {
   } catch(error: any) {
     res.status(500).json({ error: error.message})
   }}
-
 
 async function add(req: Request, res: Response) {
   try {

@@ -6,7 +6,7 @@ const em = orm.em
 
 function sanitizedAdminInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    name: req.body.name,
+    complete_name: req.body.complete_name,
     email: req.body.email,
     password: req.body.password,
     id: req.body.id
@@ -22,7 +22,12 @@ function sanitizedAdminInput(req: Request, res: Response, next: NextFunction) {
 async function findAll(req: Request, res: Response) {
   try {
     const admins = await em.find(Admin, {});
-    res.status(200).json({message: 'Lista de administradores', data: admins });
+    
+    if(admins.length === 0){
+        res.status(404).json({message:'admins not found'})
+      }else{
+         res.status(200).json({message: 'Lista de administradores', data: admins });
+      }
   } catch (error: any) {
     res.status(500).json({message: error.message}); 
   }
@@ -31,7 +36,8 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
     const id = Number.parseInt(req.params.id);
-    const admin = await em.findOneOrFail(Admin, { id}); 
+
+    const admin = await em.findOneOrFail(Admin, {id}); 
     res.status(200).json({message: 'Administrador encontrado', data: admin })
   }catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -51,10 +57,12 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const admin = em.getReference (Admin,  id );
-    em.assign(admin, req.body.sanitizedInput);
+    const updatedAdmin = em.findOneOrFail(Admin,  id );
+
+    em.assign(updatedAdmin, req.body.sanitizedInput);
     await em.flush();
-    res.status(200).json({ message: 'Administrador actualizado', data: admin });
+
+    res.status(200).json({ message: 'Administrador actualizado', data: updatedAdmin });
   } catch (error:any) { 
     res.status(500).json({ message: error.message });
 }
@@ -63,8 +71,10 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const admin = em.getReference (Admin,  id );
-    await em.removeAndFlush(admin);
+    const deletedAdmin = em.findOneOrFail(Admin,  id );
+
+    await em.removeAndFlush(deletedAdmin);
+
     res.status(200).json({ message: 'Administrador eliminado' });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
