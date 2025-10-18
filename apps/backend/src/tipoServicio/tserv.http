@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
     "nombre": "mensual",
-    "precio": 25000
+    "precioCuota": 25000,
+    "cantCuotas": 1
 }
 
 ### actualizar un tipo de servicio

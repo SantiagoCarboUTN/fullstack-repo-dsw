@@ -1,8 +1,5 @@
 import { Router } from "express"
 import { findAll, findOne, add, update, remove, sanitizedClientInput } from "./client.controler.js";
-import { Client } from "./client.entity.js";
-
-
 export const ClientRouter = Router();
 
 ClientRouter.get('/', findAll);

@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### actualizar un cliente
-PUT http://localhost:3000/api/clients/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:3000/api/clients/2
 Content-Type: application/json
 
 {
