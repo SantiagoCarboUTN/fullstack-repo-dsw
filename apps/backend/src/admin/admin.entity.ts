@@ -5,18 +5,17 @@ import bcrypt from 'bcrypt'
 @Entity()
 export class Admin extends BaseEntity {
   @Property({nullable:false})
-  name!: string;
+  complete_name!: string;
 
   @Property({nullable:false, unique:true})
   email!: string;
 
   @Property({nullable:false, hidden:true})
   password!: string;  
-  
   @BeforeCreate()
   @BeforeUpdate()
   async hashPassword() {
-  if (this.password && !this.password.startsWith('$2b$')) {// Si hay un password y todavía no está hasheado (no empieza con "$2b$")
+  if (this.password && !this.password.startsWith('$2b$')) {// Si hay un password y todavía no esta hasheado (no empieza con "$2b$")
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }}
@@ -28,6 +27,7 @@ export class Admin extends BaseEntity {
     const { password, ...rest } = this;
     return rest;
   }
+
   async verificarPassword(plain: string): Promise<boolean> {
       return bcrypt.compare(plain, this.password);
     }

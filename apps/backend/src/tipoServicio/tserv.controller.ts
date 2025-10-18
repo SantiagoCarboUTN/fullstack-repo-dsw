@@ -23,7 +23,12 @@ function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunct
 async function findAll(req: Request, res: Response) {
   try{
     const tipoServicios = await em.find(TipoServicio, {});
-    res.status(200).json({message: 'Lista de tipos de servicios', data: tipoServicios }); 
+    
+    if(tipoServicios.length === 0){
+        res.status(404).json({message:'tipos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de tipos', data: tipoServicios });
+      }
   }catch (error:any){
     res.status(500).json({ message: error.message});
   }
@@ -32,6 +37,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
     const id = Number.parseInt(req.params.id);
+
     const tipoServicio = await em.findOneOrFail(TipoServicio, { id}); 
     res.status(200).json({message: 'Tipo de servicio encontrado', data: tipoServicio })
   }catch (error: any) {
@@ -43,6 +49,7 @@ async function add(req: Request, res: Response) {
   try {
     const newTipoServicio = em.create(TipoServicio, req.body.sanitizedInput);
     await em.flush();
+
     res.status(201).json({ message: 'Tipo de servicio creado', data: newTipoServicio });
   }catch (error:any) { 
     res.status(500).json({ message: error.message });
@@ -52,9 +59,11 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const tipoServicio = em.getReference (TipoServicio,  id );
+    const tipoServicio = em.findOneOrFail (TipoServicio,  id );
+
     em.assign(tipoServicio, req.body.sanitizedInput);
     await em.flush();
+
     res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
   } catch (error:any) { 
     res.status(500).json({ message: error.message });
@@ -64,8 +73,10 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const tipoServicio = em.getReference (TipoServicio,  id );
+    const tipoServicio = em.findOneOrFail (TipoServicio,  id );
+
     await em.removeAndFlush(tipoServicio);
+
     res.status(200).json({ message: 'Tipo de servicio eliminado' });
     } catch (error: any) {
       res.status(500).json({ message: error.message});

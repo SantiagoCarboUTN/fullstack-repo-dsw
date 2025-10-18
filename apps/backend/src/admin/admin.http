@@ -9,17 +9,17 @@ POST http://localhost:3000/api/admins
 Content-Type: application/json
 
 {
-    "name": "Max Verstappen",
+    "complete_name": "Max Verstappen",
     "email": "max2.admin@example.com",
     "password": "AdminPassword123"
 } 
 
 ### actualizar un administrador
-PUT http://localhost:3000/api/admins/1 
+PUT http://localhost:3000/api/admins/3
 Content-Type: application/json
 
 {
-    "name": "Ayrton Senna",
+    "complete_name": "Ayrton Senna",
     "email": "senna.admin@example.com",
     "password": "NewAdminPassword456"
 }

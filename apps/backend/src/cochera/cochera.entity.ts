@@ -7,13 +7,14 @@ import { Reserva } from "../reserva/reserva.entity.js";
 export class Cochera {
   @PrimaryKey({ nullable: false })
    number!: number;
+   
   @Property({ nullable: false })
    state!: 'disponible' | 'ocupada'
     
   @ManyToOne(() => TipoVehiculo, { nullable: false })
     tipoVehiculo!: Rel<TipoVehiculo>
   
-  @ManyToOne(() => Admin, { nullable: true })
+  @ManyToOne(() => Admin, { primary:true })
     admin!: Rel<Admin>
     
   @OneToMany(() => Reserva, (reserva) => reserva.cochera, {
