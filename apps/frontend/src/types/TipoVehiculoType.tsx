@@ -10,3 +10,6 @@ export interface TipoVehiculo {
   updatedAt?: string;
 }
 
+export type TipoVehiculoCreate = {
+  description: string;
+};

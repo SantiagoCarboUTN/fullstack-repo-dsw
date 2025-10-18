@@ -5,3 +5,5 @@ export type { Cochera } from "./CocheraType";
 export type { TipoVehiculo } from "./TipoVehiculoType";
 export type { TipoServicio } from "./TipoServicioType";
 export type { Reserva } from "./ReservaType";
+export type {TipoVehiculoCreate} from "./TipoVehiculoType";
+

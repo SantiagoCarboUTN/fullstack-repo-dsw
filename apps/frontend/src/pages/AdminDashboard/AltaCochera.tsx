@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
-import { useTipoVehiculo } from "../../hooks/UseTipoVehiculos.tsx";
+import { useTipoVehiculo } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import type { CocheraForm } from "../../types/CocheraType.tsx";
 import { useCreateCochera } from "../../hooks/UseCreateCochera.tsx";
 import { useNavigate } from "react-router-dom";
