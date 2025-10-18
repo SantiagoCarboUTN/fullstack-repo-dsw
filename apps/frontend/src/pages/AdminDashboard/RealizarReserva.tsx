@@ -6,18 +6,55 @@ import type { ReservaInput } from "../../types/ReservaType.tsx";
 export const RealizarReserva = () => {
   const hoy = new Date().toISOString().split("T")[0];
   const { createReserva, loading, error, reserva } = useCreateReserva();
-  const [patente, setPatente] = useState("");
+  const [vehiculo, setVehiculo] = useState("");
   const [cocheraId, setCocheraId] = useState("");
   const [clienteDni, setClienteDni] = useState("");
   const [tipoServicio, setTipoServicio] = useState("");
   const [fechaInicio, setFechaInicio] = useState(hoy);
+
   
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const fechaInicioDate = new Date(fechaInicio); // convierte string a Date
+  const fechaFin = new Date(fechaInicioDate);
+
+  switch (tipoServicio) {
+    case "trimestral":
+    case "3":
+      fechaFin.setMonth(fechaFin.getMonth() + 3);
+      break;
+    case "mensual":
+    case "2":
+      fechaFin.setMonth(fechaFin.getMonth() + 1);
+      break;
+    case "anual":
+    case "1":
+      fechaFin.setFullYear(fechaFin.getFullYear() + 1);
+      break;
+    default:
+      throw new Error("Tipo de servicio desconocido");
+  }
+
+  const nuevaReserva: ReservaInput = {
+    vehiculo: String(vehiculo),
+    clienteDni: Number.parseInt(clienteDni),
+    cochera: Number.parseInt(cocheraId),
+    tipoServicio: Number.parseInt(tipoServicio),
+    fechaInicio: fechaInicioDate,
+    fechaFin,
+  };
+
+  await createReserva(nuevaReserva);
+};
+
+
+/*   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
 
     const nuevaReserva: ReservaInput = {
-      patente: String(patente),
+      vehiculo: String(vehiculo),
       clienteDni: Number.parseInt(clienteDni),
       cochera: Number.parseInt(cocheraId),
       tipoServicio,
@@ -25,7 +62,7 @@ export const RealizarReserva = () => {
     };
     await createReserva(nuevaReserva);      
   
-  };
+  }; */
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
@@ -35,18 +72,18 @@ export const RealizarReserva = () => {
         </h2>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Patente */}
+          {/* vehiculo */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              Patente
+              vehiculo
             </label>
             <input
               type="text"
               name="patnete"
               placeholder="Ej: ABC123"
               required
-              value={patente}
-              onChange={(e) => setPatente(e.target.value)}
+              value={vehiculo}
+              onChange={(e) => setVehiculo(e.target.value)}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>

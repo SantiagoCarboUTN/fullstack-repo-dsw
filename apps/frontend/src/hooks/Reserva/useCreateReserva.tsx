@@ -20,7 +20,7 @@ export const useCreateReserva = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({...data, state: "ACTIVA"}),
       });
       if (!res.ok) {
         const errorData = await res.json();
