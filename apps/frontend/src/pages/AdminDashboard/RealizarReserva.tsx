@@ -93,18 +93,18 @@ const handleSubmit = async (e: React.FormEvent) => {
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
               Número de Cochera
             </label>
-            <select
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+            <input
+              className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
               required
+              type="number"
+              onWheel={(e) => e.currentTarget.blur()} 
+              onKeyDown={(e) => {
+              if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
+            }}
               value={cocheraId}
               onChange={(e) => setCocheraId(e.target.value)}
-            >
-              <option value="">Seleccione una cochera</option>
-              <option value="1">Cochera 1</option>
-              <option value="2">Cochera 2</option>
-              <option value="3">Cochera 3</option>
-              <option value="4">Cochera 4</option>
-            </select>
+            ></input>
+            
           </div>
 
           {/* Cliente dni */}
@@ -136,7 +136,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               Tipo de Servicio
             </label>
             <div className=" flex gap-4">
-            {["Anual", "Mensual", "Trimestral"].map((servicio) => (
+            {[1, 2, 3].map((servicio) => (
               <label
                 key={servicio}
                 className="flex items-center border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-700 transition-colors"
@@ -144,7 +144,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <input
                   type="radio"
                   name="tipoServicio"
-                  value={servicio.toLowerCase()}
+                  value={servicio}
                   required
                   onChange={(e) => setTipoServicio(e.target.value)}
                   className="mr-3 accent-blue-700"
