@@ -1,4 +1,3 @@
-import React from "react";
 
 interface SubmitButtonProps {
   text: string;           // Texto por defecto del botón (ej: "Guardar")

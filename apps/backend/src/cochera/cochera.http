@@ -9,10 +9,11 @@ POST http://localhost:3000/api/cochera
 Content-Type: application/json
 
 {
-    "number": 9,
+    "number": 12,
     "tipoVehiculo": 1,
     "state": "disponible",
-    "admin": 1
+    "admin": 1,
+    "sucursal":1
 }
 
 ### actualizar un tipo de servicio

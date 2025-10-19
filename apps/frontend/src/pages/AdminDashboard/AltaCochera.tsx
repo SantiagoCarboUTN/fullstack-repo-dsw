@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 import { useTipoVehiculo } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import type { CocheraForm } from "../../types/CocheraType.tsx";
-import { useCreateCochera } from "../../hooks/UseCreateCochera.tsx";
+import { useCreateCochera } from "../../hooks/Cochera/UseCreateCochera.tsx";
 import { useNavigate } from "react-router-dom";
+import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 
 export const AltaCochera = ()=>{
   const navigate = useNavigate()
@@ -12,14 +13,14 @@ export const AltaCochera = ()=>{
   const { createCochera, loading: loadingCreate, error: errorCreate } = useCreateCochera();
   const [tipoVehiculoId, setTipoVehiculoId] = useState("");
   const [numero, setNumero] = useState("");
-
   const  handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
     const nuevaCochera:CocheraForm = {
       tipoVehiculo: Number.parseInt(tipoVehiculoId),
       number:Number.parseInt(numero),
-      admin:1
+      admin:1,
+      sucursal:1
     };
     const res= await createCochera(nuevaCochera)
     if (res) {
@@ -79,13 +80,11 @@ export const AltaCochera = ()=>{
           />
         </div>
         <div className="text-center">
-          <button
-            type="submit"
-            className="bg-blue-700 text-white px-8 py-3 rounded-md text-lg hover:bg-blue-800 transition-colors"
-            disabled={loadingCreate}
-          >
-           {loadingCreate ? "Creando..." : "Crear"}
-          </button>
+            <SubmitButton
+               text="Crear cochera"
+               loadingText="Guardando..."
+                loading={loadingCreate}
+                      />
         </div>
          {errorCreate && (
             <p className="text-red-500 text-center mt-4">{errorCreate}</p>

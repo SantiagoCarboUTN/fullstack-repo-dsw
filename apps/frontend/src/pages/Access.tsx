@@ -1,7 +1,7 @@
 
 import {person, lock} from '../assets/index'
 
-export const Acess = () => {
+export const Access = () => {
   return (
     <>
       <div className='flex justify-center h-screen items-center bg-gradient-to-br from-indigo-400 via-blue-400 to-blue-700'>

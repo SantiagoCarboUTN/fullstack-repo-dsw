@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react";
-import type { Cochera } from "../types/CocheraType.tsx";
+import type { Cochera } from "../../types/CocheraType.tsx";
 
-export const UseCocheras = ()=>{
+export const useCocheras = ()=>{
   const [cocheras,setCocheras] = useState<Cochera[]>([])
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +12,12 @@ export const UseCocheras = ()=>{
       setLoading(true)
       try{
        const res = await fetch(`http://localhost:3000/api/cochera?state=disponible&admin=1`) 
-       if (!res.ok) throw new Error("Error al traer las cocheras")
+       if (!res.ok){
+        if(res.status === 404){
+          throw new Error("No hay cocheras disponibles")
+          }
+          throw new Error("Error al traer cocheras")
+       }
        const data = await res.json()
        setCocheras(data.data); 
        setCantdesocupadas(data.cantDesocupadas)

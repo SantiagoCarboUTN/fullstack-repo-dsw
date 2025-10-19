@@ -7,4 +7,5 @@ export type { TipoServicio } from "./TipoServicioType";
 export type { Reserva } from "./ReservaType";
 export type { ReservaInput } from "./ReservaType";  
 export type {TipoVehiculoCreate} from "./TipoVehiculoType";
+export type {Sucursal} from "./SucursalType.tsx"
 

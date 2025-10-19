@@ -1,11 +1,10 @@
-
- import { Navbar } from '../components/layout//NavBar/Navbar'
+import { Navbar } from '../components/layout//NavBar/Navbar'
 import '../index.css'
 import {Card} from '../components/ui/Card'
 import fotolandingpage from '../assets/sin_fondo.png'
 import { Small_Card } from '../components/ui/Small_Card'
-import {assets} from '../assets/index'
-
+import { useSucursales } from '../hooks/Sucursal/UseSucursal.tsx'
+/* 
 const SmallCardInfo = [
         {text: 'Gestión de Calendario', imgSrc: assets.calendar},
         {text: 'Historial de Actividades', imgSrc: assets.history},
@@ -17,8 +16,9 @@ const SmallCardInfo = [
         {text: 'Gestión de Equipo', imgSrc: assets.team},
         {text: 'Búsqueda por VIN', imgSrc: assets.vin_lookup},
       ]
-
+ */
 export const Home = () => {
+   const {sucursales, loading, error} = useSucursales()
   return (
     <>
     <Navbar/> 
@@ -67,12 +67,18 @@ export const Home = () => {
       </div>
       
       <div className='bg-gray-200 box-border py-12 mt-20'>
-        <h2 className='text-5xl font-bold text-center mb-10 text-blue-600'>Servicios en alta demanda</h2>
-        <div className='grid grid-cols-3 gap-5 max-w-7xl mx-auto p-5 justify-center'>
-          {SmallCardInfo.map((card, index) => (
-            <Small_Card key={index} text={card.text} imgSrc={card.imgSrc} />
+        <h2 className='text-5xl font-bold text-center mb-10 text-blue-600'>Sucursales adheridas</h2>
+        {loading ? (
+            <p className="p-4">Cargando sucursales...</p>
+          ) : error ? (
+            <p className="p-4 text-red-500">Error: {error}</p>
+          ) : (
+          <div className='grid grid-cols-3 gap-5 max-w-7xl mx-auto p-5 justify-center'>
+          {sucursales.map((suc, index) => (
+            <Small_Card key={index} text={suc.razonSocial} imgSrc={suc.imageUrl} />
           ))}
-        </div>
+        </div>)}
+        
       </div>
     </>
   )

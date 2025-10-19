@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useAltaCliente  } from "../../hooks/UseAltaCliente.tsx"; 
 import type { Client } from "../../types/ClientType.tsx";
+import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
+import { useCreateCliente } from "../../hooks/UseCreateCliente.tsx";
 export const AltaCliente = () => {
   const [complete_name, setNombre] = useState<string>("");
   const [mail, setMail] = useState<string>("");
@@ -9,7 +10,7 @@ export const AltaCliente = () => {
   const [password, setPassword] = useState<string>("");
   
 
-  const { loading, error, success, registrarCliente } = useAltaCliente();
+  const { loading, error, success, registrarCliente } = useCreateCliente();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,14 +105,11 @@ export const AltaCliente = () => {
 
           {/* Botón */}
           <div className="text-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-green-700 text-white px-8 py-3 rounded-md text-lg hover:bg-green-800 transition-colors"
-            >
-              {loading ? "Registrando..." : "Registrar Cliente"}
-            
-            </button>
+            <SubmitButton
+                text="Guardar cliente"
+                loadingText="Guardando..."
+                loading={loading}
+                  />
           </div>
           {error && <p className="text-red-600">{error}</p>}
           {success && <p className="text-green-600">Cliente registrado correctamente!</p>}

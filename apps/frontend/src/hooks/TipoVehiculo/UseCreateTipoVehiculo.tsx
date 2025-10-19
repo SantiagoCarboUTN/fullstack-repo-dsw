@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createTipoVehiculo } from "../../services/TipoVehiculoService";
 import type { TipoVehiculoCreate } from "../../types/TipoVehiculoType";
 
-export const UseCreateTipoVehiculo = () => {
+export const useCreateTipoVehiculo = () => {
   const [description, setDescription] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

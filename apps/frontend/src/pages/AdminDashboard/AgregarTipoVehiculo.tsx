@@ -1,5 +1,5 @@
-import { UseCreateTipoVehiculo } from "../../hooks/TipoVehiculo/UseCreateTipoVehiculo";
-import { MessageBox } from "../../components/ui/MessageBox";
+import { useCreateTipoVehiculo } from "../../hooks/TipoVehiculo/UseCreateTipoVehiculo";
+import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
 
 export const AgregarTipoVehiculo = () => {
@@ -10,7 +10,7 @@ export const AgregarTipoVehiculo = () => {
     successMessage,
     handleChange,
     handleSubmit,
-  } = UseCreateTipoVehiculo();
+  } = useCreateTipoVehiculo();
 
   return (
     <div className="flex justify-center items-center h-screen ">
