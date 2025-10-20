@@ -1,5 +1,5 @@
 ### obtener todos los tipos de servicio
-GET http://localhost:3000/api/cochera?state=disponible
+GET http://localhost:3000/api/cochera?state=disponible&admin=1
 
 ### obtener un tipo de servicio por id
 GET http://localhost:3000/api/cochera/9
@@ -9,7 +9,7 @@ POST http://localhost:3000/api/cochera
 Content-Type: application/json
 
 {
-    "number": 12,
+    "number": 1,
     "tipoVehiculo": 1,
     "state": "disponible",
     "admin": 1,

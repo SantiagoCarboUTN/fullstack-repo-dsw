@@ -66,12 +66,12 @@ async function findAll(req: Request, res: Response) {
     const cocheras = await em.find(Cochera, filters,{ populate: ['tipoVehiculo','sucursal']});
     
     const filtersCount: any = [] //filtros para obtener las cantidades de cocheras ocupadas/desocupadas
-    filtersCount.state='ocupada'
+   
     filtersCount.admin = admin
 
-    const cantOcupadas = await em.count(Cochera, filtersCount);
+    const cantOcupadas = await em.count(Cochera, {admin:filtersCount.admin, state:'ocupada'});
     const cantCocheras = await em.count(Cochera,{admin:filtersCount.admin});
-    const cantDesocupadas = cantCocheras - cantOcupadas
+    const cantDesocupadas = cantCocheras -cantOcupadas
 
     if (cocheras.length === 0){
       res.status(404).json({message:'cocheras not found'})
