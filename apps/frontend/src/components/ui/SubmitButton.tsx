@@ -18,7 +18,7 @@ export const SubmitButton = ({
     <button
       type="submit"
       disabled={loading || disabled}
-      className={`bg-blue-700 text-white px-8 py-3 rounded-md text-lg hover:bg-blue-800 transition-colors w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-700 ${
+      className={`bg-blue-600 text-white px-8 py-3 rounded-md text-lg hover:bg-blue-800 transition-colors w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-700 ${
         (loading || disabled) ? "opacity-70 cursor-not-allowed" : ""
       } ${className}`}
     >
