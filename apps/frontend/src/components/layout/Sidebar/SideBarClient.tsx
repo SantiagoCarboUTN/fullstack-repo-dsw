@@ -4,7 +4,7 @@ import { TfiReceipt } from "react-icons/tfi";
 import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 export const SideBarClient = () => {
   const links = [
-    { to: "/client/realizar-reserva", label: "Realizar reserva", icon: BiCar },
+    { to: "/client/mis-reservas", label: "Mis reservas", icon: BiCar },
     { to: "/client/mis-pagos", label: "Pagos", icon: TfiReceipt }
   ]
 

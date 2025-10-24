@@ -46,7 +46,7 @@ async function findAll(req: Request, res: Response) {
      filters.state = state; 
     }
 
-    if(!state && !client){ //Todas las reservas
+    if(!state && !client && !admin){ //Todas las reservas
       const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera', 'vehiculo.client'] })
       if(reservas.length === 0){
         res.status(404).json({message:'reservas not found'})
@@ -55,8 +55,8 @@ async function findAll(req: Request, res: Response) {
       }
       return ;
     }
-    
-    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas"] }) //listado filtrado 
+
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas","cochera", "cochera.sucursal"] }) //listado filtrado 
     
     if(reservas.length === 0){ 
       res.status(404).json({message:'reservas not found'})

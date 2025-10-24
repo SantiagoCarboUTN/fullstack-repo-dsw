@@ -7,8 +7,8 @@ export interface Reserva {
   vehiculo: Vehiculo;
   tipoServicio: TipoServicio;
   fechaInicio: string; // se recomienda usar string al recibir del backend
-  fechaFin?: string;
-  estado: "ACTIVA" | "FINALIZADA";
+  fechaFin: string;
+  state: "ACTIVA" | "FINALIZADA";
 }
 
 export interface ReservaInput {
