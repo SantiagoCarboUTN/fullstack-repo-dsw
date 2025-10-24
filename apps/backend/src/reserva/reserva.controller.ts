@@ -105,10 +105,15 @@ async function add(req: Request, res: Response) {
         res.status(404).json({ message: "Cochera no encontrada" })
         return;
       }
+
+      const fechaFin= new Date(req.body.sanitizedInput.fechaInicio)
+      const cantMeses = ts.cantCuotas
+      fechaFin.setMonth(fechaFin.getMonth() + cantMeses)
       const reserva = tem.create(Reserva, {
         ...req.body.sanitizedInput,
         tipoServicio:ts,
-        cochera: cocheraRef
+        cochera: cocheraRef,
+        fechaFin: fechaFin
       });
       
       const fechaInicio = new Date(reserva.fechaInicio);
