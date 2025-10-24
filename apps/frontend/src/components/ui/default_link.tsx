@@ -4,7 +4,7 @@ type DefaultLinkProps = {
   route: string,
   text?: string,
   isImg?: boolean,
-  imgSrc?: string
+  imgSrc?: string,
 }
 {/* El signo de pregunta en typescript significa que la propiedad es opcional */}
 

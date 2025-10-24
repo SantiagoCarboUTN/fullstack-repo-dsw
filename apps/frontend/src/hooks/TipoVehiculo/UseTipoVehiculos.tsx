@@ -8,8 +8,13 @@ export const useTipoVehiculo = ()=>{
   useEffect(()=>{
     const fetchTipos = async ()=>{
       try{
-       const res = await fetch(`http://localhost:3000/api/tipoVehiculo`) 
-       if (!res.ok) throw new Error("Error al traer los tipos")
+        const res = await fetch(`http://localhost:3000/api/tipoVehiculo`) 
+        if (!res.ok) {
+          if(res.status === 404){
+            throw new Error("No hay tipos disponibles")
+          }
+          throw new Error("Error al traer los tipos")
+        }
        const data = await res.json()
        setTiposVehiculo(data.data); 
       }catch(err:unknown){

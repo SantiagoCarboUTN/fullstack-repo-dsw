@@ -25,7 +25,11 @@ const em = orm.em
 async function findAll(req: Request, res: Response) {
   try {
     const tipoVehiculos = await em.find(TipoVehiculo, {}, {populate: ['vehiculos', 'cocheras']})
-    res.status(200).json({message: 'Lista de tipos de vehículos', data: tipoVehiculos})
+    if(tipoVehiculos.length === 0){
+        res.status(404).json({message:'tipos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de tipos', data: tipoVehiculos });
+      }
   }catch (error:any) {
       res.status(500).json({ error: error.message })
     }

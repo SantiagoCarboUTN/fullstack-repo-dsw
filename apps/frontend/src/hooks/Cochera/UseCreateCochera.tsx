@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Cochera, CocheraForm } from "../types/CocheraType.tsx"
+import type { Cochera, CocheraForm } from "../../types/CocheraType.tsx"
 
 
 export const useCreateCochera = ()=>{

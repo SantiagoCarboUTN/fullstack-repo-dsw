@@ -14,7 +14,10 @@ export interface Reserva {
 export interface ReservaInput {
   vehiculo: string;
   clienteDni: number;
-  cochera: number;
+  cochera: {
+    number:number, 
+    admin:number
+  };
   tipoServicio: number;
   fechaInicio: Date;
   fechaFin?: Date;

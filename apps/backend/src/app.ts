@@ -11,13 +11,12 @@ import { RequestContext } from "@mikro-orm/mysql";
 import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; 
 import { AdminRouter } from "./admin/admin.routes.js";
+import { SucursalRouter } from "./sucursal/sucursal.routes.js";
 
 const app = express()
 
-
-// 🧩 Middleware CORS
 app.use(cors({
-  origin: "http://localhost:5173", // Cambiá por la URL del front
+  origin: "http://localhost:5173", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
@@ -29,8 +28,12 @@ app.use((req,res,next)=>{
 })
 
 app.use("/api/vehiculo", VehiculoRouter)
+
 app.use("/api/tipoVehiculo", TipoVehiculoRouter)
+
 app.use("/api/clients", ClientRouter)
+
+app.use("/api/sucursal", SucursalRouter)
 
 app.use("/api/tipoServicio", TipoServicioRouter)
 

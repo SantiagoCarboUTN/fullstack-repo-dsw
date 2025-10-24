@@ -1,12 +1,12 @@
 import { CocheraRows } from "../../components/ui/AdminDashboardUi/CocheraRow.tsx";
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
 import { Default_Link } from "../../components/ui/default_link.tsx";
-import { UseCocheras } from "../../hooks/UseCocheras.tsx";
+import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 
 
 export const CocherasList = () => {
  
-  const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = UseCocheras()
+  const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = useCocheras()
   return (
     <>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
@@ -31,9 +31,11 @@ export const CocherasList = () => {
             <table className="w-full text-left border-collapse">
               <thead className="bg-blue-700 text-white">
                 <tr>
-                  <th className="py-3 px-4">Numero</th>
+                  <th className="py-3 px-4">Número</th>
                   <th className="py-3 px-4">Estado</th>
-                  <th className="py-3 px-4">Tipo Vehiculo</th>
+                  <th className="py-3 px-4">Tipo de Vehículo</th>
+                  <th className="py-3 px-4">Ubicación</th>
+                  <th className="py-3 px-4">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,6 +45,7 @@ export const CocherasList = () => {
                     number={cochera.number}
                     state={cochera.state} 
                     tipoVehiculo={cochera.tipoVehiculo.description}
+                    ubicacion={cochera.sucursal.direction}
                   />
                 ))}
               </tbody>

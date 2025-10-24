@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Rel,Property , PrimaryKey, OneToMany,Cascade,Collection} from '@mikro-orm/core';
+import { Entity, ManyToOne, Rel,Property , PrimaryKey, OneToMany,Cascade,Collection, BeforeCreate} from '@mikro-orm/core';
 import { Cochera } from '../cochera/cochera.entity.js';
 import { Vehiculo } from '../vehiculo/vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
@@ -27,5 +27,10 @@ export class Reserva{
   fechaFin!: Date
 
 @Property({nullable:false})
-  state!: 'activa' | 'finalizada';
+  state!: 'ACTIVA' | 'FINALIZADA';
+
+@BeforeCreate()
+  async ocuparCochera() {
+    this.cochera.state = "ocupada";
+  }
 }

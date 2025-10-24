@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Reserva } from '../../types/index';
 
-export function UseReservas() {
+export function useReservas() {
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,7 +10,12 @@ export function UseReservas() {
     const fetchReservas = async () => {
       try {
         const res = await fetch("http://localhost:3000/api/reserva");
-        if (!res.ok) throw new Error("Error al traer reservas");
+        if (!res.ok){ 
+          if(res.status === 404){
+            throw new Error("No hay reservas activas")
+          }
+          throw new Error("Error al traer reservas")
+        }
         const data = await res.json();
         setReservas(data.data); // data.data viene de tu función findAll
       } catch (err: unknown) {

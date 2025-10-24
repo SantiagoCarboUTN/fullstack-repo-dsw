@@ -2,17 +2,20 @@ import { useState} from "react";
 import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCreateReserva } from "../../hooks/Reserva/useCreateReserva.tsx";
 import type { ReservaInput } from "../../types/ReservaType.tsx";
+import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
+import { useParams } from "react-router-dom";
 
 export const RealizarReserva = () => {
   const hoy = new Date().toISOString().split("T")[0];
   const { createReserva, loading, error, reserva } = useCreateReserva();
   const [vehiculo, setVehiculo] = useState("");
-  const [cocheraId, setCocheraId] = useState("");
+  const {number} = useParams<{number?:string}>()
+  const [cocheraId, setCocheraId] = useState(number || "");
   const [clienteDni, setClienteDni] = useState("");
   const [tipoServicio, setTipoServicio] = useState("");
   const [fechaInicio, setFechaInicio] = useState(hoy);
-
   
+
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
@@ -39,7 +42,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   const nuevaReserva: ReservaInput = {
     vehiculo: String(vehiculo),
     clienteDni: Number.parseInt(clienteDni),
-    cochera: Number.parseInt(cocheraId),
+    cochera: {
+      number:Number.parseInt(cocheraId),
+      admin: 1
+    },
     tipoServicio: Number.parseInt(tipoServicio),
     fechaInicio: fechaInicioDate,
     fechaFin,
@@ -49,20 +55,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
 
-/*   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-
-    const nuevaReserva: ReservaInput = {
-      vehiculo: String(vehiculo),
-      clienteDni: Number.parseInt(clienteDni),
-      cochera: Number.parseInt(cocheraId),
-      tipoServicio,
-      fechaInicio : new Date(fechaInicio),
-    };
-    await createReserva(nuevaReserva);      
-  
-  }; */
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
@@ -75,11 +67,11 @@ const handleSubmit = async (e: React.FormEvent) => {
           {/* vehiculo */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              vehiculo
+              Vehículo
             </label>
             <input
               type="text"
-              name="patnete"
+              name="patente"
               placeholder="Ej: ABC123"
               required
               value={vehiculo}
@@ -172,13 +164,11 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           {/* Botón */}
           <div className="text-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-blue-700 text-white px-8 py-3 rounded-md text-lg hover:bg-blue-800 transition-colors w-full sm:w-auto"
-            >
-              {loading ? "Creando..." : "Crear Reserva"}
-            </button>
+            <SubmitButton
+              text="Crear Reserva"
+              loadingText="Guardando..."
+              loading={loading}
+                        />
           </div>
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
           {reserva && <p className="text-green-500 text-center mt-4">Reserva creada con éxito</p>}

@@ -11,7 +11,7 @@ export interface ClienteData {
 }
 
 
-export const useAltaCliente = () => {
+export const useCreateCliente = () => {
   const[loading, setLoading] = useState<boolean>(false );
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -20,7 +20,6 @@ export const useAltaCliente = () => {
     setLoading(true);
     setError("");
     setSuccess(false);
-  
   
   try {
     const res = await fetch("/api/clients", {

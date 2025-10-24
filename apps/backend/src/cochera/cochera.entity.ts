@@ -3,6 +3,7 @@ import { TipoVehiculo } from "../tipoVehiculo/tv.entity.js";
 import { Admin } from "../admin/admin.entity.js";
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 import { Reserva } from "../reserva/reserva.entity.js";
+import { Sucursal } from "../sucursal/sucursal.entity.js";
 @Entity()
 export class Cochera {
   @PrimaryKey({ nullable: false })
@@ -16,7 +17,10 @@ export class Cochera {
   
   @ManyToOne(() => Admin, { primary:true })
     admin!: Rel<Admin>
-    
+
+  @ManyToOne(() => Sucursal, { nullable:true})
+    sucursal!: Rel<Sucursal>
+
   @OneToMany(() => Reserva, (reserva) => reserva.cochera, {
     cascade: [Cascade.ALL],
   })
