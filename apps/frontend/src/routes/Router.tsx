@@ -12,6 +12,7 @@ import { AltaCochera } from '../pages/AdminDashboard/AltaCochera.tsx'
 import { AgregarTipoVehiculo } from '../pages/AdminDashboard/AgregarTipoVehiculo.tsx'
 import { CuotasList } from '../pages/ClientDashboard/cuotasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
+import {SignUp} from '../pages/SignUp.tsx'
 
 export const MyRouter = () => {
   return (
@@ -20,7 +21,7 @@ export const MyRouter = () => {
       <Route path="about" element={<App/>} />
       <Route path='login' element={<Access/>} />
       <Route path='register' element={<App/>} />
-    
+      <Route path='sign-up' element={<SignUp/>} />
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
         <Route path="dashboard" element={<Dashboard />} />
