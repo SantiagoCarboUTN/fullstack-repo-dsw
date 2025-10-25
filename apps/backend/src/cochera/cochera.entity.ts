@@ -12,7 +12,7 @@ export class Cochera {
   @Property({ nullable: false })
    state!: 'disponible' | 'ocupada'
     
-  @ManyToOne(() => TipoVehiculo, { nullable: false })
+  @ManyToOne(() => TipoVehiculo, { nullable: true })
     tipoVehiculo!: Rel<TipoVehiculo>
   
   @ManyToOne(() => Admin, { primary:true })

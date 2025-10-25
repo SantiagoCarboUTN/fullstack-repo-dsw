@@ -9,8 +9,7 @@ export const SideBarClient = () => {
   ]
 
   return (
-    <aside className="w-80 bg-gray-800 text-white h-screen p-4 flex flex-col justify-between box-border flex-shrink-0">
-      {/* CONTENIDO SUPERIOR */}
+    <div className="flex flex-col justify-between h-full">
       <div>
         <h2 className="text-3xl font-bold mb-6">MyGarage</h2>
         <nav className="text-lg">
@@ -43,6 +42,6 @@ export const SideBarClient = () => {
           Cerrar sesión
         </button>
       </footer>
-    </aside>
+    </div>
   )
 }

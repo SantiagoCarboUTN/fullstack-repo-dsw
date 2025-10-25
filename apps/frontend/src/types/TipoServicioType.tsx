@@ -1,10 +1,8 @@
 import type { Reserva } from "./ReservaType";
 
 export interface TipoServicio {
-  id: number;           // viene de BaseEntity
+  id: number;           
   nombre: string;
   precio: number;
   reservas: Reserva[];
-  createdAt?: string;
-  updatedAt?: string;
 }

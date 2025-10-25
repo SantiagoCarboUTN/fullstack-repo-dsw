@@ -108,7 +108,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try{
     const number = Number.parseInt(req.params.number)
-    const cocheraUpdated =  em.findOneOrFail(Cochera, {number})
+    const cocheraUpdated = await  em.findOneOrFail(Cochera, {number})
 
     em.assign(cocheraUpdated, req.body.sanitizedInput)
     await em.flush()
@@ -122,7 +122,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try{
     const number = Number.parseInt(req.params.number)
-    const cocheraDeleted =  em.findOneOrFail(Cochera, {number})
+    const cocheraDeleted =  await em.findOneOrFail(Cochera, {number})
 
     await em.removeAndFlush(cocheraDeleted)
 

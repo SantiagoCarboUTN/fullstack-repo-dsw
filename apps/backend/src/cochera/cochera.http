@@ -17,12 +17,11 @@ Content-Type: application/json
 }
 
 ### actualizar un tipo de servicio
-PUT http://localhost:3000/api/cochera/8
+PUT http://localhost:3000/api/cochera/9
 Content-Type: application/json
 
 {
-    "number": "9999",
-    "state": "ocupado"
+    "state": "disponible"
 }
 
 ### eliminar un tipo de servicio

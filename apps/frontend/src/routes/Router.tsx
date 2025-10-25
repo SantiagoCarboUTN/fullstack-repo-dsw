@@ -12,6 +12,7 @@ import { AltaCochera } from '../pages/AdminDashboard/AltaCochera.tsx'
 import { AgregarTipoVehiculo } from '../pages/AdminDashboard/AgregarTipoVehiculo.tsx'
 import { ReservasList } from '../pages/ClientDashboard/reservasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
+import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 
 export const MyRouter = () => {
   return (
@@ -33,8 +34,9 @@ export const MyRouter = () => {
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
       </Route>
 
-       <Route path="client" element={<LayoutClient />}>
+      <Route path="client" element={<LayoutClient />}>
         <Route path="mis-reservas" element={<ReservasList />} />
+        <Route path="/client/ver-reserva/:number" element={<VerReserva />} />
       </Route>
       
     </Routes>

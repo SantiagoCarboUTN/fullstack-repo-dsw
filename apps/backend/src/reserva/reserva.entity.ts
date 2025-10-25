@@ -16,8 +16,8 @@ export class Reserva{
 @PrimaryKey({type:Date})
   fechaInicio!: Date;
   
-@ManyToOne(() => TipoServicio)
-  tipoServicio!: Rel<TipoServicio>;
+@ManyToOne(() => TipoServicio,{ nullable: true})
+  tipoServicio?: Rel<TipoServicio>;
 
 @OneToMany(() => Cuota, cuota => cuota.reserva, { cascade: [Cascade.ALL] })
   cuotas = new Collection<Cuota>(this);

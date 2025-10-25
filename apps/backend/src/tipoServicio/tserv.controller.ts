@@ -59,7 +59,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const tipoServicio = em.findOneOrFail (TipoServicio,  id );
+    const tipoServicio = await em.findOneOrFail (TipoServicio,  id );
 
     em.assign(tipoServicio, req.body.sanitizedInput);
     await em.flush();
@@ -73,7 +73,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const tipoServicio = em.findOneOrFail (TipoServicio,  id );
+    const tipoServicio = await em.findOneOrFail (TipoServicio,  id );
 
     await em.removeAndFlush(tipoServicio);
 

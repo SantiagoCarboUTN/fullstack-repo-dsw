@@ -11,7 +11,7 @@ export const useCocheras = ()=>{
   const fetchCocheras = async ()=>{
       setLoading(true)
       try{
-       const res = await fetch(`http://localhost:3000/api/cochera?state=disponible&admin=1`) 
+       const res = await fetch(`http://localhost:3000/api/cochera?admin=1`) 
        if (!res.ok){
         if(res.status === 404){
           throw new Error("No hay cocheras disponibles")

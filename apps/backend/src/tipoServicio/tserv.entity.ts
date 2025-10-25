@@ -14,6 +14,6 @@ export class TipoServicio extends BaseEntity {
   @Property({ nullable: false })
   cantCuotas!: number;
   
-  @OneToMany(() => Reserva, (reserva) => reserva.tipoServicio, {cascade:[Cascade.ALL]} )
+  @OneToMany(() => Reserva, (reserva) => reserva.tipoServicio )
   reservas!: Reserva[];
 }

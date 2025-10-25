@@ -15,13 +15,13 @@ Content-Type: application/json
 } 
 
 ### actualizar un administrador
-PUT http://localhost:3000/api/admins/3
+PUT http://localhost:3000/api/admins/1
 Content-Type: application/json
 
 {
     "complete_name": "Ayrton Senna",
     "email": "senna.admin@example.com",
-    "password": "NewAdminPassword456"
+    "password": "12345"
 }
 
 ### eliminar un administrador

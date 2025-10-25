@@ -1,9 +1,9 @@
 GET http://localhost:3000/api/sucursal
 
-### obtener un sucursalistrador por id
+### obtener una sucursal por id
 GET http://localhost:3000/api/sucursal/1
 
-### crear un sucursalistrador
+### crear un sucursal
 POST http://localhost:3000/api/sucursal
 Content-Type: application/json
 
@@ -14,15 +14,13 @@ Content-Type: application/json
     "razonSocial": "Cochera Centro"
 } 
 
-### actualizar un sucursalistrador
-PUT http://localhost:3000/api/sucursal/3
+### actualizar un sucursal
+PUT http://localhost:3000/api/sucursal/1
 Content-Type: application/json
 
 {
-    "complete_name": "Ayrton Senna",
-    "email": "senna.sucursal@example.com",
-    "password": "NewsucursalPassword456"
+    "razonSocial": "Cochera sur Pachi"
 }
 
-### eliminar un sucursalistrador
-DELETE http://localhost:3000/api/sucursal/1
+### eliminar un sucursal
+DELETE http://localhost:3000/api/sucursal/2

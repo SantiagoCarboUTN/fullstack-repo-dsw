@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CocheraRows } from "../../components/ui/AdminDashboardUi/CocheraRow.tsx";
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
 import { Default_Link } from "../../components/ui/default_link.tsx";
@@ -5,13 +6,16 @@ import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 
 
 export const CocherasList = () => {
- 
+  const [filtroEstado, setFiltroEstado] = useState<"disponible" | "ocupada" >("disponible");
   const {cocheras, loading, error,cantDesocupadas,cantOcupadas} = useCocheras()
+  const cocherasFiltradas = cocheras.filter((cochera) =>{
+      return (cochera.state === filtroEstado)
+    })
   return (
     <>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
-        <InfoCard label="Cocheras Ocupadas:" value={cantOcupadas} />
-        <InfoCard label="Cocheras Disponibles:" value={cantDesocupadas} />
+        <button onClick={()=>setFiltroEstado("ocupada")}><InfoCard label="Cocheras Ocupadas:" value={cantOcupadas} /></button>
+        <button onClick={()=>setFiltroEstado("disponible")}><InfoCard label="Cocheras Disponibles:" value={cantDesocupadas} /></button>
       </div>
 
       <div className="p-8 bg-gray-100 min-h-screen">
@@ -39,7 +43,7 @@ export const CocherasList = () => {
                 </tr>
               </thead>
               <tbody>
-                {cocheras.map((cochera,index) => (
+                {cocherasFiltradas.map((cochera,index) => (
                   <CocheraRows
                     key={index}
                     number={cochera.number}

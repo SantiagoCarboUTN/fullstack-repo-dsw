@@ -16,15 +16,11 @@ Content-Type: application/json
 }
 
 ### actualizar un cliente
-PUT http://localhost:3000/api/clients/2
+PUT http://localhost:3000/api/clients/3
 Content-Type: application/json
 
 {
-    "name": "Juan",
-    "contraseña": "miNUEVAContraseñaSegura123",
-    "mail": "felipe@example.com",
-    "telefono": "+54 9 341 1234567",
-    "dni": "32123456"
+    "dni": "32123426"
 }
 
 ### eliminar un cliente

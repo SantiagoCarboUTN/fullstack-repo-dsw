@@ -14,11 +14,11 @@ export const ReservasList = ()=>{
     return (
       <>
       <div className = 'h-screen'>
-      <div className="p-8 bg-gray-100 ">
+      <div className="p-4 md:p-8 bg-gray-100 ">
           <select
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value as "activa" | "finalizada" )}
-              className="mb-4 p-2 border rounded"
+              className="mb-4 p-2 border rounded w-full sm:w-auto"
             >
               <option value="activa">Activas</option>
               <option value="finalizada">Finalizadas</option>
@@ -34,9 +34,9 @@ export const ReservasList = ()=>{
             ) : error ? (
               <p className="p-4 text-red-500">Error: {error}</p>
             ) : (
-              <div className="grid-container w-full border border-gray-300">
-        
-                <div className="grid grid-cols-5 bg-blue-700 text-white font-bold">
+              <div className="grid-container w-full border border-gray-300 sm:gap-4">
+                 {/* Columnas solo para md */}
+                <div className="hidden md:grid grid-cols-5 bg-blue-700 text-white font-bold">
                   <div className="py-3 px-4">Vehiculo</div>
                   <div className="py-3 px-4">Fecha Fin</div>
                   <div className="py-3 px-4">Sucursal</div>
@@ -49,18 +49,28 @@ export const ReservasList = ()=>{
                 {reservasFiltradas.map((reserva, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-5 border-t border-gray-200 text-gray-800"
+                    className="grid grid-cols-1 md:grid-cols-5 border-t border-gray-200 text-gray-800"
                   >
-                    <div className="py-3 px-4">{reserva.vehiculo.patente}</div>
-                    <div className="py-3 px-4">{new Date(reserva.fechaFin).toLocaleString("es-AR", {
+                    <div className="py-3 px-4">
+                      <span className="font-semibold md:hidden">Vehículo: </span>
+                      {reserva.vehiculo.patente}
+                    </div>
+                    <div className="py-3 px-4">
+                      <span className="font-semibold md:hidden">Fecha fin: </span>
+                      {new Date(reserva.fechaFin).toLocaleString("es-AR", {
                       day: "2-digit",
                       month: "long",
                       year: "numeric",
                       hour: "2-digit",
                       minute: "2-digit",
                     })}</div>
-                    <div className="py-3 px-4">{reserva.cochera.sucursal.razonSocial}</div>
-                    <div className="py-3 px-4">{reserva.cochera.number}</div>
+                    <div className="py-3 px-4">
+                      <span className="font-semibold md:hidden">Sucursal: </span>
+                      {reserva.cochera.sucursal.razonSocial}</div>
+                    <div className="py-3 px-4">
+                      <span className="font-semibold md:hidden">N° Cochera: </span>
+                      {reserva.cochera.number}
+                      </div>
                     <span className="text-blue-700 font-medium cursor-pointer hover:underline py-3 px-4">
                       <Default_Link route= "ver-reserva" text="Ver Reserva"></Default_Link>
                     </span>
