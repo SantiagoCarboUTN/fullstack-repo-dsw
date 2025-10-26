@@ -36,7 +36,7 @@ export const MyRouter = () => {
 
       <Route path="client" element={<LayoutClient />}>
         <Route path="mis-reservas" element={<ReservasList />} />
-        <Route path="/client/ver-reserva/:number" element={<VerReserva />} />
+        <Route path="/client/ver-reserva/:admin/:number/:vehiculo/:fechaInicio" element={<VerReserva />} />
       </Route>
       
     </Routes>

@@ -6,6 +6,7 @@ import { Reserva } from "../reserva/reserva.entity.js";
 import { Cochera } from "../cochera/cochera.entity.js";
 import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 import { Client } from "../clients/client.entity.js";
+import { Admin } from "../admin/admin.entity.js";
 
 const em = orm.em
 function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
@@ -46,12 +47,16 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
    const patenteVehiculo = req.params.vehiculo
-   const numeroCochera = Number.parseInt(req.params.cochera)
+   const adminRef = em.getReference(Admin, Number(req.params.admin))
+   const cocheraRef = await em.findOne(Cochera,{
+      admin:adminRef,
+      number:Number.parseInt(req.params.number)
+    })
    const fechaIni = new Date(req.params.fechaInicio) 
    const fechaPago = new Date(req.params.fechaPago);
    const cuota = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: { number: numeroCochera },
+        cochera: cocheraRef,
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },
@@ -89,12 +94,16 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculo
-    const numeroCochera = Number.parseInt(req.params.cochera)
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+      admin:adminRef,
+      number:Number.parseInt(req.params.number)
+    })
     const fechaIni = new Date(req.params.fechaInicio)
     const fechaPago = new Date(req.params.fechaPago);
     const cuotaUpdated = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: { number: numeroCochera },
+        cochera: cocheraRef,
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },
@@ -110,12 +119,16 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculoPatente
-    const numeroCochera = Number.parseInt(req.params.cocheraNumero)
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+      admin:adminRef,
+      number:Number.parseInt(req.params.number)
+    })
     const fechaIni = new Date(req.params.fechaInicio)
     const fechaPago = new Date(req.params.fechaPago);
     const cuotaDeleted = await em.findOneOrFail(Cuota, {
       reserva: {
-        cochera: { number: numeroCochera },
+        cochera: cocheraRef,
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaIni,
       },

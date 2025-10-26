@@ -81,7 +81,7 @@ async function findOne(req: Request, res: Response) {
     const reserva = await em.findOneOrFail(Reserva, {
       cochera: cocheraRef,
       vehiculo: { patente: patenteVehiculo },
-      fechaInicio: fechaini}
+      fechaInicio: fechaini},{populate:["cuotas", "cochera", "cochera.sucursal","vehiculo"]}
     )
     res.status(200).json({message: 'found reserva', data:reserva})
   }catch(error:any){

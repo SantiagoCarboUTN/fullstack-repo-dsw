@@ -1,6 +1,7 @@
 import type { Cochera } from "./CocheraType";
 import type { Vehiculo } from "./VehiculoType";
 import type { TipoServicio } from "./TipoServicioType";
+import type { Cuota } from "./CuotaType.tsx";
 
 export interface Reserva {
   cochera: Cochera;
@@ -9,6 +10,7 @@ export interface Reserva {
   fechaInicio: string; // se recomienda usar string al recibir del backend
   fechaFin: string;
   state: "ACTIVA" | "FINALIZADA";
+  cuotas: Cuota[]
 }
 
 export interface ReservaInput {
