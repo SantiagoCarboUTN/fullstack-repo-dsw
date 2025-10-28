@@ -9,11 +9,11 @@ POST http://localhost:3000/api/tipoVehiculo
 Content-Type: application/json
 
 {
-    "description": "auto"
+    "description": "Moto"
 }
 
 ### actualizar un tipo de vehiculo  
-PUT http://localhost:3000/api/tipoVehiculo/1
+PUT http://localhost:3000/api/tipoVehiculo/2
 Content-Type: application/json
 
 {

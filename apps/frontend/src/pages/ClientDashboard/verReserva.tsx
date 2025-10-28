@@ -1,7 +1,7 @@
 
 import { useParams } from "react-router-dom";
 import { ReservaInfoCard } from "../../components/ui/ClientDashboardUi/ReservaInfoCard.tsx"
-import { Default_Link } from "../../components/ui/default_link.tsx";
+/* import { Default_Link } from "../../components/ui/default_link.tsx"; */
 import { useReserva } from "../../hooks/Reserva/useReserva.tsx";
 
 export const VerReserva = ()=>{
@@ -35,7 +35,7 @@ export const VerReserva = ()=>{
           ) : error ? (
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
-            <div className="grid-container w-full rounded-3xl h-screen shadow-md bg-white border border-gray-300 sm:gap-4">
+            <div className="grid-container w-full rounded-3xl min-h-screen shadow-md bg-white border border-gray-300 sm:gap-4 overflow-y-auto h-auto">
               {/* Columnas solo para md */}
               <h2 className="text-2xl font-bold text-blue-700 mb-4 px-4 pt-4 text-center">
                 Lista de cuotas
@@ -72,13 +72,35 @@ export const VerReserva = ()=>{
                   <div className="py-3 px-4">
                     <span className="font-semibold md:hidden">Monto: </span>
                     {cuota.monto}
-                  </div>
-
-                  <span className="text-green-700 font-medium cursor-pointer hover:underline py-3 px-4">
-                    <Default_Link  route= {""} 
-                        text="Pagar">
-                    </Default_Link>
-                  </span>
+                  </div>                  
+                    <div className="py-3 px-4 flex items-center">
+                      {cuota.state === "pendiente" ? (
+                        <button
+                          onClick={async () => {
+                            try {
+                              const res = await fetch(
+                                `https://sialoid-unspitefully-calvin.ngrok-free.dev/api/pagos/${cuota.id}`,
+                                { method: "POST" }
+                              );
+                              const data: { init_point: string } = await res.json();
+                              window.location.href = data.init_point; // Redirige al checkout Pro
+                            } catch (err) {
+                              console.error("Error iniciando pago", err);
+                            }
+                          }}
+                          className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                          Pagar
+                        </button>
+                      ) : (
+                        <button
+                            disabled
+                            className="bg-gray-400 text-white font-medium px-4 py-2 rounded-lg cursor-default"
+                          >
+                            Pagada
+                        </button>
+                      )}
+                    </div>
                 </div>
               ))}
             </div>

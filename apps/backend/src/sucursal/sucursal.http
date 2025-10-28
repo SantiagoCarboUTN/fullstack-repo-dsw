@@ -15,10 +15,11 @@ Content-Type: application/json
 } 
 
 ### actualizar un sucursal
-PUT http://localhost:3000/api/sucursal/1
+PUT http://localhost:3000/api/sucursal/3
 Content-Type: application/json
 
 {
+    "id":1,
     "razonSocial": "Cochera sur Pachi"
 }
 

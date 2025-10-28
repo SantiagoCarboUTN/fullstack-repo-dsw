@@ -13,7 +13,7 @@ Content-Type: application/json
     "tipoVehiculo": 1,
     "state": "disponible",
     "admin": 1,
-    "sucursal":1
+    "sucursal":2
 }
 
 ### actualizar un tipo de servicio

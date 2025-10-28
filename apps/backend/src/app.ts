@@ -12,6 +12,8 @@ import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; 
 import { AdminRouter } from "./admin/admin.routes.js";
 import { SucursalRouter } from "./sucursal/sucursal.routes.js";
+import { PagosRouter } from "./pago/pagos.routes.js";
+import { WebhookRouter } from "./pago/webhook.routes.js";
 
 const app = express()
 
@@ -26,6 +28,9 @@ app.use(express.json())
 app.use((req,res,next)=>{
   RequestContext.create(orm.em, next)
 })
+
+app.use("/api/pagos",PagosRouter)
+app.use("/api/webhook",WebhookRouter)
 
 app.use("/api/vehiculo", VehiculoRouter)
 
@@ -51,4 +56,3 @@ await syncSchema() //solo en desarrollo, nunca en produccion
 app.listen(3000, ()=>{
   console.log('Server runnning on http://localhost:3000/')
 })
-

@@ -12,10 +12,10 @@ Content-Type: application/json
 
 {
   "cochera": {
-    "number":12 ,
+    "number": 1,
     "admin": 1
   },
-  "vehiculo": "ABC123",
+  "vehiculo": "AB345AA",
   "tipoServicio": 1,
   "fechaInicio": "2025-12-10T10:00:00Z",
   "state": "ACTIVA"
@@ -32,4 +32,4 @@ Content-Type: application/json
 }
 
 ### eliminar una reserva
-DELETE http://localhost:3000/api/reserva/1/12/ABC123/2025-12-10T10:00:00Z
+DELETE http://localhost:3000/api/reserva/1/78/AB345AA/2025-12-10T10:00:00Z

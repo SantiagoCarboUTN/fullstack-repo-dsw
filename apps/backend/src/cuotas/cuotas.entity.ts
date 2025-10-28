@@ -1,14 +1,15 @@
 import { Entity, Property, PrimaryKey, Cascade, Collection, ManyToOne, Rel,OneToOne} from "@mikro-orm/core";
 import { Reserva } from "../reserva/reserva.entity.js";
 import { Pago } from "../pago/pagos.entity.js";
+import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 
 @Entity()
-export class Cuota {
-
-  @ManyToOne(() => Reserva, {primary:true,nullable:false }) 
+export class Cuota extends BaseEntity{
+ 
+  @ManyToOne(() => Reserva, {nullable:false }) 
   reserva!: Rel<Reserva>;
 
-  @PrimaryKey({type:Date,nullable: false} )
+  @Property({type:Date,nullable: false} )
   fechaPago!: Date;
 
   @Property({nullable:false})

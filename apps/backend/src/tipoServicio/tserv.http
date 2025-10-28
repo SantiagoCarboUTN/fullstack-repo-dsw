@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
     "nombre": "mensual",
-    "precioCuota": 25000,
+    "precioCuota": 1000,
     "cantCuotas": 1
 }
 
@@ -19,8 +19,9 @@ PUT http://localhost:3000/api/tipoServicio/1
 Content-Type: application/json
 
 {
-    "nombre": "Anual",
-    "precio": 105000
+    "nombre": "trimestral",
+    "precioCuota": 950,
+    "cantCuotas": 3
 }
 
 ### eliminar un tipo de servicio

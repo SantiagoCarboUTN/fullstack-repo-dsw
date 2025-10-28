@@ -76,7 +76,7 @@ async function remove(req: Request, res: Response) {
     const cliente = await em.findOneOrFail(Client,  id, {populate:["vehiculos"]} );
 
     await em.removeAndFlush(cliente);
-    res.status(200).json({ message: 'Cliente eliminado' });
+    res.status(200).json({ message: 'Cliente eliminado' , data:cliente});
     } catch (error: any) {
       res.status(500).json({ message: error.message });
   }
