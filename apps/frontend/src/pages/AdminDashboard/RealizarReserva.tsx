@@ -4,6 +4,8 @@ import { useCreateReserva } from "../../hooks/Reserva/useCreateReserva.tsx";
 import type { ReservaInput } from "../../types/ReservaType.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 import { useParams } from "react-router-dom";
+import { useTipoServicio } from "../../hooks/TipoServicio/useTipoServicio.tsx";
+import type { TipoServicio } from "../../types/TipoServicioType.tsx";
 
 export const RealizarReserva = () => {
   const hoy = new Date().toISOString().split("T")[0];
@@ -14,30 +16,16 @@ export const RealizarReserva = () => {
   const [clienteDni, setClienteDni] = useState("");
   const [tipoServicio, setTipoServicio] = useState("");
   const [fechaInicio, setFechaInicio] = useState(hoy);
+  const { tipos, loading: loadingTipos, error: errorTipos } = useTipoServicio();
   
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   const fechaInicioDate = new Date(fechaInicio); // convierte string a Date
-  const fechaFin = new Date(fechaInicioDate);
 
-  switch (tipoServicio) {
-    case "trimestral":
-    case "3":
-      fechaFin.setMonth(fechaFin.getMonth() + 3);
-      break;
-    case "mensual":
-    case "2":
-      fechaFin.setMonth(fechaFin.getMonth() + 1);
-      break;
-    case "anual":
-    case "1":
-      fechaFin.setFullYear(fechaFin.getFullYear() + 1);
-      break;
-    default:
-      throw new Error("Tipo de servicio desconocido");
-  }
+
+
 
   const nuevaReserva: ReservaInput = {
     vehiculo: String(vehiculo),
@@ -48,7 +36,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     },
     tipoServicio: Number.parseInt(tipoServicio),
     fechaInicio: fechaInicioDate,
-    fechaFin,
+    
   };
 
   await createReserva(nuevaReserva);
@@ -127,25 +115,27 @@ const handleSubmit = async (e: React.FormEvent) => {
             <label className="block text-gray-700 font-semibold mb-2 text-lg">
               Tipo de Servicio
             </label>
-            <div className=" flex gap-4">
-            {[1, 2, 3].map((servicio) => (
-              <label
-                key={servicio}
-                className="flex items-center border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-700 transition-colors"
-              >
-                <input
-                  type="radio"
-                  name="tipoServicio"
-                  value={servicio}
-                  required
-                  onChange={(e) => setTipoServicio(e.target.value)}
-                  className="mr-3 accent-blue-700"
-                />
-                <span className="text-lg text-gray-700 font-medium">{servicio}</span>
-              </label>
-            ))}
-  </div>
-          </div>
+            {loadingTipos ? (
+              <p className="p-4">Cargando tipos de servicio...</p>
+            ) : errorTipos ? (
+              <p className="p-4 text-red-500">Error: {errorTipos}</p>
+            ) : (
+            <select
+              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+              required
+              value={tipoServicio}
+              onChange={(e) => setTipoServicio(e.target.value)}
+            >
+              <option value="">Seleccione un tipo de servicio</option>
+              {tipos.map((t: TipoServicio) => (
+                <option key={t.id} value={t.id}>
+                  {t.nombre}
+                </option>
+              ))}
+            </select>
+            )}
+  </div> 
+          
 
           {/* Fecha de inicio */}
           <div>
@@ -173,7 +163,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
           {reserva && <p className="text-green-500 text-center mt-4">Reserva creada con éxito</p>}
         </form>
-      </div>
+      </div> 
     </div>
   );
 };
