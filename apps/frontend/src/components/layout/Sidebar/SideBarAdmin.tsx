@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { BiHomeAlt, BiCar, BiBarChart } from "react-icons/bi";
 import { FaParking, FaUserCheck, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { GiGearStickPattern } from "react-icons/gi";
+import type { Admin } from "../../../types/AdminType.tsx";
 
 interface SideBarAdminProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  admin?:Admin 
 }
 
-export const SideBarAdmin = ({ isOpen, setIsOpen }:SideBarAdminProps) => {
+export const SideBarAdmin = ({ isOpen, setIsOpen, admin }:SideBarAdminProps) => {
   const links = [
     { to: "/admin/dashboard", label: "Dashboard", icon: <BiHomeAlt /> },
     { to: "/admin/realizar-reserva", label: "Realizar reserva", icon: <BiCar /> },
@@ -51,7 +53,7 @@ export const SideBarAdmin = ({ isOpen, setIsOpen }:SideBarAdminProps) => {
         <div className="flex items-center mb-5 ml-3">
           <FaUserCircle size={30} className="text-gray-400 mr-2" />
           <div>
-            <p className="font-semibold">Feli Bumbaski</p>
+            <p className="font-semibold">{admin?.complete_name || "Error al cargar el usuario"}</p>
             <p className="text-sm text-gray-400">Administrador</p>
           </div>
         </div>

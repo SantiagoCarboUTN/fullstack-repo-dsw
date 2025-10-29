@@ -2,13 +2,15 @@ import { BiCar } from "react-icons/bi";
 import { TfiReceipt } from "react-icons/tfi";
 import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import type { Client } from "../../../types/ClientType.tsx";
 
 interface SideBarClientProps {
   isOpen: boolean;
+  client?: Client
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SideBarClient = ({ isOpen, setIsOpen }:SideBarClientProps) => {
+export const SideBarClient = ({ isOpen, setIsOpen, client }:SideBarClientProps) => {
   const links = [
     { to: "/client/mis-reservas", label: "Mis reservas", icon: <BiCar /> },
     { to: "/client/mis-pagos", label: "Pagos", icon: <TfiReceipt /> },
@@ -46,7 +48,7 @@ export const SideBarClient = ({ isOpen, setIsOpen }:SideBarClientProps) => {
         <div className="flex items-center mb-5 ml-3">
           <FaUserCircle size={30} className="text-gray-300 mr-2" />
           <div>
-            <p className="font-semibold">Juan</p>
+            <p className="font-semibold">{client?.complete_name || "Error al cargar el usuario"}</p>
             <p className="text-sm text-gray-300">Cliente</p>
           </div>
         </div>

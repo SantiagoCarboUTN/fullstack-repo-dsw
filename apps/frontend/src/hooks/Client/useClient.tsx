@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
+import type { Client } from "../../types/ClientType.tsx"
 
 export const useClient = ()=>{
-  const [client, setClient] =useState()
+  const [client, setClient] =useState<Client>()
   const [loading, setLoading] =useState(false)
   const [error, setError] =useState<string|null>()
   const id_client =  1 
@@ -31,5 +32,6 @@ export const useClient = ()=>{
     fetchCliente()
   }
     ,[])
+  
     return {client, loading,error}
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
+import type { Admin } from "../../types/AdminType.tsx"
 
 export const useAdmin = ()=>{
-  const [admin, setAdmin] =useState()
+  const [admin, setAdmin] =useState<Admin>()
   const [loading, setLoading] =useState(false)
   const [error, setError] =useState<string|null>()
   const id_admin =  1 
@@ -31,5 +32,6 @@ export const useAdmin = ()=>{
     fetchCliente()
   }
     ,[])
+  
     return {admin, loading,error}
 }
