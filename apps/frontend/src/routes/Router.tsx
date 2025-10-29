@@ -13,6 +13,7 @@ import { AgregarTipoVehiculo } from '../pages/AdminDashboard/AgregarTipoVehiculo
 import { ReservasList } from '../pages/ClientDashboard/reservasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
 import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
+import {SignUp} from '../pages/SignUp.tsx'
 
 export const MyRouter = () => {
   return (
@@ -21,7 +22,7 @@ export const MyRouter = () => {
       <Route path="about" element={<App/>} />
       <Route path='login' element={<Access/>} />
       <Route path='register' element={<App/>} />
-    
+      <Route path='sign-up' element={<SignUp/>} />
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
         <Route path="dashboard" element={<Dashboard />} />
