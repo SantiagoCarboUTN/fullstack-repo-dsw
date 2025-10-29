@@ -47,7 +47,7 @@ export const Home = () => {
   </div>
 
   {/* Imagen */}
-  <div className="flex justify-center   md:justify-end w-full md:w-1/2 mb-10 md:mb-0">
+  <div className="flex justify-center md:justify-end w-full md:w-1/2 mb-10 md:mb-0">
     <img
       src={fotolandingpage}
       alt="estacionamiento"

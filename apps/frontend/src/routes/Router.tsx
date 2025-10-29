@@ -5,7 +5,7 @@ import { Access } from '../pages/Access.tsx'
 import { Dashboard } from '../pages/AdminDashboard/Dashboard'
 import { RealizarReserva } from '../pages/AdminDashboard/RealizarReserva.tsx'
 import { Reportes } from '../pages/AdminDashboard/Reportes'
-import { LayoutAdmin } from '../components/layout/LayoutAdmin'
+import { LayoutAdmin } from '../components/layout/LayoutAdmin.tsx'
 import { AltaCliente } from '../pages/AdminDashboard/AltaCliente'
 import { CocherasList } from '../pages/AdminDashboard/CocherasList.tsx'
 import { AltaCochera } from '../pages/AdminDashboard/AltaCochera.tsx'
@@ -14,6 +14,7 @@ import { ReservasList } from '../pages/ClientDashboard/reservasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
 import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 import {SignUp} from '../pages/SignUp.tsx'
+import { Altavehiculo } from '../pages/AdminDashboard/AltaVehiculo.tsx'
 
 export const MyRouter = () => {
   return (
@@ -32,6 +33,7 @@ export const MyRouter = () => {
         <Route path="cocheras" element={<CocherasList />} />
         <Route path="alta-cliente" element={<AltaCliente />} />
         <Route path="alta-cochera" element={<AltaCochera />} />
+        <Route path="alta-vehiculo" element={<Altavehiculo />} />
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
       </Route>
 
@@ -39,7 +41,7 @@ export const MyRouter = () => {
         <Route path="mis-reservas" element={<ReservasList />} />
         <Route path="/client/ver-reserva/:admin/:number/:vehiculo/:fechaInicio/" element={<VerReserva />} />
       </Route>
-      
+        
     </Routes>
 
 )
