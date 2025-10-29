@@ -14,6 +14,7 @@ import { ReservasList } from '../pages/ClientDashboard/reservasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
 import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 import {SignUp} from '../pages/SignUp.tsx'
+import { Altavehiculo } from '../pages/AdminDashboard/AltaVehiculo.tsx'
 
 export const MyRouter = () => {
   return (
@@ -32,6 +33,7 @@ export const MyRouter = () => {
         <Route path="cocheras" element={<CocherasList />} />
         <Route path="alta-cliente" element={<AltaCliente />} />
         <Route path="alta-cochera" element={<AltaCochera />} />
+        <Route path="alta-vehiculo" element={<Altavehiculo />} />
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
       </Route>
 
@@ -39,7 +41,7 @@ export const MyRouter = () => {
         <Route path="mis-reservas" element={<ReservasList />} />
         <Route path="/client/ver-reserva/:admin/:number/:vehiculo/:fechaInicio/" element={<VerReserva />} />
       </Route>
-      
+        
     </Routes>
 
 )

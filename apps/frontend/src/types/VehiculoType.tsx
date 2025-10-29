@@ -10,3 +10,10 @@ export interface Vehiculo {
   tipoVehiculo: TipoVehiculo;
   reservas: Reserva[];
 }
+
+export interface VehiculoForm {
+  patente: string;
+  modelo: string;
+  clientId: number;
+  tipoVehiculo: number;
+}
