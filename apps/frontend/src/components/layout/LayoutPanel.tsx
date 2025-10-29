@@ -1,19 +1,32 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
+import type { Admin } from "../../types/AdminType.tsx";
+import type { Client } from "../../types/ClientType.tsx";
 
 interface LayoutPanelProps {
-  SidebarComponent: React.ComponentType<{ isOpen: boolean; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }>;
+  SidebarComponent: React.ComponentType<{ isOpen: boolean; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> ;admin?:Admin|undefined ;client?:Client|undefined }>;
+  useUser:()=> {
+    client?: Client | undefined
+    admin?: Admin | undefined
+    loading: boolean;
+    error: string | null | undefined;
+}
 }
 
-export const LayoutPanel: React.FC<LayoutPanelProps> = ({ SidebarComponent }) => {
+export const LayoutPanel: React.FC<LayoutPanelProps> = ({ SidebarComponent, useUser }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const {client,admin, loading,error} = useUser()
   return (
     <div className="flex h-screen overflow-hidden">
       {/* SIDEBAR (dinámico: Admin o Client) */}
-      <SidebarComponent isOpen={isOpen} setIsOpen={setIsOpen} />
-
+       {loading ? (
+            <p className="p-4">Cargando usuario...</p>
+          ) : error ? (
+            <p className="p-4 text-red-500">Error: {error}</p>
+          ) : (
+        <SidebarComponent isOpen={isOpen} setIsOpen={setIsOpen} admin={admin} client={client} />
+          )}
       {/* CONTENIDO PRINCIPAL */}
       <main className="flex-1 overflow-y-auto bg-gray-100 p-6 relative">
         {/* BOTÓN BURGER ARRIBA A LA DERECHA (solo móvil) */}
