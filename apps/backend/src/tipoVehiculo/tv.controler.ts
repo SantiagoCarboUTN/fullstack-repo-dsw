@@ -68,8 +68,9 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
-    const tipoVehiculoToRemove = await em.getReference(TipoVehiculo, id )
+    const tipoVehiculoToRemove = await em.findOneOrFail(TipoVehiculo, id )
     await em.removeAndFlush(tipoVehiculoToRemove)
+    res.status(200).json({ message: 'Tipo Eliminado',data:tipoVehiculoToRemove });
   }catch (error:any) {
     res.status(500).json({ error: error.message })
   }}

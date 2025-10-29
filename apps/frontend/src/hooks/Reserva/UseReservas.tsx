@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Reserva } from '../../types/index';
 
-export function useReservas() {
+export function useReservas(client?:number) {
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -9,7 +9,9 @@ export function useReservas() {
   useEffect(() => {
     const fetchReservas = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/reserva");
+        const params = new URLSearchParams()
+        if(client)params.append("client",client.toString())
+        const res = await fetch(`http://localhost:3000/api/reserva?${params}`);
         if (!res.ok){ 
           if(res.status === 404){
             throw new Error("No hay reservas activas")

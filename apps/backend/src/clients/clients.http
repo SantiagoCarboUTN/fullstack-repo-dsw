@@ -20,12 +20,8 @@ PUT http://localhost:3000/api/clients/2
 Content-Type: application/json
 
 {
-    "name": "Juan",
-    "contraseña": "miNUEVAContraseñaSegura123",
-    "mail": "felipe@example.com",
-    "telefono": "+54 9 341 1234567",
-    "dni": "32123456"
+    "dni": "32123426"
 }
 
 ### eliminar un cliente
-DELETE http://localhost:3000/api/clients/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+DELETE http://localhost:3000/api/clients/6

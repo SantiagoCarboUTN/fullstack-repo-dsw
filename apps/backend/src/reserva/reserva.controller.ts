@@ -46,7 +46,7 @@ async function findAll(req: Request, res: Response) {
      filters.state = state; 
     }
 
-    if(!state && !client){ //Todas las reservas
+    if(!state && !client && !admin){ //Todas las reservas
       const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera', 'vehiculo.client'] })
       if(reservas.length === 0){
         res.status(404).json({message:'reservas not found'})
@@ -55,8 +55,8 @@ async function findAll(req: Request, res: Response) {
       }
       return ;
     }
-    
-    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas"] }) //listado filtrado 
+
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas","cochera", "cochera.sucursal"] }) //listado filtrado 
     
     if(reservas.length === 0){ 
       res.status(404).json({message:'reservas not found'})
@@ -72,12 +72,16 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculo
-    const numberCochera = Number.parseInt(req.params.cochera)
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.params.number)
+      })
     const fechaini = new Date(req.params.fechaInicio)
     const reserva = await em.findOneOrFail(Reserva, {
-      cochera: { number:numberCochera },
+      cochera: cocheraRef,
       vehiculo: { patente: patenteVehiculo },
-      fechaInicio: fechaini}
+      fechaInicio: fechaini},{populate:["cuotas", "cochera", "cochera.sucursal","vehiculo"]}
     )
     res.status(200).json({message: 'found reserva', data:reserva})
   }catch(error:any){
@@ -148,15 +152,20 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculo
-    const numberCochera = Number.parseInt(req.params.cochera)
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+      admin:adminRef,
+      number:Number.parseInt(req.params.number)
+    })
     const fechaini = new Date(req.params.fechaInicio)
     const reservaUpdated = await em.findOneOrFail(Reserva, {
-        cochera: { number:numberCochera },
+        cochera: cocheraRef,
         vehiculo: { patente: patenteVehiculo },
         fechaInicio: fechaini}
     )
-  em.assign(reservaUpdated, req.body.sanitizedInput)
-  await em.flush()
+    em.assign(reservaUpdated, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: "Se actualizó la reserva", reservaUpdated })
   }catch(error:any){
     res.status(500).json({ message: error.message })
   }
@@ -165,12 +174,16 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try{
     const patenteVehiculo = req.params.vehiculo
-    const numberCochera = Number.parseInt(req.params.cochera)
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.params.number)
+      })
     const fechaini = new Date(req.params.fechaInicio)
     const reservaDeleted = await em.findOneOrFail(Reserva, {
-      cochera: { number:numberCochera },
+      cochera: cocheraRef,
       vehiculo: { patente: patenteVehiculo },
-      fechaInicio: fechaini}
+      fechaInicio: fechaini}, { populate: ['cuotas'] }
     )
     await em.removeAndFlush(reservaDeleted)
     return res.status(200).json({ message: "Se eliminó la reserva", data: reservaDeleted })

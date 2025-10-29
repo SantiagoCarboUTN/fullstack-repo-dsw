@@ -14,7 +14,7 @@ export class Vehiculo{
   @ManyToOne(() => Client, { nullable: false})
   client!: Rel<Client>
 
-  @ManyToOne(() => TipoVehiculo, { nullable: false })
+  @ManyToOne(() => TipoVehiculo, { nullable: true })
   tipoVehiculo!: Rel<TipoVehiculo>
 
   @OneToMany(() => Reserva, (reserva) => reserva.vehiculo, {

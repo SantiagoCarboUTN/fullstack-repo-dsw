@@ -69,7 +69,7 @@ async function remove(req: Request, res: Response) {
   try {
     const patente = req.params.patente;
     
-    const vehiculoToRemove = await em.findOneOrFail(Vehiculo, { patente });
+    const vehiculoToRemove = await em.findOneOrFail(Vehiculo, { patente }, {populate:['reservas']});
     await em.removeAndFlush(vehiculoToRemove);
   } catch(error: any) {
     res.status(500).json({ error: error.message}) 

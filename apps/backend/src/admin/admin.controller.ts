@@ -57,7 +57,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const updatedAdmin = em.findOneOrFail(Admin,  id );
+    const updatedAdmin = await em.findOneOrFail(Admin,  id );
 
     em.assign(updatedAdmin, req.body.sanitizedInput);
     await em.flush();
@@ -71,7 +71,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const deletedAdmin = em.findOneOrFail(Admin,  id );
+    const deletedAdmin = await em.findOneOrFail(Admin,  id , {populate:['cocheras']});
 
     await em.removeAndFlush(deletedAdmin);
 

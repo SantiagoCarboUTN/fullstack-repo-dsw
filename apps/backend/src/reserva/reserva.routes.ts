@@ -3,7 +3,7 @@ import { findAll,findOne,add, update, remove ,sanitizedReservaInput} from "./res
 export const ReservaRouter = Router()
 
 ReservaRouter.get('/', findAll)
-ReservaRouter.get('/:id', findOne)
+ReservaRouter.get('/:admin/:number/:vehiculo/:fechaInicio', findOne)
 ReservaRouter.post('/', sanitizedReservaInput, add)
-ReservaRouter.put('/:id', sanitizedReservaInput, update)
-ReservaRouter.delete('/:id', remove)
+ReservaRouter.put('/:admin/:number/:vehiculo/:fechaInicio', sanitizedReservaInput, update)
+ReservaRouter.delete('/:admin/:number/:vehiculo/:fechaInicio', remove)

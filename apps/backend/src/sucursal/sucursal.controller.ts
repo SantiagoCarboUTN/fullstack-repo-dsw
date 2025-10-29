@@ -3,8 +3,6 @@ import {orm} from "../shared/db/orm.js"
 import { Sucursal } from "./sucursal.entity.js"
 const em = orm.em
 
-
-
 function sanitizedSucursalInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     imageUrl: req.body.imageUrl,
@@ -28,7 +26,7 @@ async function findAll(req: Request, res: Response) {
     if(Sucursals.length === 0){
         res.status(404).json({message:'Sucursales not found'})
       }else{
-        res.status(200).json({message: 'Lista de tipos', data: Sucursals });
+        res.status(200).json({message: 'Lista de sucursales', data: Sucursals });
       }
   }catch (error:any){
     res.status(500).json({ message: error.message});
@@ -60,12 +58,12 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const sucursal = em.findOneOrFail (Sucursal,  id );
+    const sucursalUpdated =await em.findOneOrFail(Sucursal,  id );
 
-    em.assign(Sucursal, req.body.sanitizedInput);
+    em.assign(sucursalUpdated, req.body.sanitizedInput);
     await em.flush();
 
-    res.status(200).json({ message: 'Tipo de servicio actualizado', data: sucursal });
+    res.status(200).json({ message: 'Sucursal actualizada', data: sucursalUpdated });
   } catch (error:any) { 
     res.status(500).json({ message: error.message });
   }
@@ -74,11 +72,11 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const sucursal = em.findOneOrFail (Sucursal,  id );
+    const sucursalDeleted = await em.findOneOrFail (Sucursal,  id ,{populate:["cocheras"]});
 
-    await em.removeAndFlush(sucursal);
+    await em.removeAndFlush(sucursalDeleted);
 
-    res.status(200).json({ message: 'Tipo de servicio eliminado' });
+    res.status(200).json({ message: 'Sucursal eliminada',data:sucursalDeleted });
     } catch (error: any) {
       res.status(500).json({ message: error.message});
   }

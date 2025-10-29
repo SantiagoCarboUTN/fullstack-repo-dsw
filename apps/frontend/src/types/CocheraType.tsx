@@ -6,7 +6,7 @@ import type { TipoVehiculo } from "./TipoVehiculoType.tsx";
 
 export interface Cochera {
   number: number,
-  state: "DISPONIBLE" | "OCUPADA",
+  state: "disponible" | "ocupada",
   tipoVehiculo: TipoVehiculo,
   admin?: Admin | null,
   reservas?: Reserva[],

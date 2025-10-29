@@ -10,8 +10,9 @@ import { AltaCliente } from '../pages/AdminDashboard/AltaCliente'
 import { CocherasList } from '../pages/AdminDashboard/CocherasList.tsx'
 import { AltaCochera } from '../pages/AdminDashboard/AltaCochera.tsx'
 import { AgregarTipoVehiculo } from '../pages/AdminDashboard/AgregarTipoVehiculo.tsx'
-import { CuotasList } from '../pages/ClientDashboard/cuotasList.tsx'
+import { ReservasList } from '../pages/ClientDashboard/reservasList.tsx'
 import { LayoutClient } from '../components/layout/LayoutClient.tsx'
+import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 import {SignUp} from '../pages/SignUp.tsx'
 
 export const MyRouter = () => {
@@ -34,9 +35,9 @@ export const MyRouter = () => {
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
       </Route>
 
-       <Route path="client" element={<LayoutClient />}>
-        <Route path="mis reservas" element={<Dashboard />} />
-        <Route path="mis-pagos" element={<CuotasList />} />
+      <Route path="client" element={<LayoutClient />}>
+        <Route path="mis-reservas" element={<ReservasList />} />
+        <Route path="/client/ver-reserva/:admin/:number/:vehiculo/:fechaInicio/" element={<VerReserva />} />
       </Route>
       
     </Routes>

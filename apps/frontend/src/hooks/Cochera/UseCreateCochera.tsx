@@ -20,7 +20,7 @@ const [error, setError] = useState<string | null>(null);
           body: JSON.stringify({...nuevaCochera,state:"disponible"}),
         })
 
-        if (!res.ok) throw new Error("Error en la creacion")
+        if (!res.ok) throw new Error(`Error: ${res.status}`)
         const data = await res.json()
         setCochera(data.data)
         return data.data

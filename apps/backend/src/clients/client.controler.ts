@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { orm} from '../shared/db/orm.js';
 import { Client } from './client.entity.js';
+import { populate } from 'dotenv';
 const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
@@ -59,7 +60,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const cliente = em.findOneOrFail(Client,  id );
+    const cliente = await em.findOneOrFail(Client,  id );
 
     em.assign(cliente, req.body.sanitizedInput);
     await em.flush();
@@ -72,10 +73,10 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const cliente = em.findOneOrFail(Client,  id );
+    const cliente = await em.findOneOrFail(Client,  id, {populate:["vehiculos"]} );
 
     await em.removeAndFlush(cliente);
-    res.status(200).json({ message: 'Cliente eliminado' });
+    res.status(200).json({ message: 'Cliente eliminado' , data:cliente});
     } catch (error: any) {
       res.status(500).json({ message: error.message });
   }
