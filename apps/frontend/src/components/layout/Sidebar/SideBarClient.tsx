@@ -2,7 +2,7 @@ import {  BiCar } from "react-icons/bi"
 import { SideBarLink } from "./SideBarLink"
 import { TfiReceipt } from "react-icons/tfi";
 import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
-export const SideBarClient = () => {
+export const SideBarClient = ({ user }: { user: { nombre: string}}) => {
   const links = [
     { to: "/client/mis-reservas", label: "Mis reservas", icon: BiCar },
     { to: "/client/mis-pagos", label: "Pagos", icon: TfiReceipt }
@@ -29,8 +29,8 @@ export const SideBarClient = () => {
         <div className="flex items-center mb-5 ml-3">
           <FaUserCircle size={30}  className="text-gray-400 mr-2"/>
           <div>
-            <p className="font-semibold ">Feli Bumbaski</p>
-            <p className="text-sm text-gray-400">Administrador</p>
+            <p className="font-semibold ">{user.nombre}</p>
+            <p className="text-sm text-gray-400">Cliente</p>
           </div>
         </div>
 

@@ -8,11 +8,11 @@ export const LayoutClient = () => {
   return (
     <div className="flex  h-screen overflow-hidden">
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-80 bg-gray-800 p-4 text-white transform transition-transform duration-300
+          className={`fixed inset-y-0 left-0 z-50 w-80 bg-blue-800 p-4 text-white transform transition-transform duration-300
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:relative md:translate-x-0 md:flex md:flex-col md:justify-between`}
         >
-        <SideBarClient />
+        <SideBarClient user={{nombre:"juan"}} />
       </aside>
       {sidebarOpen && (
         <div
@@ -22,7 +22,7 @@ export const LayoutClient = () => {
       )}
       <main className="flex-1 overflow-y-auto bg-gray-100 p-6 relative">
         <button
-          className="md:hidden p-3 bg-gray-800 text-white rounded-md mb-4"
+          className="md:hidden p-3 bg-blue-800 text-white rounded-md mb-4"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <FaBars size={20} />
