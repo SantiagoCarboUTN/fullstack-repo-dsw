@@ -79,7 +79,7 @@ export const VerReserva = ()=>{
                           onClick={async () => {
                             try {
                               const res = await fetch(
-                                `https://sialoid-unspitefully-calvin.ngrok-free.dev/api/pagos/${cuota.id}`,
+                                `${import.meta.env.VITE_URL_TEST}/api/pagos/${cuota.id}`,
                                 { method: "POST" }
                               );
                               const data: { init_point: string } = await res.json();

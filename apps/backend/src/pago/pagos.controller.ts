@@ -30,9 +30,9 @@ async function create( req:Request,res:Response){
           pending: "http://localhost:5173/pago-pendiente",
         },
         metadata: {
-          cuotaId /* a mp NO le Gusta el camelcase del orto lo transforma a cuota_id */
+          cuotaId /* a mp NO le Gusta el camelcase  lo transforma a cuota_id */
         },
-        notification_url: "https://sialoid-unspitefully-calvin.ngrok-free.dev/api/webhook" , /* https://wnl3nxbf-3000.brs.devtunnels.ms */
+        notification_url: `${process.env.URL_TEST}/api/webhook`, /* https://wnl3nxbf-3000.brs.devtunnels.ms */
   
     }})
     

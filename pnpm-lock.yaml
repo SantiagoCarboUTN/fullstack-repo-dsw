@@ -81,6 +81,9 @@ importers:
       '@types/react-router-dom':
         specifier: 5.3.3
         version: 5.3.3
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -100,6 +103,9 @@ importers:
       '@eslint/js':
         specifier: 9.29.0
         version: 9.29.0
+      '@types/node':
+        specifier: 22.15.29
+        version: 22.15.29
       '@types/react':
         specifier: 19.1.8
         version: 19.1.8
