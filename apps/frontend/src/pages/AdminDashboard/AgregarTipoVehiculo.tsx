@@ -7,13 +7,13 @@ export const AgregarTipoVehiculo = () => {
     description,
     loading,
     error,
-    successMessage,
+    success,
     handleChange,
     handleSubmit,
   } = useCreateTipoVehiculo();
 
   return (
-    <div className="flex justify-center items-center h-screen ">
+    <div className="flex justify-center items-center h-screen">
       <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-700 text-center">
           Registrar Tipo de Vehículo
@@ -44,10 +44,12 @@ export const AgregarTipoVehiculo = () => {
             />
           </div>
 
-          {/* Mensajes */}
+          {/* Mensaje unificado */}
           <div className="text-center">
-            <MessageBox message={error} type="error" />
-            <MessageBox message={successMessage} type="success" />
+            <MessageBox 
+              message={error || (success ? "Tipo vehículo creado con éxito ✅" : "")} 
+              type={error ? "error" : "success"} 
+            />
           </div>
         </form>
       </div>
