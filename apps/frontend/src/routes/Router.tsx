@@ -15,6 +15,7 @@ import { LayoutClient } from '../components/layout/LayoutClient.tsx'
 import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 import {SignUp} from '../pages/SignUp.tsx'
 import { Altavehiculo } from '../pages/AdminDashboard/AltaVehiculo.tsx'
+import { PagosList } from '../pages/ClientDashboard/pagosList.tsx'
 
 export const MyRouter = () => {
   return (
@@ -40,6 +41,7 @@ export const MyRouter = () => {
       <Route path="client" element={<LayoutClient />}>
         <Route path="mis-reservas" element={<ReservasList />} />
         <Route path="/client/ver-reserva/:admin/:number/:vehiculo/:fechaInicio/" element={<VerReserva />} />
+        <Route path="mis-pagos" element={<PagosList />} />
       </Route>
         
     </Routes>

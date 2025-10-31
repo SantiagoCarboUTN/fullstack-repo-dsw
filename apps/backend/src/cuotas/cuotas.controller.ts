@@ -31,11 +31,14 @@ function sanitizedCuotaInput(req: Request,res: Response,next: NextFunction) {
 async function findAll(req: Request, res: Response) {
   try{
     const {state} = req.query //filtrado por estado
+    const {clientId} = req.query //filtrado por cliente
     const filters:any = {}
     if(state){
       filters.state = state
     }
-
+    if(clientId){
+      filters.reserva = {vehiculo: {client: {id: Number(clientId)}}}
+    }
     const cuotas = await em.find(Cuota, filters) 
     
     res.status(200).json({message: 'found all cuotas', data:cuotas})
