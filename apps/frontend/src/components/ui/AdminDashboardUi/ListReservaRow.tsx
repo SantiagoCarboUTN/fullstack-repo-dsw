@@ -14,9 +14,6 @@ export const ListReservaRow = ({patente,hora,cliente,cochera}:ReservaRowProps) =
       <td className="py-3 px-4">{cliente}</td>
       <td className="py-3 px-4">{cochera}</td>
       <td className="py-3 px-4 flex justify-center gap-3">
-        <button className="bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition">
-          Finalizar
-        </button>
         <button className="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition">
           Cancelar
         </button>

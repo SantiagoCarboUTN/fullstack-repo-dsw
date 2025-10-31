@@ -14,8 +14,8 @@ export const CocherasList = () => {
   return (
     <>
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
-        <button onClick={()=>setFiltroEstado("ocupada")}><InfoCard label="Cocheras Ocupadas:" value={cantOcupadas} /></button>
-        <button onClick={()=>setFiltroEstado("disponible")}><InfoCard label="Cocheras Disponibles:" value={cantDesocupadas} /></button>
+        <button onClick={()=>setFiltroEstado("ocupada")}><InfoCard label="Cocheras Ocupadas" value={cantOcupadas} /></button>
+        <button onClick={()=>setFiltroEstado("disponible")}><InfoCard label="Cocheras Disponibles" value={cantDesocupadas} /></button>
       </div>
 
       <div className="p-8 bg-gray-100 min-h-screen">
@@ -33,7 +33,7 @@ export const CocherasList = () => {
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
             <table className="w-full text-left border-collapse">
-              <thead className="bg-blue-700 text-white">
+              <thead className="bg-gray-800 text-white">
                 <tr>
                   <th className="py-3 px-4">Número</th>
                   <th className="py-3 px-4">Estado</th>
@@ -46,6 +46,7 @@ export const CocherasList = () => {
                 {cocherasFiltradas.map((cochera,index) => (
                   <CocheraRows
                     key={index}
+                    listState= {filtroEstado}
                     number={cochera.number}
                     state={cochera.state} 
                     tipoVehiculo={cochera.tipoVehiculo.description}

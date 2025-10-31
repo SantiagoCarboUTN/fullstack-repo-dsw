@@ -23,5 +23,14 @@ export const getClient = async (id_client:number)=>{
     }
     
     return data.data
+}
+
+export const getClients = async ()=>{
+  const res = await fetch(`http://localhost:3000/api/clients`)
+    const data =await res.json()
+    if (!res.ok) {
+      throw new Error(data.message || "Error al traer los cliente");
+    }
+    return data.data
 
 }

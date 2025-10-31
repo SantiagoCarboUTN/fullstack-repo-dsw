@@ -33,7 +33,7 @@ export const Dashboard = () => {
               <thead className="bg-blue-700 text-white">
                 <tr>
                   <th className="py-3 px-4">Patente</th>
-                  <th className="py-3 px-4">Hora</th>
+                  <th className="py-3 px-4">Fecha inicio</th>
                   <th className="py-3 px-4">Cliente</th>
                   <th className="py-3 px-4">N° Cochera</th>
                   <th className="py-3 px-4 text-center">Acciones</th>
@@ -44,7 +44,11 @@ export const Dashboard = () => {
                   <ListReservaRow
                     key={index}
                     patente={reserva.vehiculo.patente}
-                    hora={reserva.fechaInicio} // o formateada con toLocaleTimeString()
+                    hora={ new Date(reserva.fechaInicio).toLocaleString("es-AR", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric"
+                    })} // o formateada con toLocaleTimeString()
                     cliente={reserva.vehiculo.client.complete_name}
                     cochera={reserva.cochera.number.toString()}
                   />
