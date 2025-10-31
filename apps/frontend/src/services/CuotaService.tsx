@@ -11,8 +11,7 @@ export const getCuotas = async  (clientID:number) =>{
 }
 import type { Cuota } from '../types/CuotaType';
 
-// 🔹 Obtener todas las cuotas (con o sin filtro de estado)
-export const getCuotas = async (state?: string): Promise<Cuota[]> => {
+export const getAllCuotas = async (state?: string): Promise<Cuota[]> => {
   const params = state ? `?state=${state}` : '';
   const response = await fetch(`/api/cuota${params}`);
 
@@ -23,10 +22,9 @@ export const getCuotas = async (state?: string): Promise<Cuota[]> => {
   }
 
   const result = await response.json();
-  return result.data; // 🔹 acceder al array real
+  return result.data;
 };
 
-// 🔹 Crear una nueva cuota
 export const createCuota = async (nuevaCuota: Cuota) => {
   const response = await fetch('/api/cuota', {
     method: 'POST',

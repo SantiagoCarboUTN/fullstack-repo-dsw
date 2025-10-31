@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCuotas } from "../../services/CuotaService";
+import { getAllCuotas } from "../../services/CuotaService";
 import type { Cuota } from "../../types/CuotaType";
 
 export const useCuotas = (state?: string) => {
@@ -13,7 +13,7 @@ export const useCuotas = (state?: string) => {
         setLoading(true);
         setError(null);
 
-        const response = await getCuotas(state);
+        const response = await getAllCuotas(state);
         console.log("Respuesta del backend:", response);
 
         // 👇 usa directamente el array que devuelve el backend
