@@ -1,46 +1,24 @@
-import { useState} from "react";
 import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCreateReserva } from "../../hooks/Reserva/useCreateReserva.tsx";
-import type { ReservaInput } from "../../types/ReservaType.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 import { useParams } from "react-router-dom";
 import { useTipoServicio } from "../../hooks/TipoServicio/useTipoServicio.tsx";
 import type { TipoServicio } from "../../types/TipoServicioType.tsx";
 
 export const RealizarReserva = () => {
-  const hoy = new Date().toISOString().split("T")[0];
-  const { createReserva, loading, error, reserva } = useCreateReserva();
-  const [vehiculo, setVehiculo] = useState("");
   const {number} = useParams<{number?:string}>()
-  const [cocheraId, setCocheraId] = useState(number || "");
-  const [clienteDni, setClienteDni] = useState("");
-  const [tipoServicio, setTipoServicio] = useState("");
-  const [fechaInicio, setFechaInicio] = useState(hoy);
+  const hoy = new Date().toISOString().split("T")[0];
+  const { handleSubmit,
+    handleCocheraChange, cocheraId,
+    handleDniChange, clienteDni,
+    handleFechaChange, fechaInicio,
+    handleTipoServicioChange, tipoServicio,
+    handleVehiculoChange, vehiculo,
+    loading, error, reserva } = useCreateReserva(number);
+  
   const { tipos, loading: loadingTipos, error: errorTipos } = useTipoServicio();
   
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  const fechaInicioDate = new Date(fechaInicio); // convierte string a Date
-
-
-
-
-  const nuevaReserva: ReservaInput = {
-    vehiculo: String(vehiculo),
-    clienteDni: Number.parseInt(clienteDni),
-    cochera: {
-      number:Number.parseInt(cocheraId),
-      admin: 1
-    },
-    tipoServicio: Number.parseInt(tipoServicio),
-    fechaInicio: fechaInicioDate,
-    
-  };
-
-  await createReserva(nuevaReserva);
-};
 
 
 
@@ -63,7 +41,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               placeholder="Ej: ABC123"
               required
               value={vehiculo}
-              onChange={(e) => setVehiculo(e.target.value)}
+              onChange={handleVehiculoChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -82,7 +60,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
             }}
               value={cocheraId}
-              onChange={(e) => setCocheraId(e.target.value)}
+              onChange={handleCocheraChange}
             ></input>
             
           </div>
@@ -101,7 +79,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               placeholder="Ej: 12345678"
               required
               value={clienteDni}
-              onChange={(e) => setClienteDni(e.target.value)}
+              onChange={handleDniChange}
             className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
 
@@ -124,7 +102,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
               required
               value={tipoServicio}
-              onChange={(e) => setTipoServicio(e.target.value)}
+              onChange={handleTipoServicioChange}
             >
               <option value="">Seleccione un tipo de servicio</option>
               {tipos.map((t: TipoServicio) => (
@@ -147,7 +125,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               defaultValue={hoy}
               required
               value={fechaInicio}
-              onChange={(e) => setFechaInicio(e.target.value)}
+              onChange={handleFechaChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>

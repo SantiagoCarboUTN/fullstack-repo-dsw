@@ -6,6 +6,7 @@ import { TipoServicio } from "../tipoServicio/tserv.entity.js";
 import { Cuota } from "../cuotas/cuotas.entity.js";
 import { Admin } from "../admin/admin.entity.js";
 import { Cochera } from "../cochera/cochera.entity.js";
+import { ForeignKeyConstraintViolationException, ValidationError } from "@mikro-orm/core";
 
 const em = orm.em
 function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
@@ -144,8 +145,14 @@ async function add(req: Request, res: Response) {
       });
     });
   } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+     if (error instanceof ValidationError) {
+        return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+      }
+        /* manejo solo el fallo de tipo porque es lo unico que ingresa el cliente */
+     if (error instanceof ForeignKeyConstraintViolationException) {
+        return res.status(400).json({ message: 'No existe el tipo de vehiculo' });
+     }
+      res.status(500).json({ message: 'Error inesperado al crear la reserva' });
   }
 }
 

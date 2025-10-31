@@ -14,6 +14,6 @@ export interface Vehiculo {
 export interface VehiculoForm {
   patente: string;
   modelo: string;
-  clientId: number;
+  client: number;
   tipoVehiculo: number;
 }

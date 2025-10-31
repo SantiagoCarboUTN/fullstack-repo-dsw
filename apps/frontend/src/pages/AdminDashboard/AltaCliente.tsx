@@ -1,22 +1,18 @@
-import { useState } from "react";
-import type { Client } from "../../types/ClientType.tsx";
+
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
-import { useCreateCliente } from "../../hooks/UseCreateCliente.tsx";
+import { useCreateCliente } from "../../hooks/Client/UseCreateCliente.tsx";
+import { MessageBox } from "../../components/ui/messageBox.tsx";
 export const AltaCliente = () => {
-  const [complete_name, setNombre] = useState<string>("");
-  const [mail, setMail] = useState<string>("");
-  const [phone, setTelefono] = useState<string>("");
-  const [dni, setDni] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  
 
-  const { loading, error, success, registrarCliente } = useCreateCliente();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const clienteData: Client = { complete_name, mail, phone, dni, password };
-    registrarCliente(clienteData);
-  };
+  const { loading, error, successMessage, handleSubmit,
+    handleDniChange,dni,
+    handleMailChange,mail,
+    handleNameChange,complete_name,
+    handlePasswordChange,password,
+    handlePhoneChange,phone,
+  } = useCreateCliente();
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100   ">
       <div className="bg-white p-12 rounded-lg shadow-md w-full max-w-3xl h-auto">
@@ -34,7 +30,7 @@ export const AltaCliente = () => {
               placeholder="Ej: Juan Pérez"
               required
               value={complete_name}
-              onChange={(e) => setNombre(e.target.value)}
+              onChange={handleNameChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -48,7 +44,7 @@ export const AltaCliente = () => {
               placeholder="Ej:jperez@example.com"
               required
               value={mail}
-              onChange={(e) => setMail(e.target.value)}
+              onChange={handleMailChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -59,14 +55,14 @@ export const AltaCliente = () => {
             </label>
             <input 
               type="number"
-              onWheel={(e) => e.currentTarget.blur()}
-                onKeyDown={(e) => {
-                  if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
-                }}
+              onWheel={(e) => e.currentTarget.blur()} 
+              onKeyDown={(e) => {
+                if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
+              }}
               placeholder="Ej: +54 9 11 1234-5678"
               required
               value={phone}
-              onChange={(e) => setTelefono(e.target.value)}
+              onChange={handlePhoneChange}
               className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -78,13 +74,13 @@ export const AltaCliente = () => {
             <input
               type="number"
               onWheel={(e) => e.currentTarget.blur()} 
-                onKeyDown={(e) => {
-                  if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
-                }}
+              onKeyDown={(e) => {
+              if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
+               }}
               placeholder="Ej: 12345678"
               required
               value={dni}
-              onChange={(e) => setDni(e.target.value)}
+              onChange={handleDniChange}
               className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -98,7 +94,7 @@ export const AltaCliente = () => {
               placeholder="Ingrese una contraseña..."
               required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -111,8 +107,8 @@ export const AltaCliente = () => {
                 loading={loading}
                   />
           </div>
-          {error && <p className="text-red-600">{error}</p>}
-          {success && <p className="text-green-600">Cliente registrado correctamente!</p>}
+          {error &&  <MessageBox message={error} type="error" />}
+          {successMessage && <MessageBox message={successMessage} type="success" />}
         </form>
       </div>
     </div>

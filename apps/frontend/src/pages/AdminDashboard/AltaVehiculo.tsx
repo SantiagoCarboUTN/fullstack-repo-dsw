@@ -1,22 +1,17 @@
-import { useState } from "react";
 import { useTipoVehiculo } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useCreateVehiculo } from "../../hooks/Vehiculo/useCreateVehicol.tsx";
-import type { VehiculoForm } from "../../types/VehiculoType.tsx";
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 
 export const Altavehiculo = () => {
-  const [patente, setPatente] = useState<string>("");
-  const [modelo, setModelo] = useState<string>("");
-  const [clientId, setClientId] = useState<number>(0);
-  const [tipoVehiculo, setTipoVehiculo] = useState<number>(0);
-  const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculo();
-  const { createVehiculo, loading, error, vehiculo } = useCreateVehiculo();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const vehiculoData: VehiculoForm = { patente, modelo, clientId, tipoVehiculo };
-    createVehiculo(vehiculoData);
-  };
+  const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculo();
+  const { handleSubmit,
+    handleClientChange, clientId,
+    handleModeloChange, modelo,
+    handlePatenteChange, patente,
+    handleTipoVehiculoChange,tipoVehiculoId
+  , loading, error, vehiculo } = useCreateVehiculo();
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -36,7 +31,7 @@ export const Altavehiculo = () => {
               placeholder="Ej: ABC123"
               required
               value={patente}
-              onChange={(e) => setPatente(e.target.value)}
+              onChange={handlePatenteChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -50,7 +45,7 @@ export const Altavehiculo = () => {
               placeholder="Ej: Toyota Corolla"
               required  
               value={modelo}
-              onChange={(e) => setModelo(e.target.value)}
+              onChange={handleModeloChange}
               className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -65,10 +60,10 @@ export const Altavehiculo = () => {
               required
               onWheel={(e) => e.currentTarget.blur()} 
               onKeyDown={(e) => {
-              if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
+              if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
             }}
               value={clientId}
-              onChange={(e) => setClientId(Number(e.target.value))}
+              onChange={handleClientChange}
               className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
@@ -85,8 +80,8 @@ export const Altavehiculo = () => {
               <select 
                 className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
                 required
-                value={tipoVehiculo}
-                onChange={(e) => setTipoVehiculo(Number(e.target.value))}
+                value={tipoVehiculoId}
+                onChange={handleTipoVehiculoChange}
               >
                 <option value="">Seleccione un tipo</option>
                 {tipos.map((t:TipoVehiculo) => (
