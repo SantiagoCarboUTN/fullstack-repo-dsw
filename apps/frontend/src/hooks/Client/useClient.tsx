@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Client } from "../../types/ClientType.tsx"
+import { getClient } from "../../services/ClientService.tsx"
 
 export const useClient = ()=>{
   const [client, setClient] =useState<Client>()
@@ -9,15 +10,8 @@ export const useClient = ()=>{
   const fetchCliente = async ()=>{
     setLoading(true)
     try{
-      const res = await fetch(`http://localhost:3000/api/clients/${id_client}`)
-      if(!res.ok){
-        if(res.status === 404){
-          throw new Error("No existe el cliente")
-          }
-          throw new Error("Error al traer el cliente")
-      }
-      const data =await res.json()
-      setClient(data.data)
+      const res = await getClient(id_client)
+      setClient(res)
     }catch(err:unknown){
       if (err instanceof Error) {
           setError(err.message);

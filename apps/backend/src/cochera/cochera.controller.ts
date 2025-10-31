@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 import { Cochera } from "./cochera.entity.js"
 import { orm } from '../shared/db/orm.js'
+import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from "@mikro-orm/core"
+
 
 const em = orm.em
 
@@ -101,7 +103,19 @@ async function add(req: Request, res: Response) {
     await em.flush()
     res.status(201).json({ message: "Se creó la cochera", data: cochera })
   }catch(error:any) {
-    res.status(500).json({ message: error.message })
+    
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+    }
+    /* manejo solo el fallo de tipo porque es lo unico que ingresa el cliente */
+    if (error instanceof ForeignKeyConstraintViolationException) {
+      return res.status(400).json({ message: 'No existe el tipo de vehiculo' });
+    }
+
+     if (error instanceof UniqueConstraintViolationException) {
+      return res.status(400).json({ message: 'Ya existe una cochera con ese numero' });
+    }
+    res.status(500).json({ message: 'Error inesperado al crear la cochera' });
   }
 }
 

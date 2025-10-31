@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { orm} from '../shared/db/orm.js';
 import { Client } from './client.entity.js';
 import { populate } from 'dotenv';
+import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from '@mikro-orm/core';
 const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
@@ -53,7 +54,16 @@ async function add(req: Request, res: Response) {
     await em.flush();
     res.status(201).json({ message: 'Cliente creado', data: newClient });
   }catch (error:any) { 
-    res.status(500).json({ message: error.message });
+    /* valido los atributos unique  */
+    if (error instanceof UniqueConstraintViolationException) {
+      return res.status(400).json({ message: 'Ese email ya está registrado' });
+    }
+    
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+    }
+   
+    res.status(500).json({ message: 'Error inesperado al crear el cliente' });
   }
 }
 

@@ -1,36 +1,20 @@
-import React, { useState } from "react";
-
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 import { useTipoVehiculo } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
-import type { CocheraForm } from "../../types/CocheraType.tsx";
 import { useCreateCochera } from "../../hooks/Cochera/UseCreateCochera.tsx";
-import { useNavigate } from "react-router-dom";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
+import { MessageBox } from "../../components/ui/messageBox.tsx";
 
 export const AltaCochera = ()=>{
-  const navigate = useNavigate()
   const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculo();
-  const { createCochera, loading: loadingCreate, error: errorCreate } = useCreateCochera();
-  const [tipoVehiculoId, setTipoVehiculoId] = useState("");
-  const [numero, setNumero] = useState("");
-  const  handleSubmit = async(e: React.FormEvent) => {
-    e.preventDefault();
+  const { handleSubmit,handleNumberChange,handleTipoVehiculoChange, 
+    loading: loadingCreate, 
+    error: errorCreate,
+    numero,
+    tipoVehiculoId,
+    successMessage
+    
+  } = useCreateCochera();
 
-    const nuevaCochera:CocheraForm = {
-      tipoVehiculo: Number.parseInt(tipoVehiculoId),
-      number:Number.parseInt(numero),
-      admin:1,
-      sucursal:1
-    };
-    const res= await createCochera(nuevaCochera)
-    if (res) {
-      alert(`Cochera creada con numero: ${res.number}`);
-      setTipoVehiculoId("");
-      setNumero("");
-      navigate("/admin/cocheras")
-    }
-   
-  };
 
   return (
     <>
@@ -53,7 +37,7 @@ export const AltaCochera = ()=>{
            className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
            required
            value={tipoVehiculoId}
-           onChange={(e) => setTipoVehiculoId(e.target.value)}
+           onChange={handleTipoVehiculoChange}
            >
             <option value="">Seleccione un tipo</option>
             {tipos.map((t: TipoVehiculo) => (
@@ -74,9 +58,13 @@ export const AltaCochera = ()=>{
             type="number"
             placeholder=""
             required
-            className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+            className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
             value={numero}
-            onChange={(e) => setNumero(e.target.value)}
+            onChange={handleNumberChange}
+            onWheel={(e) => e.currentTarget.blur()} 
+            onKeyDown={(e) => {
+              if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
+            }}
           />
         </div>
         <div className="text-center">
@@ -87,8 +75,11 @@ export const AltaCochera = ()=>{
                       />
         </div>
          {errorCreate && (
-            <p className="text-red-500 text-center mt-4">{errorCreate}</p>
+            <MessageBox message={errorCreate} type="error" />
           )}
+         <div className="text-center">
+            <MessageBox message={successMessage} type="success" />
+         </div>
       </form>
     </div>
   </div>
