@@ -16,6 +16,7 @@ import { VerReserva } from '../pages/ClientDashboard/verReserva.tsx'
 import {SignUp} from '../pages/SignUp.tsx'
 import { Altavehiculo } from '../pages/AdminDashboard/AltaVehiculo.tsx'
 import { PagosList } from '../pages/ClientDashboard/pagosList.tsx'
+import { ClientList } from '../pages/AdminDashboard/ClientList.tsx'
 
 export const MyRouter = () => {
   return (
@@ -35,6 +36,7 @@ export const MyRouter = () => {
         <Route path="alta-cliente" element={<AltaCliente />} />
         <Route path="alta-cochera" element={<AltaCochera />} />
         <Route path="alta-vehiculo" element={<Altavehiculo />} />
+        <Route path="clients" element={< ClientList/>} />
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
       </Route>
 
