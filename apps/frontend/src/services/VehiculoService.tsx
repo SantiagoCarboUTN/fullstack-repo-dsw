@@ -10,7 +10,7 @@ export const createVehiculo = async (nuevoVehiculo:VehiculoForm)=>{
       });
     const data = await res.json();
     if (!res.ok) {
-      throw new Error(data.message || "Error al crear cochera");
+      throw new Error(data.message || "Error al crear vehiculo");
     }
     return data.data
 }
