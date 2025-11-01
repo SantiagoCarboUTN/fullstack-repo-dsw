@@ -14,11 +14,11 @@ interface SideBarAdminProps {
 export const SideBarAdmin = ({ isOpen, setIsOpen, admin }:SideBarAdminProps) => {
   const links = [
     { to: "/admin/dashboard", label: "Dashboard", icon: <BiHomeAlt /> },
-    { to: "/admin/realizar-reserva", label: "Realizar reserva", icon: <BiCar /> },
+    { to: "/admin/alta-vehiculo", label: "Vehículos", icon: <BiCar /> },
     { to: "/admin/reportes", label: "Reportes", icon: <BiBarChart /> },
     { to: "/admin/clients", label: "Clientes", icon: <FaUserCheck /> },
     { to: "/admin/cocheras", label: "Administrar Cocheras", icon: <FaParking /> },
-    { to: "/admin/agregar-tipo-vehiculo", label: "Agregar Tipo Vehículo", icon: <GiGearStickPattern /> },
+    { to: "/admin/agregar-tipo-vehiculo", label: "Tipos Vehículo", icon: <GiGearStickPattern /> },
   ];
 
   return (

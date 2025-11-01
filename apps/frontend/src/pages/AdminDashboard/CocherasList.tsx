@@ -42,7 +42,7 @@ export const CocherasList = () => {
 
   return (
     <>
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
+      <div className="p-8 grid grid-cols-1 gap-1 place-items-center sm:grid-cols-2 ">
         <button onClick={() => setFiltroEstado("ocupada")}>
           <InfoCard label="Cocheras Ocupadas" value={cantOcupadas} />
         </button>
@@ -51,7 +51,7 @@ export const CocherasList = () => {
         </button>
       </div>
 
-      <div className="p-8 bg-gray-100 min-h-screen">
+      <div className="p-2 bg-gray-100 min-h-screen sm:p-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Cocheras</h1>
           <button className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition">
@@ -76,45 +76,45 @@ export const CocherasList = () => {
 
                   </div>
                      <div className="grid grid-cols-4 bg-gray-800 text-white text-xs font-bold sm:hidden">
-                    <div className="px-4 py-2 text-left">Nombre</div>
+                    <div className="px-4 py-2 text-left">Numero</div>
                     <div className="px-4 py-2 text-center col-span-2">Datos</div>
-                    <div className="px-4 py-2 text-left">Acciones</div>
+                    <div className="px-4 py-2 text-center">Acciones</div>
                     
                   </div>
                    {cocherasFiltradas.map((cochera) => (
                  <div key={cochera.number} className="grid grid-cols-4 sm:grid-cols-7 border-t border-gray-200 text-gray-800">
-                    <div className="hidden sm:block px-4 py-3">
+                    <div className=" px-4 py-3">
                       <p className="">{cochera.number}</p>
                     </div>
 
-                    <div className="px-4 py-3 ">
+                    <div className="hidden sm:block px-4 py-3 ">
                       <p className="font-medium text-xs sm:text-gray-600">{cochera.state}</p>
-                    
                     </div>
                     <div className="px-4 py-3 col-span-2 leading-none sm:hidden ">
-                      <span className="font-semibold text-xs">Sucursal </span>
-                      <p className="text-gray-600 text-xs">{cochera.sucursal.razonSocial}</p>
-                      <span className="font-semibold text-xs">T</span>
-                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.sucursal.direction}</p>
+                      <span className="font-semibold text-xs">Tipo </span>
+                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.tipoVehiculo.description}</p>
+                      <span className="font-semibold text-xs">Estado </span>
+                      <p className="font-medium text-xs sm:text-gray-600">{cochera.state}</p>
+
                     </div>
                     <div className="hidden sm:block px-4 py-3 ">
                       <p className="text-gray-600 text-xs cursor-pointer">{cochera.tipoVehiculo.description}</p>
                     </div>
-
-                    <div className="hidden sm:block px-4 py-3 font-medium ">
-                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.state}</p>
+                    <div className="hidden sm:block px-4 py-3 ">
+                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.sucursal.direction}</p>
                     </div>
+
                     
-                    <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none sm:grid-cols-3 col-span-2">
+                    <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none sm:grid-cols-3 sm:col-span-2">
                     
                     
                       {filtroEstado === "disponible" ?(
-                        <div className="grid grid-cols-3 col-span-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
                           <button
                             className="text-blue-700 font-medium hover:underline"
                             onClick={() => handleEdit(cochera.number)}
                           >
-                            Editar
+                          Editar
                           </button>
                           <button
                           className="text-blue-700 font-medium hover:underline"
@@ -129,7 +129,7 @@ export const CocherasList = () => {
                           </button>
                         </div>
                       ): (
-                        <div className="grid grid-cols-3 col-span-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
                           <button
                             className="text-blue-700 font-medium hover:underline"
                             onClick={() => handleEdit(cochera.number)}
@@ -138,13 +138,13 @@ export const CocherasList = () => {
                           </button>
                         <button
                           disabled
-                          className="text-gray-600 font-medium "
+                          className="hidden sm:block text-gray-600 font-medium "
                         >
                           Reservada
                         </button>
                          <button
                           disabled
-                          className="text-gray-600 font-medium "
+                          className="hidden sm:block text-gray-600 font-medium "
                         >
                           Eliminar
                         </button>
