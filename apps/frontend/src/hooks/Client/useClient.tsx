@@ -2,15 +2,15 @@ import { useEffect, useState } from "react"
 import type { Client } from "../../types/ClientType.tsx"
 import { getClient } from "../../services/ClientService.tsx"
 
-export const useClient = ()=>{
+export const useClient = (id:string)=>{
   const [client, setClient] =useState<Client>()
   const [loading, setLoading] =useState(false)
   const [error, setError] =useState<string|null>()
-  const id_client =  1 
+  
   const fetchCliente = async ()=>{
     setLoading(true)
     try{
-      const res = await getClient(id_client)
+      const res = await getClient(id)
       setClient(res)
     }catch(err:unknown){
       if (err instanceof Error) {

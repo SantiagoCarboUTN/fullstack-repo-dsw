@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import type { Admin } from "../../types/AdminType.tsx"
 
-export const useAdmin = ()=>{
+export const useAdmin = (id:string)=>{
   const [admin, setAdmin] =useState<Admin>()
   const [loading, setLoading] =useState(false)
   const [error, setError] =useState<string|null>()
-  const id_admin =  1 
+
   const fetchCliente = async ()=>{
     setLoading(true)
     try{
-      const res = await fetch(`http://localhost:3000/api/admins/${id_admin}`)
+      const res = await fetch(`http://localhost:3000/api/admins/${id}`)
       if(!res.ok){
         if(res.status === 404){
           throw new Error("No existe el admin")
