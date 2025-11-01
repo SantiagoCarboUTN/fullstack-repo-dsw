@@ -14,9 +14,9 @@ export const AltaCliente = () => {
   } = useCreateCliente();
 
   return (
-    <div className="flex p-4 justify-center items-center h-screen bg-gray-100   ">
+    <div className="min-h-screen flex items-center justify-center px-2 sm:px-4 overflow-x-hidden ">
       <div className="bg-white p-12 rounded-lg shadow-md w-full max-w-3xl h-auto">
-        <h2 className="text-4xl font-bold mb-8 text-blue-700 text-center">  
+        <h2 className=" font-bold mb-8 text-3xl text-blue-700 text-center sm:text-4xl">  
           Ingresar Cliente </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">

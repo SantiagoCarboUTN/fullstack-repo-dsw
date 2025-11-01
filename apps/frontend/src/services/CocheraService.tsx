@@ -24,7 +24,7 @@ export const createOneCochera = async (nuevaCochera: CocheraForm) => {
 };
 
 // Modificar una cochera existente
-export const modifyCochera = async (id: number, updatedCochera: CocheraForm) => {
+export const updateCochera = async (id: string, updatedCochera: CocheraForm) => {
   const res = await fetch(`http://localhost:3000/api/cochera/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
