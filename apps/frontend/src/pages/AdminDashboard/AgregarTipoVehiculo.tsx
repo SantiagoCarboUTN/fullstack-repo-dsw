@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { useCreateTipoVehiculo } from "../../hooks/TipoVehiculo/UseCreateTipoVehiculo";
+import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos";
+import { useModifyTipoVehiculo } from "../../hooks/TipoVehiculo/UseModifyTipoVehiculo";
+import { UseEliminateTipoVehiculo } from "../../hooks/TipoVehiculo/UseEliminateTipoVehiculo";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
 
 export const AgregarTipoVehiculo = () => {
+  // --- HOOK CREAR ---
   const {
     description,
     loading,
@@ -12,47 +17,218 @@ export const AgregarTipoVehiculo = () => {
     handleSubmit,
   } = useCreateTipoVehiculo();
 
+  // --- HOOK LISTAR ---
+  const { tipos, loading: loadingTipos, error: errorTipos } = UseTipoVehiculos();
+
+  // --- HOOK ELIMINAR ---
+  const { eliminateTipoVehiculo } = UseEliminateTipoVehiculo();
+
+  // --- HOOK MODIFICAR ---
+  const { modifyTipoVehiculo, loading: loadingEdit, error: errorEdit, success: successEdit } =
+    useModifyTipoVehiculo();
+
+  // --- ESTADOS MODAL MODIFICAR ---
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [editDescription, setEditDescription] = useState("");
+
+  const handleEdit = (id: number, desc: string) => {
+    setSelectedId(id);
+    setEditDescription(desc);
+    setModalOpen(true);
+  };
+
+  const handleSubmitEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedId) return;
+
+    await modifyTipoVehiculo(selectedId, { description: editDescription });
+
+    if (!errorEdit) {
+      setTimeout(() => setModalOpen(false), 1000);
+    }
+  };
+
+// --- ESTADO MODAL ELIMINAR ---
+const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+const [deleteId, setDeleteId] = useState<number | null>(null);
+
+const handleDeleteClick = (id: number) => {
+  setDeleteId(id);
+  setDeleteModalOpen(true);
+};
+
+const handleConfirmDelete = async () => {
+  if (!deleteId) return;
+
+  await eliminateTipoVehiculo(deleteId);
+  setDeleteModalOpen(false);
+};
+
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl">
+    <div className="flex flex-col items-center w-full px-4 py-10">
+      {/* --- FORMULARIO CREAR --- */}
+      <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl mb-10">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-700 text-center">
           Registrar Tipo de Vehículo
         </h2>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Descripción */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2 text-lg">
-              Descripción
-            </label>
-            <input
-              type="text"
-              placeholder="Ej: Auto, Moto, SUV..."
-              required
-              className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
-              value={description}
-              onChange={handleChange}
-            />
+          <label className="block text-gray-700 font-semibold mb-2 text-lg">
+            Descripción
+          </label>
+          <input
+            type="text"
+            placeholder="Ej: Auto, Moto, SUV..."
+            required
+            className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+            value={description}
+            onChange={handleChange}
+          />
+
+          <div className="text-center">
+            <SubmitButton text="Guardar Tipo de Vehículo" loadingText="Guardando..." loading={loading} />
           </div>
 
-          {/* Botón */}
-          <div className="text-center">
-            <SubmitButton
-              text="Guardar Tipo de Vehículo"
-              loadingText="Guardando..."
-              loading={loading}
-            />
-          </div>
-
-          {/* Mensaje unificado */}
-          <div className="text-center">
-            <MessageBox 
-              message={error || (success ? "Tipo vehículo creado con éxito ✅" : "")} 
-              type={error ? "error" : "success"} 
-            />
-          </div>
+          <MessageBox
+            message={error || (success ? "Tipo vehículo creado con éxito ✅" : "")}
+            type={error ? "error" : "success"}
+          />
         </form>
       </div>
+
+      {/* --- LISTADO EN FORMATO TABLA --- */}
+      <div className="grid-container w-full border border-gray-300 sm:gap-4 text-sm max-w-4xl">
+        {/* Cabecera Desktop */}
+        <div className="hidden md:grid grid-cols-4 bg-gray-800 text-white font-bold">
+          <div className="px-4 py-2 text-left">ID</div>
+          <div className="px-4 py-2 text-left">Descripción</div>
+          <div className="px-4 py-2 text-left">Editar</div>
+          <div className="px-4 py-2 text-left">Eliminar</div>
+        </div>
+
+        {/* Cabecera móvil */}
+        <div className="grid grid-cols-2 bg-gray-800 text-white font-bold md:hidden">
+          <div className="px-4 py-2 text-left">Descripción</div>
+          <div className="px-4 py-2 text-left">Acciones</div>
+        </div>
+
+        {loadingTipos ? (
+          <p className="p-4">Cargando tipos...</p>
+        ) : errorTipos ? (
+          <p className="p-4 text-red-500">Error: {errorTipos}</p>
+        ) : (
+          tipos.map((t) => (
+            <div key={t.id} className="grid grid-cols-2 md:grid-cols-4 border-t border-gray-200 text-gray-800">
+              <div className="hidden md:block px-4 py-3">{t.id}</div>
+              <div className="px-4 py-3 font-medium">{t.description}</div>
+
+              {/* Editar */}
+              <span
+                className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline"
+                onClick={() => handleEdit(t.id, t.description)}
+              >
+                Editar
+              </span>
+
+              {/* Eliminar */}
+              <span
+                className="px-4 py-3 text-red-600 font-medium cursor-pointer hover:underline"
+                onClick={() => handleDeleteClick(t.id)}
+              >
+                Eliminar
+              </span>
+
+            </div>
+          ))
+        )}
+      </div>
+
+{/* --- MODAL ELIMINAR --- */}
+{isDeleteModalOpen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
+    {/* Fondo blureado */}
+    <div
+      className="absolute inset-0 bg-white/30 backdrop-blur-sm"
+      onClick={() => setDeleteModalOpen(false)}
+    ></div>
+
+    {/* Contenido del modal */}
+    <div className="relative bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-full max-w-sm">
+      <h3 className="text-xl font-semibold mb-4 text-red-600 text-center">
+        Confirmar Eliminación
+      </h3>
+      <p className="mb-4 text-center text-gray-700">
+        ¿Estás seguro de que deseas eliminar este tipo de vehículo?
+      </p>
+
+      <div className="flex justify-end gap-3">
+        <button
+          type="button"
+          onClick={() => setDeleteModalOpen(false)}
+          className="px-4 py-2 rounded bg-gray-400 text-white hover:bg-gray-600"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          onClick={handleConfirmDelete}
+          className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+{/* --- MODAL EDITAR INLINE SOBRE FORMULARIO --- */}
+{isModalOpen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
+    {/* Fondo blureado */}
+    <div className="absolute inset-0 bg-white/30 backdrop-blur-sm" onClick={() => setModalOpen(false)}></div>
+
+    {/* Contenido del modal */}
+    <div className="relative bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-full max-w-md">
+      <h3 className="text-xl font-semibold mb-4 text-blue-700 text-center">Editar Tipo</h3>
+
+      <form onSubmit={handleSubmitEdit} className="flex flex-col gap-3">
+        <input
+          type="text"
+          className="border border-gray-300 p-3 rounded w-full"
+          value={editDescription}
+          onChange={(e) => setEditDescription(e.target.value)}
+          required
+        />
+
+        <div className="flex justify-end gap-3 mt-2">
+          <button
+            type="button"
+            onClick={() => setModalOpen(false)}
+            className="px-4 py-2 rounded bg-gray-400 text-white hover:bg-gray-600"
+          >
+            Cancelar
+          </button>
+
+          <SubmitButton
+            text="Guardar Cambios"
+            loadingText="Guardando..."
+            loading={loadingEdit}
+          />
+        </div>
+
+        <div className="mt-2">
+          <MessageBox
+            message={errorEdit || (successEdit ? "Modificado ✅" : "")}
+            type={errorEdit ? "error" : "success"}
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+)}  
     </div>
   );
-};
+}
