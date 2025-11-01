@@ -1,11 +1,11 @@
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
-import { useTipoVehiculo } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
+import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useCreateCochera } from "../../hooks/Cochera/UseCreateCochera.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 
 export const AltaCochera = ()=>{
-  const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculo();
+  const { tipos, loading:loadingTipos, error:errorTipos } = UseTipoVehiculos();
   const { handleSubmit,handleNumberChange,handleTipoVehiculoChange, 
     loading: loadingCreate, 
     error: errorCreate,
