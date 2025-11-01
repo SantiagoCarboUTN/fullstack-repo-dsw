@@ -9,10 +9,12 @@ import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useDeleteCochera } from "../../hooks/Cochera/UseEliminateCochera.tsx";
 import { useUpdateCochera } from "../../hooks/Cochera/UseModifyCochera.tsx";
+import { useNavigate } from "react-router-dom";
 
 
 
 export const CocherasList = () => {
+  const navigate =useNavigate()
   const { isDeleteModalOpen,handleConfirmDelete,handleDeleteClick,setDeleteModalOpen} = useDeleteCochera();
   const [filtroEstado, setFiltroEstado] = useState<"disponible" | "ocupada">("disponible");
   const { cocheras, loading, error, cantDesocupadas, cantOcupadas } = useCocheras();
@@ -54,8 +56,11 @@ export const CocherasList = () => {
       <div className="p-2 bg-gray-100 min-h-screen sm:p-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Cocheras</h1>
-          <button className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition">
-            <Default_Link route="/admin/alta-cochera" text="Crear Cochera" />
+          <button
+            onClick={() => navigate("/admin/alta-cochera")}
+            className="bg-blue-700 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition"
+          >
+            Crear Cochera
           </button>
         </div>
 
