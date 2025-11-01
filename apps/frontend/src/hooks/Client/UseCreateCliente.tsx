@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Client } from "../../types/ClientType.tsx";
+import type {  ClienteInput } from "../../types/ClientType.tsx";
 import { createCliente } from "../../services/ClientService.tsx";
 
 
@@ -43,7 +43,7 @@ export const useCreateCliente = () => {
   }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const clienteData: Client = { complete_name, mail, phone, dni, password };
+    const clienteData: ClienteInput = { complete_name, mail, phone, dni, password };
     setLoading(true);
     setError("");
     setSuccessMessage(null);

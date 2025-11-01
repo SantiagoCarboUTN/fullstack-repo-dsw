@@ -6,17 +6,18 @@ import type { Client } from "../../types/ClientType.tsx";
 
 interface LayoutPanelProps {
   SidebarComponent: React.ComponentType<{ isOpen: boolean; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> ;admin?:Admin|undefined ;client?:Client|undefined }>;
-  useUser:()=> {
+  useUser:(id:string)=> {
     client?: Client | undefined
     admin?: Admin | undefined
     loading: boolean;
     error: string | null | undefined;
-}
+},
+ id_user:string
 }
 
-export const LayoutPanel: React.FC<LayoutPanelProps> = ({ SidebarComponent, useUser }) => {
+export const LayoutPanel: React.FC<LayoutPanelProps> = ({ SidebarComponent, useUser,id_user }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const {client,admin, loading,error} = useUser()
+  const {client,admin, loading,error} = useUser(id_user)
   return (
     <div className="flex h-screen overflow-hidden">
       {/* SIDEBAR (dinámico: Admin o Client) */}

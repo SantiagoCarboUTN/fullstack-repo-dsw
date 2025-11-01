@@ -1,17 +1,13 @@
 import type { CocheraForm } from "../types/CocheraType.tsx";
 
-// Obtener todas las cocheras de un admin
-export const getAllCocheras = async (adminId: number) => {
-  const res = await fetch(`http://localhost:3000/api/cochera?admin=${adminId}`);
-  if (!res.ok) {
-    if (res.status === 404) {
-      throw new Error("No hay cocheras disponibles");
+export const getAllCocheras = async(adminId:number)=>{
+   const res = await fetch(`http://localhost:3000/api/cochera?admin=${adminId}`) 
+   const data = await res.json()
+    if (!res.ok){
+      throw new Error(data.message || "Error al obtener las cocheras");
     }
-    throw new Error("Error al traer cocheras");
-  }
-  const data = await res.json();
-  return data;
-};
+    return data
+}
 
 // Crear una nueva cochera
 export const createOneCochera = async (nuevaCochera: CocheraForm) => {
