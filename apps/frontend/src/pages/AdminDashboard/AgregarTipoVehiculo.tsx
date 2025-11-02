@@ -64,8 +64,7 @@ export const AgregarTipoVehiculo = () => {
         <div className="hidden sm:grid grid-cols-4 bg-gray-800 text-white font-bold">
           <div className="px-4 py-2 text-left">ID</div>
           <div className="px-4 py-2 text-left">Descripción</div>
-          <div className="px-4 py-2 text-left">Editar</div>
-          <div className="px-4 py-2 text-left">Eliminar</div>
+          <div className="px-4 py-2 text-center">Acciones</div>
         </div>
 
         {/* Cabecera para pantalla menor a sm */}
@@ -86,21 +85,24 @@ export const AgregarTipoVehiculo = () => {
                   <div className="px-4 py-3 font-medium">{t.description}</div>
 
                   {/* Editar */}
-                  <span
+                  <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none sm:grid-cols-2">
+                     <span
                     className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline"
                     onClick={() => handleEdit(t.id, t.description)}
-                  >
-                    Editar
-                  </span>
-
-                  {/* Eliminar */}
-                  <span
+                    >
+                      Editar
+                    </span>
+                         {/* Eliminar */}
+                    <span
                     className="px-4 py-3 text-red-600 font-medium cursor-pointer hover:underline"
                     onClick={() => handleDeleteClick(t.id)}
                   >
                     Eliminar
                   </span>
+                  </div>
+                 
 
+           
                 </div>
               ))
             )}

@@ -4,7 +4,7 @@ import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 import { useReservas } from "../../hooks/Reserva/UseReservas.tsx";
 
-export const ReservasList = () => {
+export const ReservasAdminList = () => {
   const { reservas, loading, error } = useReservas();
   const {cantDesocupadas,cantOcupadas} = useCocheras()
   return (

@@ -65,8 +65,8 @@ export const ClientList = ()=>{
                     
                   </div>
         
-                
-                {filteredClients.map(c => (
+                <div className="bg-white shadow-md overflow-hidden">
+                  {filteredClients.map(c => (
                   <div key={c.id} className="grid grid-cols-4 sm:grid-cols-6 border-t border-gray-200 text-gray-800">
                     <div className="hidden sm:block px-4 py-3">
                       <p className="">{c.id}</p>
@@ -117,6 +117,8 @@ export const ClientList = ()=>{
                    
                 </div>
               ))}
+                </div>
+                
             </div>
           )}
       {errorDelete &&  <MessageBox message={errorDelete} type="error" />}
