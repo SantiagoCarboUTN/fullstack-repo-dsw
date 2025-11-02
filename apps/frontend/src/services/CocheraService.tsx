@@ -24,8 +24,8 @@ export const createOneCochera = async (nuevaCochera: CocheraForm) => {
 };
 
 // Modificar una cochera existente
-export const updateCochera = async (id: string, updatedCochera: CocheraForm) => {
-  const res = await fetch(`http://localhost:3000/api/cochera/${id}`, {
+export const updateCochera = async (id: string, updatedCochera: CocheraForm,admin:number) => {
+  const res = await fetch(`http://localhost:3000/api/cochera/${admin}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(updatedCochera),
@@ -38,8 +38,8 @@ export const updateCochera = async (id: string, updatedCochera: CocheraForm) => 
 };
 
 // Eliminar una cochera
-export const eliminateCochera = async (id: number) => {
-  const res = await fetch(`http://localhost:3000/api/cochera/${id}`, {
+export const eliminateCochera = async (id: number, admin:number) => {
+  const res = await fetch(`http://localhost:3000/api/cochera/${admin}/${id}`, {
     method: "DELETE",
   });
   const data = await res.json();

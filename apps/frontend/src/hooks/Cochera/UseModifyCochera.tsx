@@ -7,11 +7,11 @@ export const useUpdateCochera = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
- const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<string | null>(null);
   const [editNumber, setEditNumber] = useState("");
   const [tipoVehiculoId, setTipoVehiculoId] = useState<number | "">("");
-
+  const adminId = 1 //para desarrollo
   const handleTipoVehiculoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTipoVehiculoId(Number(e.target.value));
   };
@@ -34,7 +34,7 @@ export const useUpdateCochera = () => {
     setError(null);
     setSuccess(false);
     try {
-      await updateCochera(number, data);
+      await updateCochera(number, data, adminId);
       setSuccess(true);
     } catch (err: unknown) {
       if (err instanceof Error) {

@@ -10,7 +10,8 @@ function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunct
     nombre: req.body.nombre,
     precioCuota: req.body.precioCuota,
     cantCuotas: req.body.cantCuotas,
-    id: req.body.id
+    id: req.body.id,
+    admin:req.body.admin
   }
   Object.keys(req.body.sanitizedInput).forEach((key) => {
     if (req.body.sanitizedInput[key] === undefined) {
@@ -22,7 +23,22 @@ function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunct
 
 async function findAll(req: Request, res: Response) {
   try{
-    const tipoServicios = await em.find(TipoServicio, {});
+    const{admin} = req.query
+    const filters:any = {}
+    if(admin){
+      filters.admin = admin
+    }
+    if(!admin){
+      const tipoServicios = await em.find(TipoServicio, {});
+      if(tipoServicios.length === 0){
+        res.status(404).json({message:'tipos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de tipos', data: tipoServicios });
+      }
+      return;
+    }
+
+    const tipoServicios = await em.find(TipoServicio, filters);
     
     if(tipoServicios.length === 0){
         res.status(404).json({message:'tipos not found'})
@@ -63,9 +79,10 @@ async function update(req: Request, res: Response) {
 
     em.assign(tipoServicio, req.body.sanitizedInput);
     await em.flush();
-
+   
     res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
   } catch (error:any) { 
+  
     res.status(500).json({ message: error.message });
   }
 }

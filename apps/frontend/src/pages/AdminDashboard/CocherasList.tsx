@@ -9,6 +9,7 @@ import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx"
 import { useDeleteCochera } from "../../hooks/Cochera/UseEliminateCochera.tsx";
 import { useUpdateCochera } from "../../hooks/Cochera/UseModifyCochera.tsx";
 import { useNavigate } from "react-router-dom";
+import { DeleteModal } from "../../components/modals/DeleteModal.tsx";
 
 
 
@@ -135,31 +136,31 @@ export const CocherasList = () => {
                             Eliminar
                           </button>
                         </div>
-                      ): (
-                        <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
-                          <button
-                            className="text-blue-700 font-medium hover:underline"
-                            onClick={() => handleEdit(cochera.number)}
-                          >
-                            Editar
-                          </button>
-                        <button
-                          disabled
-                          className="hidden sm:block text-gray-600 font-medium "
-                        >
-                          Reservada
-                        </button>
-                         <button
-                          disabled
-                          className="hidden sm:block text-gray-600 font-medium "
-                        >
-                          Eliminar
-                        </button>
-                          </div>
-                      
-                      )}
-                    </div>
-                    </div>
+                          ): (
+                            <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
+                              <button
+                                className="text-blue-700 font-medium hover:underline"
+                                onClick={() => handleEdit(cochera.number)}
+                              >
+                                Editar
+                              </button>
+                            <button
+                              disabled
+                              className="hidden sm:block text-gray-600 font-medium "
+                            >
+                              Reservada
+                            </button>
+                            <button
+                              disabled
+                              className="hidden sm:block text-gray-600 font-medium "
+                            >
+                              Eliminar
+                            </button>
+                              </div>
+                          
+                          )}
+                        </div>
+                        </div>
                 ))}
           </div>
             
@@ -169,34 +170,8 @@ export const CocherasList = () => {
 
       {/* Modal eliminacion */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-white/30 backdrop-blur-sm"
-            onClick={() => setDeleteModalOpen(false)}
-          ></div>
-          <div className="relative bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-full max-w-sm">
-            <h3 className="text-xl font-semibold mb-4 text-red-600 text-center">Confirmar Eliminación</h3>
-            <p className="mb-4 text-center text-gray-700">
-              ¿Estás seguro de que deseas eliminar esta cochera?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setDeleteModalOpen(false)}
-                className="px-4 py-2 rounded bg-gray-400 text-white hover:bg-gray-600"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal setDeleteModalOpen={setDeleteModalOpen} handleConfirmDelete={handleConfirmDelete}
+        confirmationText="¿Estas seguro de que deseas eliminar la cochera?"/>
       )}
 
       {/* Modal de edicion */}

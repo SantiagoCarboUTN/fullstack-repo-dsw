@@ -2,6 +2,7 @@ import { Entity, Property,OneToMany, Cascade,Collection, BeforeCreate, BeforeUpd
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Cochera} from "../cochera/cochera.entity.js";
 import bcrypt from 'bcrypt'
+import { TipoServicio } from "../tipoServicio/tserv.entity.js";
 @Entity()
 export class Admin extends BaseEntity {
   @Property({nullable:false})
@@ -23,6 +24,9 @@ export class Admin extends BaseEntity {
   @OneToMany(() => Cochera, (cochera) => cochera.admin, { cascade: [Cascade.ALL] })
   cocheras = new Collection<Cochera>(this);
   
+ @OneToMany(() => TipoServicio, (cochera) => cochera.admin, { cascade: [Cascade.ALL],nullable:true })
+  TiposServicio = new Collection<TipoServicio>(this);
+
   toJSON() {
     const { password, ...rest } = this;
     return rest;

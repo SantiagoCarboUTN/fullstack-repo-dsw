@@ -1,21 +1,22 @@
 ### obtener todos los tipos de servicio
-GET http://localhost:3000/api/tipoServicio
+GET http://localhost:3000/api/tipoServicio?admin=1
 
 ### obtener un tipo de servicio por id
-GET http://localhost:3000/api/tipoServicio/1
+GET http://localhost:3000/api/tipoServicio/1/5
 
 ### crear un tipo de servicio
 POST http://localhost:3000/api/tipoServicio 
 Content-Type: application/json
 
 {
-    "nombre": "mensual",
-    "precioCuota": 1000,
-    "cantCuotas": 1
+    "nombre": "Mensual",
+    "precioCuota": 700,
+    "cantCuotas": 1,
+    "admin":1
 }
 
 ### actualizar un tipo de servicio
-PUT http://localhost:3000/api/tipoServicio/1
+PUT http://localhost:3000/api/tipoServicio/6
 Content-Type: application/json
 
 {
@@ -25,4 +26,4 @@ Content-Type: application/json
 }
 
 ### eliminar un tipo de servicio
-DELETE http://localhost:3000/api/tipoServicio/2
+DELETE http://localhost:3000/api/tipoServicio/8
