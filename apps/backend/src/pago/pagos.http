@@ -1,0 +1,12 @@
+### Simular webhook de Mercado Pago
+POST http://localhost:3000/api/pagos/webhook
+Content-Type: application/json
+x-request-id: test-req-123
+x-signature: ts=123456,v1=abcdef1234567890
+
+{
+  "data": {
+    "id": "125816432479"
+  },
+  "type": "payment"
+}

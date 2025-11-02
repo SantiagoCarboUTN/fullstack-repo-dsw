@@ -12,10 +12,15 @@
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
+    "@nx/express": "^21.6.4",
+    "@nx/react": "^21.6.4",
     "@nx/workspace": "^21.6.3",
     "nx": "21.6.3"
   },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "chart.js": "^4.5.1",
+    "dayjs": "^1.11.18",
+    "moment": "^2.30.1",
+    "recharts": "^3.3.0"
   }
 }

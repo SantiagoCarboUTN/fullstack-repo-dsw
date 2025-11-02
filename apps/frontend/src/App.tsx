@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {MyRouter} from './routes/Router'
 
 const App = () => {

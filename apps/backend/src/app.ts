@@ -1,23 +1,44 @@
 import express from "express"
-import { Clientrouter } from "./clients/client.routes.js";
-import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js";
+import 'reflect-metadata'
+import cors from "cors"
+import { ClientRouter } from "./clients/client.routes.js";
 import { TipoServicioRouter } from "./tipoServicio/tserv.routes.js";
-import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
 import { CocheraRouter } from "./cochera/cochera.routes.js";
 import { ReservaRouter } from "./reserva/reserva.routes.js";
 import { CuotaRouter } from "./cuotas/cuotas.routes.js";
-
+import { orm, syncSchema } from "./shared/db/orm.js";
+import { RequestContext } from "@mikro-orm/mysql";
+import { VehiculoRouter } from "./vehiculo/vehiculo.routes.js";
+import { TipoVehiculoRouter } from "./tipoVehiculo/tv.routes.js"; 
+import { AdminRouter } from "./admin/admin.routes.js";
+import { SucursalRouter } from "./sucursal/sucursal.routes.js";
+import { PagosRouter } from "./pago/pagos.routes.js";
+import { WebhookRouter } from "./pago/webhook.routes.js";
 
 const app = express()
 
-console.log("hola mundo")
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use(express.json())
 
+app.use((req,res,next)=>{
+  RequestContext.create(orm.em, next)
+})
 
-app.use("/api/clients", Clientrouter)
+app.use("/api/pagos",PagosRouter)
+app.use("/api/webhook",WebhookRouter)
+
+app.use("/api/vehiculo", VehiculoRouter)
 
 app.use("/api/tipoVehiculo", TipoVehiculoRouter)
+
+app.use("/api/clients", ClientRouter)
+
+app.use("/api/sucursal", SucursalRouter)
 
 app.use("/api/tipoServicio", TipoServicioRouter)
 
@@ -29,7 +50,9 @@ app.use("/api/reserva",ReservaRouter)
 
 app.use("/api/cuota",CuotaRouter)
 
+app.use("/api/admins",AdminRouter)
+
+await syncSchema() //solo en desarrollo, nunca en produccion
 app.listen(3000, ()=>{
   console.log('Server runnning on http://localhost:3000/')
 })
-

@@ -1,20 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
-import { ClientRepository } from './client.repository.js';
+import { orm} from '../shared/db/orm.js';
 import { Client } from './client.entity.js';
-const repository = new ClientRepository();
+import { populate } from 'dotenv';
+import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from '@mikro-orm/core';
+const em = orm.em
 
 function sanitizedClientInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedClientInput = {
-  name: req.body.name,
+  req.body.sanitizedInput = {
+  complete_name: req.body.complete_name,
   mail: req.body.mail,
-  telefono: req.body.telefono,
+  phone: req.body.phone,
   dni: req.body.dni,
-  contraseña: req.body.contraseña,
+  password: req.body.password,
   id: req.body.id
 }
-Object.keys(req.body.sanitizedClientInput).forEach((key) => {
-  if (req.body.sanitizedClientInput[key] === undefined) {
-    delete req.body.sanitizedClientInput[key]
+Object.keys(req.body.sanitizedInput).forEach((key) => {
+  if (req.body.sanitizedInput[key] === undefined) {
+    delete req.body.sanitizedInput[key]
   } 
 
 })
@@ -22,48 +24,72 @@ next()
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+  try {
+    const clientes = await em.find(Client, {});
+
+    if(clientes.length === 0){
+      res.status(404).json({message: 'Clientes not found'})
+    }else{
+      res.status(200).json({message: 'Lista de clientes', data: clientes })
+    }
+    
+  } catch (error:any) {
+    res.status(500).json({message: error.message}); 
+  }
 }
 
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id;
-  const cliente = await repository.findOne({id});
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
+  try{
+  const id = Number.parseInt(req.params.id)
+  const cliente = await em.findOneOrFail(Client, {id}); res.status(200).json({message: 'Cliente encontrado', data: cliente })
+}catch (error: any) {
+  res.status(500).json({ message: error.message });
   }
-  res.json({ data: cliente })
 }
 
-async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedClientInput
 
-  const clientInput = new Client(
-    input.name,
-    input.contraseña,
-    input.mail,
-    input.telefono,
-    input.dni,
-  )
-  const cliente = await repository.add(clientInput);
-  return res.status(201).json({message: 'Se creó el cliente', data: cliente });
+async function add(req: Request, res: Response) {
+  try {
+    const newClient = em.create(Client, req.body.sanitizedInput);
+    await em.flush();
+    res.status(201).json({ message: 'Cliente creado', data: newClient });
+  }catch (error:any) { 
+    /* valido los atributos unique  */
+    if (error instanceof UniqueConstraintViolationException) {
+      return res.status(400).json({ message: 'Ese email ya está registrado' });
+    }
+    
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+    }
+   
+    res.status(500).json({ message: 'Error inesperado al crear el cliente' });
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedClientInput.id = req.params.id;
-  const cliente= await repository.update( req.body.sanitizedClientInput);
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
+  try {
+    const id = Number.parseInt(req.params.id);
+    const cliente = await em.findOneOrFail(Client,  id );
+
+    em.assign(cliente, req.body.sanitizedInput);
+    await em.flush();
+    res.status(200).json({ message: 'Cliente actualizado', data: cliente });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-  return res.status(200).json({message: 'Se actualizó el cliente', data: cliente });
 }
 
 async function remove(req: Request, res: Response) {
-  const id = req.params.id;
-  const cliente = await repository.delete({id});
-  if (!cliente) {
-    return res.status(404).json({ error: 'No se encontro el cliente' });
-  }else{
-  return res.status(200).json({message: 'Se eliminó el cliente', data: cliente })}
+  try { 
+    const id = Number.parseInt(req.params.id);
+    const cliente = await em.findOneOrFail(Client,  id, {populate:["vehiculos"]} );
+
+    await em.removeAndFlush(cliente);
+    res.status(200).json({ message: 'Cliente eliminado' , data:cliente});
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+  }
 }
 
-export { findAll, findOne, add, update, remove, sanitizedClientInput};
+export { findAll, findOne, add, update, remove, sanitizedClientInput}; 

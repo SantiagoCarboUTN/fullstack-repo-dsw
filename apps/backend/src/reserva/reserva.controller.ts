@@ -1,58 +1,203 @@
-import { Reserva } from "./reserva.entity.js";
-import { ReservaRepository } from "./reserva.repository.js";
-import { Request, Response, NextFunction } from 'express'
-const repository = new ReservaRepository()
+import { Request, Response, NextFunction } from "express"
+import { Reserva } from "./reserva.entity.js"
+import { orm } from '../shared/db/orm.js'
+import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
+import { TipoServicio } from "../tipoServicio/tserv.entity.js";
+import { Cuota } from "../cuotas/cuotas.entity.js";
+import { Admin } from "../admin/admin.entity.js";
+import { Cochera } from "../cochera/cochera.entity.js";
+import { ForeignKeyConstraintViolationException, ValidationError } from "@mikro-orm/core";
 
-function sanitizedReservaInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedReservaInput = {
-  tarifa: req.body.tarifa,
-  id: req.body.id
-}
-Object.keys(req.body.sanitizedReservaInput).forEach((key) => {
-  if (req.body.sanitizedReservaInput[key] === undefined) {
-    delete req.body.sanitizedReservaInput[key]
-  } 
+const em = orm.em
+function sanitizedReservaInput(req: Request,res: Response,next: NextFunction) {
+  req.body.sanitizedInput = {
+    cochera: req.body.cochera,   
+    vehiculo: req.body.vehiculo, 
+    tipoServicio: req.body.tipoServicio, 
+    fechaInicio: req.body.fechaInicio,       
+    fechaFin: req.body.fechaFin,
+    state: req.body.state              
+  };
 
-})
-next()
+
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key];
+    }
+  });
+
+  next();
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
-}
-async function findOne(req: Request, res: Response) {
-  const id = req.params.id
-  const reserva = await repository.findOne({id})
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
-  }
-  res.json({ data: reserva })
-}
-async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedReservaInput
+  try{
+    const {client,state,admin}= req.query //Query params para los filtros
+    const filters: any = {};
+    
+    if (admin) {
+     filters.cochera = { admin: { id: Number(admin) } };
+    }
 
-  const reservaInput = new Reserva(
-    input.tarifa,
-    input.id
-  )
-  const reserva = await repository.add(reservaInput)
-  return res.status(201).json({message: 'Se creó la reserva', data: reserva })
+
+    if (client) {
+     filters.vehiculo = { client: { id: Number(client) } };
+    }
+
+    if (state) {
+     filters.state = state; 
+    }
+
+    if(!state && !client && !admin){ //Todas las reservas
+      const reservas = await em.find(Reserva, {} ,{ populate: ['vehiculo', 'cochera', 'vehiculo.client'] })
+      if(reservas.length === 0){
+        res.status(404).json({message:'reservas not found'})
+      }else{
+        res.status(200).json({message: `found all reservas`, data:reservas})
+      }
+      return ;
+    }
+
+    const reservas = await em.find(Reserva, filters,{ populate: ['vehiculo', 'vehiculo.client',"cuotas","cochera", "cochera.sucursal"] }) //listado filtrado 
+    
+    if(reservas.length === 0){ 
+      res.status(404).json({message:'reservas not found'})
+    }else{
+      res.status(200).json({message: `found all ${req.params.state || ''} client reservas`, data:reservas})
+    }
+
+  }catch(error:any){
+    res.status(500).json({message: error.message})
+  }
 } 
-async function update(req: Request, res: Response) {
-  req.body.sanitizedReservaInput.id = req.params.id
-  const reserva = await repository.update(req.body.sanitizedReservaInput)
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
+
+async function findOne(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculo
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.params.number)
+      })
+    const fechaini = new Date(req.params.fechaInicio)
+    const reserva = await em.findOneOrFail(Reserva, {
+      cochera: cocheraRef,
+      vehiculo: { patente: patenteVehiculo },
+      fechaInicio: fechaini},{populate:["cuotas", "cochera", "cochera.sucursal","vehiculo"]}
+    )
+    res.status(200).json({message: 'found reserva', data:reserva})
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
   }
-  return res.status(200).json({message: 'Se actualizó la reserva', data: reserva })
 }
-async function remove(req: Request, res: Response) {
-  const id = req.params.id
-  const reserva = await repository.delete({id})
-  if (!reserva) {
-    return res.status(404).json({ error: 'No se encontró la reserva' })
-  }else {
-    return res.status(200).json({message: 'Se eliminó la reserva', data: reserva})
+
+async function add(req: Request, res: Response) {
+    try {
+    await em.transactional(async (tem) => {
+      const { tipoServicio } = req.body.sanitizedInput;
+
+      const ts = await tem.findOne(TipoServicio, { id: tipoServicio });
+      if (!ts) {
+        res.status(400).json({ message: "Tipo de servicio no encontrado" });
+        return;
+      }
+
+      const adminRef = tem.getReference(Admin,req.body.cochera.admin)
+      const cocheraRef = await tem.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.body.cochera.number)
+      })
+      if(!cocheraRef){
+        res.status(404).json({ message: "Cochera no encontrada" })
+        return;
+      }
+
+      const fechaFin= new Date(req.body.sanitizedInput.fechaInicio)
+      const cantMeses = ts.cantCuotas
+      fechaFin.setMonth(fechaFin.getMonth() + cantMeses)
+      const reserva = tem.create(Reserva, {
+        ...req.body.sanitizedInput,
+        tipoServicio:ts,
+        cochera: cocheraRef,
+        fechaFin: fechaFin
+      });
+      
+      const fechaInicio = new Date(reserva.fechaInicio);
+
+      for (let i = 0; i < ts.cantCuotas; i++) {
+        const fechaPago = new Date(fechaInicio);
+        fechaPago.setMonth(fechaPago.getMonth() + i);
+
+        const cuota = tem.create(Cuota, {
+          reserva,
+          fechaPago,
+          monto: ts.precioCuota,
+          state: "pendiente",
+        });
+
+        reserva.cuotas.add(cuota);
+      }
+      
+      await tem.persistAndFlush(reserva);
+
+      res.status(201).json({
+        message: "Reserva creada con sus cuotas",
+        data: reserva,
+      });
+    });
+  } catch (error: any) {
+     if (error instanceof ValidationError) {
+        return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+      }
+        /* manejo solo el fallo de tipo porque es lo unico que ingresa el cliente */
+     if (error instanceof ForeignKeyConstraintViolationException) {
+        return res.status(400).json({ message: 'No existe el tipo de vehiculo' });
+     }
+      res.status(500).json({ message: 'Error inesperado al crear la reserva' });
   }
+}
+
+async function update(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculo
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+      admin:adminRef,
+      number:Number.parseInt(req.params.number)
+    })
+    const fechaini = new Date(req.params.fechaInicio)
+    const reservaUpdated = await em.findOneOrFail(Reserva, {
+        cochera: cocheraRef,
+        vehiculo: { patente: patenteVehiculo },
+        fechaInicio: fechaini}
+    )
+    em.assign(reservaUpdated, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: "Se actualizó la reserva", reservaUpdated })
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
+  }
+}
+
+async function remove(req: Request, res: Response) {
+  try{
+    const patenteVehiculo = req.params.vehiculo
+    const adminRef = em.getReference(Admin, Number(req.params.admin))
+    const cocheraRef = await em.findOne(Cochera,{
+        admin:adminRef,
+        number:Number.parseInt(req.params.number)
+      })
+    const fechaini = new Date(req.params.fechaInicio)
+    const reservaDeleted = await em.findOneOrFail(Reserva, {
+      cochera: cocheraRef,
+      vehiculo: { patente: patenteVehiculo },
+      fechaInicio: fechaini}, { populate: ['cuotas'] }
+    )
+    await em.removeAndFlush(reservaDeleted)
+    return res.status(200).json({ message: "Se eliminó la reserva", data: reservaDeleted })
+}catch(error:any){
+  res.status(500).json({ message: error.message })
+}
 }  
-export { findAll, findOne, add, update, remove, sanitizedReservaInput};
+
+export { findAll,findOne, add,sanitizedReservaInput, update, remove };
+

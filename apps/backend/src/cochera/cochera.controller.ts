@@ -1,61 +1,153 @@
 import { Request, Response, NextFunction } from "express"
-import { CocheraRepository } from "./cochera.repository.js"
 import { Cochera } from "./cochera.entity.js"
-const repository = new CocheraRepository()
+import { orm } from '../shared/db/orm.js'
+import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from "@mikro-orm/core"
+import { Admin } from "../admin/admin.entity.js"
+
+
+const em = orm.em
 
 function sanitizedCocheraInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedCocheraInput = {
-    numero: req.body.numero,
-    estado: req.body.estado
+  req.body.sanitizedInput = {
+    number: req.body.number,
+    state: req.body.state,
+    admin: req.body.admin,
+    tipoVehiculo: req.body.tipoVehiculo,
+    reservas: req.body.reservas,
+    sucursal: req.body.sucursal
   }
-  Object.keys(req.body.sanitizedCocheraInput).forEach((key) => {
-    if (req.body.sanitizedCocheraInput[key] === undefined) {
-      delete req.body.sanitizedCocheraInput[key]
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
     } 
   })
   next()
 }
-
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
-} 
+  try {
+    const { state, vehicleType, admin } = req.query;
+    const filters: any = {}; 
 
-async function findOne(req: Request, res: Response) {
-  const numero = req.params.numero
-  const cochera = await repository.findOne({ numero })
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
+    if (state) {
+      filters.state = state; 
+    }
+
+    if (admin) {
+      filters.admin = admin;
+    }
+
+    if (vehicleType) {
+      filters.tipoVehiculo = vehicleType; 
+    }
+
+    if (!admin && !state && !vehicleType){ //Todas las cocheras
+      const cocheras = await em.find(Cochera, {});
+      if (cocheras.length === 0){
+        res.status(404).json({message:'Cocheras not found'})
+      }else{
+      res.status(200).json({
+        message: "Lista de cocheras",
+        data: cocheras,
+        })
+      }
+      return;
+    }
+
+    if(state =='ocupada'){ //listado de cocheras ocupadas
+      const cocheras = await em.find(Cochera, filters, { populate: ['reservas'],filters: { reservas: {state: 'ACTIVA'} } });
+      if (cocheras.length === 0){
+        res.status(404).json({message:'No hay cocheras ocupadas'})
+      }else{
+      res.status(200).json({
+        message: "found cocheras",
+        data: cocheras,
+        })
+      }
+      return;
+    }
+
+    const cocheras = await em.find(Cochera, filters,{ populate: ['tipoVehiculo','sucursal']});
+    
+    const filtersCount: any = [] //filtros para obtener las cantidades de cocheras ocupadas/desocupadas
+   
+    filtersCount.admin = admin
+
+    const cantOcupadas = await em.count(Cochera, {admin:filtersCount.admin, state:'ocupada'});
+    const cantCocheras = await em.count(Cochera,{admin:filtersCount.admin});
+    const cantDesocupadas = cantCocheras -cantOcupadas
+
+    if (cocheras.length === 0){
+      res.status(404).json({message:'cocheras not found'})
+    }else{
+      res.status(200).json({
+        message: "found cocheras",
+        data: cocheras, cantDesocupadas, cantOcupadas
+        })
+    }
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-  res.json({ data: cochera })
 }
 
+async function findOne(req: Request, res: Response) {
+  try{
+    const number = Number.parseInt(req.params.number)
+    const admin = em.getReference(Admin, Number(req.params.admin))
+    const cochera = await em.findOneOrFail(Cochera, {number,admin})
+    res.status(200).json({message: 'Found cochera', data:cochera})
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
+  }
+}
 async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedCocheraInput
-  const cocheraInput = new Cochera(
-    input.numero,
-    input.estado
-  )
-  const cochera = await repository.add(cocheraInput)
-  return res.status(201).json({ message: "Se creó la cochera", data: cochera })
+  try{
+    const cochera = em.create(Cochera,req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: "Se creó la cochera", data: cochera })
+  }catch(error:any) {
+    
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ message: 'Datos inválidos', errors: error.message });
+    }
+    /* manejo solo el fallo de tipo porque es lo unico que ingresa el cliente */
+    if (error instanceof ForeignKeyConstraintViolationException) {
+      return res.status(400).json({ message: 'No existe el tipo de vehiculo' });
+    }
+
+     if (error instanceof UniqueConstraintViolationException) {
+      return res.status(400).json({ message: 'Ya existe una cochera con ese numero' });
+    }
+    res.status(500).json({ message: 'Error inesperado al crear la cochera' });
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedCocheraInput.numero = req.params.numero
-  const cochera = await repository.update(req.body.sanitizedCocheraInput)
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
+  try{
+    const number = Number.parseInt(req.params.number)
+    const admin = em.getReference(Admin, Number(req.params.admin))
+    const cocheraUpdated = await  em.findOneOrFail(Cochera, {number,admin})
+
+    em.assign(cocheraUpdated, req.body.sanitizedInput)
+    await em.flush()
+
+    res.status(201).json({ message: "Se actualizó la cochera", data: cocheraUpdated })
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
   }
-  return res.status(200).json({ message: "Se actualizó la cochera", data: cochera})
 }
 
 async function remove(req: Request, res: Response) {
-  const numero = req.params.numero
-  const cochera = await repository.delete({ numero })
-  if (!cochera) {
-    return res.status(404).json({ error: "No se encontró la cochera" })
-  }else {
-    return res.status(200).json({ message: "Se eliminó la cochera", data: cochera })
-  } 
-}  
+  try{
+    const number = Number.parseInt(req.params.number)
+    const cocheraDeleted =  await em.findOneOrFail(Cochera, {number})
 
-export { findAll, findOne, add, update, remove, sanitizedCocheraInput };
+    await em.removeAndFlush(cocheraDeleted)
+
+    res.status(200).json({ message: "Se eliminó la cochera", data: cocheraDeleted })
+  }catch(error:any){
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export { findAll,findOne, add,sanitizedCocheraInput, update, remove };
+

@@ -1,63 +1,103 @@
 import { Request, Response, NextFunction } from "express"
-import { TipoServicioRepository } from "./tserv.repository.js"
+import {orm} from "../shared/db/orm.js"
 import { TipoServicio } from "./tserv.entity.js"
-const repository = new TipoServicioRepository()
+const em = orm.em
+
+
 
 function sanitizedTipoServicioInput(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedTipoServicioInput = {
+  req.body.sanitizedInput = {
     nombre: req.body.nombre,
-    precio: req.body.precio,
-    id: req.body.id
+    precioCuota: req.body.precioCuota,
+    cantCuotas: req.body.cantCuotas,
+    id: req.body.id,
+    admin:req.body.admin
   }
-  Object.keys(req.body.sanitizedTipoServicioInput).forEach((key) => {
-    if (req.body.sanitizedTipoServicioInput[key] === undefined) {
-      delete req.body.sanitizedTipoServicioInput[key]
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if (req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
     } 
   })
   next()
 }
 
 async function findAll(req: Request, res: Response) {
-  res.json({ data: await repository.findAll() })
+  try{
+    const{admin} = req.query
+    const filters:any = {}
+    if(admin){
+      filters.admin = admin
+    }
+    if(!admin){
+      const tipoServicios = await em.find(TipoServicio, {});
+      if(tipoServicios.length === 0){
+        res.status(404).json({message:'tipos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de tipos', data: tipoServicios });
+      }
+      return;
+    }
+
+    const tipoServicios = await em.find(TipoServicio, filters);
+    
+    if(tipoServicios.length === 0){
+        res.status(404).json({message:'tipos not found'})
+      }else{
+        res.status(200).json({message: 'Lista de tipos', data: tipoServicios });
+      }
+  }catch (error:any){
+    res.status(500).json({ message: error.message});
+  }
 } 
 
 async function findOne(req: Request, res: Response) {
-  const id = req.params.id
-  const tipoServicio = await repository.findOne({ id })
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
+  try{
+    const id = Number.parseInt(req.params.id);
+
+    const tipoServicio = await em.findOneOrFail(TipoServicio, { id}); 
+    res.status(200).json({message: 'Tipo de servicio encontrado', data: tipoServicio })
+  }catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-  res.json({ data: tipoServicio })
 }
 
 async function add(req: Request, res: Response) {
-  const input = req.body.sanitizedTipoServicioInput
-  const tipoServicioInput = new TipoServicio(
-    input.nombre,
-    input.precio,
-    input.id
-  )
-  const tipoServicio = await repository.add(tipoServicioInput)
-  return res.status(201).json({ message: "Se creó el tipo de servicio", data: tipoServicio })
+  try {
+    const newTipoServicio = em.create(TipoServicio, req.body.sanitizedInput);
+    await em.flush();
+
+    res.status(201).json({ message: 'Tipo de servicio creado', data: newTipoServicio });
+  }catch (error:any) { 
+    res.status(500).json({ message: error.message });
+  }
 }
 
 async function update(req: Request, res: Response) {
-  req.body.sanitizedTipoServicioInput.id = req.params.id
-  const tipoServicio = await repository.update(req.body.sanitizedTipoServicioInput)
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
+  try {
+    const id = Number.parseInt(req.params.id);
+    const tipoServicio = await em.findOneOrFail (TipoServicio,  id );
+
+    em.assign(tipoServicio, req.body.sanitizedInput);
+    await em.flush();
+   
+    res.status(200).json({ message: 'Tipo de servicio actualizado', data: tipoServicio });
+  } catch (error:any) { 
+  
+    res.status(500).json({ message: error.message });
   }
-  return res.status(200).json({ message: "Se actualizó el tipo de servicio", data: tipoServicio })
 }
 
 async function remove(req: Request, res: Response) {
-  const id = req.params.id
-  const tipoServicio = await repository.delete({ id })
-  if (!tipoServicio) {
-    return res.status(404).json({ error: "No se encontró el tipo de servicio" })
-  }else {
-    return res.status(200).json({ message: "Se eliminó el tipo de servicio", data: tipoServicio })
-  } 
+  try { 
+    const id = Number.parseInt(req.params.id);
+    const tipoServicio = await em.findOneOrFail (TipoServicio,  id );
+
+    await em.removeAndFlush(tipoServicio);
+
+    res.status(200).json({ message: 'Tipo de servicio eliminado' });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message});
+  }
 }  
 
 export { findAll, findOne, add, update, remove, sanitizedTipoServicioInput };

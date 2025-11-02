@@ -1,0 +1,28 @@
+### obtener todos los administradores
+GET http://localhost:3000/api/admins
+
+### obtener un administrador por id
+GET http://localhost:3000/api/admins/1
+
+### crear un administrador
+POST http://localhost:3000/api/admins
+Content-Type: application/json
+
+{
+    "complete_name": "Max Verstappen",
+    "email": "max2.admin@example.com",
+    "password": "AdminPassword123"
+} 
+
+### actualizar un administrador
+PUT http://localhost:3000/api/admins/1
+Content-Type: application/json
+
+{
+    "complete_name": "Ayrton Senna",
+    "email": "senna.admin@example.com",
+    "password": "12345"
+}
+
+### eliminar un administrador
+DELETE http://localhost:3000/api/admins/1

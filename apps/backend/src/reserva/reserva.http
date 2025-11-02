@@ -1,11 +1,35 @@
-#ala
-POST http://localhost:3000/api/cuota
+### obtener todas las reservas
+GET http://localhost:3000/api/reserva/
+
+### obtener reservas filtradas
+GET http://localhost:3000/api/reserva?state=ACTIVA&admin=1
+### 
+GET http://localhost:3000/api/reserva?vehiculo=ABC123&cochera=8&tipoServicio=1&fechaInicio=2025-10-10T10:00:00Z
+
+### crear una reserva
+POST http://localhost:3000/api/reserva
 Content-Type: application/json
 
 {
-  "fecha": "04/04/2002",
-  "estado": "a deber"
+  "cochera": {
+    "number": 1,
+    "admin": 1
+  },
+  "vehiculo": "AB345AA",
+  "tipoServicio": 1,
+  "fechaInicio": "2025-12-10T10:00:00Z",
+  "state": "ACTIVA"
+}
+### obtener la reserva
+GET http://localhost:3000/api/reserva/1/12/ABC123/2025-12-10T10:00:00Z
+
+### actualizar la reserva
+PUT http://localhost:3000/api/reserva/1/12/ABC123/2025-12-10T10:00:00Z
+Content-Type: application/json
+
+{
+    "state": "FINALIZADA"
 }
 
-
-
+### eliminar una reserva
+DELETE http://localhost:3000/api/reserva/1/78/AB345AA/2025-12-10T10:00:00Z
