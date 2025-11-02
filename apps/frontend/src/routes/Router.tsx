@@ -18,6 +18,9 @@ import { Altavehiculo } from '../pages/AdminDashboard/AltaVehiculo.tsx'
 import { PagosList } from '../pages/ClientDashboard/pagosList.tsx'
 import { ClientList } from '../pages/AdminDashboard/ClientList.tsx'
 import { EditClient } from '../pages/AdminDashboard/EditarCliente.tsx'
+import { MisServicios } from '../pages/AdminDashboard/MisServicios.tsx'
+import { EditService } from '../pages/AdminDashboard/EditarServicio.tsx'
+import { AltaTipoServicio } from '../pages/AdminDashboard/AgregarTipoServicio.tsx'
 
 export const MyRouter = () => {
   return (
@@ -38,8 +41,11 @@ export const MyRouter = () => {
         <Route path="alta-cochera" element={<AltaCochera />} />
         <Route path="alta-vehiculo" element={<Altavehiculo />} />
         <Route path="clients" element={< ClientList/>} />
+        <Route path="mis-servicios" element={< MisServicios/>} />
         <Route path="editar-cliente/:id" element={< EditClient/>} />
         <Route path="agregar-tipo-vehiculo" element={<AgregarTipoVehiculo />} />
+        <Route path="alta-servicio" element={<AltaTipoServicio />} />
+        <Route path="editar-servicio/:id" element={<EditService />} />
       </Route>
 
       <Route path="client" element={<LayoutClient />}>

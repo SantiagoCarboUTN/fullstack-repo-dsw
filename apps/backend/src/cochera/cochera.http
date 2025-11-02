@@ -2,14 +2,14 @@
 GET http://localhost:3000/api/cochera?state=disponible&admin=1
 
 ### obtener un tipo de servicio por id
-GET http://localhost:3000/api/cochera
+GET http://localhost:3000/api/cochera/1/2345
 
 ### crear un tipo de servicio
 POST http://localhost:3000/api/cochera
 Content-Type: application/json
 
 {
-    "number": 1,
+    "number": 233,
     "tipoVehiculo": 1,
     "state": "disponible",
     "admin": 1,
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### actualizar un tipo de servicio
-PUT http://localhost:3000/api/cochera/9
+PUT http://localhost:3000/api/cochera/1/2345
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### eliminar un tipo de servicio
-DELETE http://localhost:3000/api/cochera/9
+DELETE http://localhost:3000/api/cochera/1/233

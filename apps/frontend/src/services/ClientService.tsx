@@ -37,7 +37,7 @@ export const getClients = async ()=>{
 
 
 export const updateClient = async (id:string, clienteData: ClientForm)=>{
-  const res = await fetch(`/api/clients/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/clients/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export const updateClient = async (id:string, clienteData: ClientForm)=>{
 
 
 export const deleteClient = async (id:string)=>{
-  const res = await fetch(`/api/clients/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/clients/${id}`, {
       method: "DELETE"});
   const data = await res.json()
   if (!res.ok) {

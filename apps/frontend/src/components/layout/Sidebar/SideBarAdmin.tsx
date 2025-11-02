@@ -4,6 +4,7 @@ import { BiHomeAlt, BiCar, BiBarChart } from "react-icons/bi";
 import { FaParking, FaUserCheck, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { GiGearStickPattern } from "react-icons/gi";
 import type { Admin } from "../../../types/AdminType.tsx";
+import { TfiReceipt } from "react-icons/tfi";
 
 interface SideBarAdminProps {
   isOpen: boolean;
@@ -18,7 +19,9 @@ export const SideBarAdmin = ({ isOpen, setIsOpen, admin }:SideBarAdminProps) => 
     { to: "/admin/reportes", label: "Reportes", icon: <BiBarChart /> },
     { to: "/admin/clients", label: "Clientes", icon: <FaUserCheck /> },
     { to: "/admin/cocheras", label: "Administrar Cocheras", icon: <FaParking /> },
-    { to: "/admin/agregar-tipo-vehiculo", label: "Tipos Vehículo", icon: <GiGearStickPattern /> },
+    { to: "/admin/mis-servicios", label: "Mis servicios", icon: <TfiReceipt /> },
+    { to: "/admin/agregar-tipo-vehiculo", label: "Tipos Vehículo", icon: <GiGearStickPattern /> }
+    
   ];
 
   return (

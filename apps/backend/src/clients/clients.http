@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "complete_name": "Felipe González",
-    "password": "miContrasedñaSegura123",
+    "password": "miContraseñaSegura123",
     "mail": "felipe2@example.com",
     "phone": "+54 9 341 1234567",
     "dni": "32123456"
@@ -20,7 +20,7 @@ PUT http://localhost:3000/api/clients/2
 Content-Type: application/json
 
 {
-    "dni": "32123426"
+    "dni": "45464632"
 }
 
 ### eliminar un cliente

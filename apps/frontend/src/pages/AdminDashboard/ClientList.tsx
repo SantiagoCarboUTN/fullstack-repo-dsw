@@ -4,6 +4,7 @@ import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useClients } from "../../hooks/Client/useAllClients.tsx";
 import { useDeleteCliente } from "../../hooks/Client/useDeleteClient.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
+import { DeleteModal } from "../../components/modals/DeleteModal.tsx";
 
 export const ClientList = ()=>{
   const {clientes, error , loading} = useClients()
@@ -109,53 +110,17 @@ export const ClientList = ()=>{
                         </span>
                       </div>
 
-                      {/* Modal de eliminacion: */}
-                      {isDeleteModalOpen && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center">
-
-                          <div
-                            className="absolute inset-0 bg-white/30 backdrop-blur-sm"
-                            onClick={() => setDeleteModalOpen(false)}
-                          ></div>
-                          <div className="relative bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-full max-w-sm">
-                            <h3 className="text-xl font-semibold mb-4 text-red-600 text-center">
-                              Confirmar Eliminación
-                            </h3>
-                            <p className="mb-4 text-center text-gray-700">
-                              ¿Estás seguro de que deseas eliminar al cliente?
-                            </p>
-
-                            <div className="flex justify-end gap-3">
-                              <button
-                                type="button"
-                                onClick={() => setDeleteModalOpen(false)}
-                                className="px-4 py-2 rounded bg-gray-400 text-white hover:bg-gray-600"
-                              >
-                                Cancelar
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={()=>{
-                                  setDeleteModalOpen(false)
-                                  handleConfirmDelete()
-                                }
-
-                                }
-                                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-                              >
-                                Eliminar
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                    )}
-                    
-                  </div>
-                ))}
-              </div>
-            )}
-      </div>
+                    {/* Uso el modal de eliminacion: */}
+                    {isDeleteModalOpen && (
+                      <DeleteModal handleConfirmDelete={handleConfirmDelete} setDeleteModalOpen={setDeleteModalOpen}
+                      confirmationText="¿Estas seguro de que deseas eliminar al cliente?"
+                      />
+                  )}
+                   
+                </div>
+              ))}
+            </div>
+          )}
       {errorDelete &&  <MessageBox message={errorDelete} type="error" />}
       {successMessage && <MessageBox message={successMessage} type="success" />}
     </div>

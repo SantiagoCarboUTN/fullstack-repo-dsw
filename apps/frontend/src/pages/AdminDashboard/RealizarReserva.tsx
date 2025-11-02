@@ -2,8 +2,8 @@ import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCreateReserva } from "../../hooks/Reserva/useCreateReserva.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 import { useParams } from "react-router-dom";
-import { useTipoServicio } from "../../hooks/TipoServicio/useTipoServicio.tsx";
 import type { TipoServicio } from "../../types/TipoServicioType.tsx";
+import { useAllTiposServicio } from "../../hooks/TipoServicio/useTiposServicio.tsx";
 
 export const RealizarReserva = () => {
   const {number} = useParams<{number?:string}>()
@@ -16,7 +16,7 @@ export const RealizarReserva = () => {
     handleVehiculoChange, vehiculo,
     loading, error, reserva } = useCreateReserva(number);
   
-  const { tipos, loading: loadingTipos, error: errorTipos } = useTipoServicio();
+  const { tipos, loading: loadingTipos, error: errorTipos } = useAllTiposServicio();
   
 
 

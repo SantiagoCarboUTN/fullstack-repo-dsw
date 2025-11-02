@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { Cochera } from "./cochera.entity.js"
 import { orm } from '../shared/db/orm.js'
 import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from "@mikro-orm/core"
+import { Admin } from "../admin/admin.entity.js"
 
 
 const em = orm.em
@@ -42,7 +43,7 @@ async function findAll(req: Request, res: Response) {
     if (!admin && !state && !vehicleType){ //Todas las cocheras
       const cocheras = await em.find(Cochera, {});
       if (cocheras.length === 0){
-        res.status(404).json({message:'cocheras not found'})
+        res.status(404).json({message:'Cocheras not found'})
       }else{
       res.status(200).json({
         message: "Lista de cocheras",
@@ -91,7 +92,8 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
     const number = Number.parseInt(req.params.number)
-    const cochera = await em.findOneOrFail(Cochera, {number})
+    const admin = em.getReference(Admin, Number(req.params.admin))
+    const cochera = await em.findOneOrFail(Cochera, {number,admin})
     res.status(200).json({message: 'Found cochera', data:cochera})
   }catch(error:any){
     res.status(500).json({ message: error.message })
@@ -122,7 +124,8 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try{
     const number = Number.parseInt(req.params.number)
-    const cocheraUpdated = await  em.findOneOrFail(Cochera, {number})
+    const admin = em.getReference(Admin, Number(req.params.admin))
+    const cocheraUpdated = await  em.findOneOrFail(Cochera, {number,admin})
 
     em.assign(cocheraUpdated, req.body.sanitizedInput)
     await em.flush()

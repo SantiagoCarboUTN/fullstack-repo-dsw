@@ -2,16 +2,6 @@ import { useState } from "react";
 import type {  ClienteInput } from "../../types/ClientType.tsx";
 import { createCliente } from "../../services/ClientService.tsx";
 
-
-export interface ClienteData {
-  nombre: string;
-  email: string;
-  telefono: string;
-  dni: string;
-  password: string;
-}
-
-
 export const useCreateCliente = () => {
   const[loading, setLoading] = useState<boolean>(false );
   const [error, setError] = useState<string | null>(null)

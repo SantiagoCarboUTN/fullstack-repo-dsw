@@ -1,7 +1,7 @@
 import { useCreateTipoVehiculo } from "../../hooks/TipoVehiculo/UseCreateTipoVehiculo";
 import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos";
 import { useUpdateTipoVehiculo } from "../../hooks/TipoVehiculo/UseUpdateTipoVehiculo.tsx";
-
+import { DeleteModal } from "../../components/modals/DeleteModal.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
 import { useDeleteTipoVehiculo } from "../../hooks/TipoVehiculo/UseDeleteTipoVehiculo.tsx";
@@ -109,41 +109,8 @@ export const AgregarTipoVehiculo = () => {
 
       {/* modal de eliminar */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Fondo blureado */}
-          <div
-            className="absolute inset-0 bg-white/30 backdrop-blur-sm"
-            onClick={() => setDeleteModalOpen(false)}
-          ></div>
-
-          {/* Contenido del modal */}
-          <div className="relative bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-full max-w-sm">
-            <h3 className="text-xl font-semibold mb-4 text-red-600 text-center">
-              Confirmar Eliminación
-            </h3>
-            <p className="mb-4 text-center text-gray-700">
-              ¿Estás seguro de que deseas eliminar este tipo de vehículo?
-            </p>
-
-            <div className="flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setDeleteModalOpen(false)}
-                className="px-4 py-2 rounded bg-gray-400 text-white hover:bg-gray-600"
-              >
-                Cancelar
-              </button>
-
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal handleConfirmDelete={handleConfirmDelete} setDeleteModalOpen={setDeleteModalOpen}
+        confirmationText="¿Estas seguro de que deseas eliminar el tipo?"/>
       )}
 
 

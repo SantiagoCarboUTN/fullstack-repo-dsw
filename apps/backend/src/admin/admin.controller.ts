@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { orm} from '../shared/db/orm.js';
 import { Admin } from './admin.entity.js';
+import { TipoServicio } from '../tipoServicio/tserv.entity.js';
 
 const em = orm.em
 
@@ -46,9 +47,26 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const newAdmin = em.create(Admin, req.body.sanitizedInput);
-    await em.flush();
-    res.status(201).json({ message: 'Administrador creado', data: newAdmin });
+    const admin = em.create(Admin, req.body.sanitizedInput);
+    /* Creo servicios por defecto */
+    const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [
+      {denom:"mensual", cantCuotas:1,precioCuota:100 },
+      {denom:"trimestral", cantCuotas:3,precioCuota:90 },
+      {denom:"anual", cantCuotas:12,precioCuota:80 }
+    ]
+    for (let i = 0; i < servicios.length; i++) {
+        const tserv = em.create(TipoServicio, {
+          admin,
+          cantCuotas:servicios[i].cantCuotas,
+          precioCuota:servicios[i].precioCuota,
+          nombre:servicios[i].denom,
+          reservas:[]
+        });
+        admin.TiposServicio.add(tserv)
+      }
+    
+    await em.persistAndFlush(admin);
+    res.status(201).json({ message: 'Administrador creado', data: admin });
   }catch (error:any) { 
     res.status(500).json({ message: error.message });
   }

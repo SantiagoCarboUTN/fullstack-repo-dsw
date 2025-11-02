@@ -8,7 +8,7 @@ export const useDeleteCochera = () => {
   const [success, setSuccess] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState<number | null>(null);
-
+  const adminId = 1
   const handleDeleteClick = (number: number) => {
     setDeleteNumber(number);
     setDeleteModalOpen(true);
@@ -20,7 +20,7 @@ export const useDeleteCochera = () => {
     setError(null);
     setSuccess(false);
     try {
-      await eliminateCochera(deleteNumber);
+      await eliminateCochera(deleteNumber,adminId);
       setSuccess(true);
     } catch (err: unknown) {
       if (err instanceof Error) {
