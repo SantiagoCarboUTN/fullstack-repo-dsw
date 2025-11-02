@@ -11,6 +11,7 @@ export const ClientList = ()=>{
     handleDeleteClick,successMessage,error:errorDelete} = useDeleteCliente()
   const [search, setSearch] = useState("")
   
+  /* Filtro para el buscador */
   const filteredClients = clientes.filter(c => {
     const term = search.toLowerCase()
     return (
@@ -46,7 +47,7 @@ export const ClientList = ()=>{
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
               <div className="grid-container w-full border border-gray-300 sm:gap-4 text-sm">
-                        {/* Columnas solo para sm> */}
+                        {/* Columnas solo para sm y mayores */}
                   <div className="hidden sm:grid grid-cols-6 bg-gray-800 text-white font-bold">
                     <div className="px-4 py-2 text-left">Id</div>
                     <div className="px-4 py-2 text-left">Nombre & Email</div>
@@ -82,7 +83,7 @@ export const ClientList = ()=>{
                       <p className="text-gray-600 text-xs cursor-pointer">{c.phone}</p>
                     </div>
 
-
+                    {/* Filas para >= sm */}
                     <div className="hidden sm:block px-4 py-3 ">
                       <p className="text-gray-600 text-xs cursor-pointer">{c.dni}</p>
                     </div>

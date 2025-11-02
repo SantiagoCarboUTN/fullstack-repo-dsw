@@ -1,10 +1,10 @@
-import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
+import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useCreateVehiculo } from "../../hooks/Vehiculo/useCreateVehicol.tsx";
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
 
 export const Altavehiculo = () => {
 
-  const { tipos, loading:loadingTipos, error:errorTipos } = UseTipoVehiculos();
+  const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculos();
   const { handleSubmit,
     handleClientChange, clientId,
     handleModeloChange, modelo,

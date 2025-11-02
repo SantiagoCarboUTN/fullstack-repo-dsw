@@ -1,11 +1,30 @@
 import { useState } from "react";
 import type { TipoVehiculoCreate } from "../../types";
 
-export const useModifyTipoVehiculo = () => {
+export const useUpdateTipoVehiculo = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [editDescription, setEditDescription] = useState("");
 
+  const handleEdit = (id: number, desc: string) => {
+    setSelectedId(id);
+    setEditDescription(desc);
+    setModalOpen(true);
+  };
+
+  const handleSubmitEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedId) return;
+
+    await modifyTipoVehiculo(selectedId, { description: editDescription });
+
+    if (!error) {
+      setTimeout(() => setModalOpen(false), 1000);
+    }
+  };
   const modifyTipoVehiculo = async (id: number, data: TipoVehiculoCreate) => {
     setLoading(true);
     setError(null);
@@ -33,5 +52,5 @@ export const useModifyTipoVehiculo = () => {
     }
   };
 
-  return { modifyTipoVehiculo, loading, error, success };
+  return { modifyTipoVehiculo, loading, error, success,handleEdit,handleSubmitEdit,isModalOpen,setModalOpen,editDescription,setEditDescription };
 };

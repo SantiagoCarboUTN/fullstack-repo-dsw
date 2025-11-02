@@ -10,7 +10,7 @@ export const VerReserva = ()=>{
   
   return (
     <>
-    <div className = 'h-screen p-4 flex flex-col md:flex-row gap-4'>
+    <div className = 'h-screen p-4 flex flex-col sm:flex-row gap-4'>
         <div className="flex-1 flex justify-center">
           <ReservaInfoCard
             label="Reserva"
@@ -41,7 +41,7 @@ export const VerReserva = ()=>{
                 Lista de cuotas
               </h2>
 
-              <div className="hidden md:grid grid-cols-4 bg-blue-700 text-white font-bold">
+              <div className="hidden sm:grid grid-cols-4 bg-blue-700 text-white font-bold">
                 <div className="py-3 px-4">Estado</div>
                 <div className="py-3 px-4">Fecha vencimiento</div>
                 <div className="py-3 px-4">Monto</div>
@@ -53,15 +53,15 @@ export const VerReserva = ()=>{
               {cuotas.map((cuota, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-4 border-t border-gray-200 text-gray-800"
+                  className="grid grid-cols-1 sm:grid-cols-4 border-t border-gray-200 text-gray-800"
                 >
                   <div className="py-3 px-4">
-                    <span className="font-semibold md:hidden">Estado: </span>
+                    <span className="font-semibold sm:hidden">Estado: </span>
                     {cuota.state}
                   </div>
 
                   <div className="py-3 px-4">
-                    <span className="font-semibold md:hidden">Fecha vencimiento: </span>
+                    <span className="font-semibold sm:hidden">Fecha vencimiento: </span>
                     {new Date(cuota.fechaPago).toLocaleString("es-AR", {
                       day: "2-digit",
                       month: "long",
@@ -70,11 +70,12 @@ export const VerReserva = ()=>{
                   </div>
 
                   <div className="py-3 px-4">
-                    <span className="font-semibold md:hidden">Monto: </span>
+                    <span className="font-semibold sm:hidden">Monto: </span>
                     {cuota.monto}
                   </div>                  
                     <div className="py-3 px-4 flex items-center">
                       {cuota.state === "pendiente" ? (
+                        /* Boton de pago: */
                         <button
                           onClick={async () => {
                             try {
@@ -93,6 +94,7 @@ export const VerReserva = ()=>{
                           Pagar
                         </button>
                       ) : (
+                        /* Boton para cuotas ya pagadas */
                         <button
                             disabled
                             className="bg-gray-400 text-white font-medium px-4 py-2 rounded-lg cursor-default"

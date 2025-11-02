@@ -4,9 +4,8 @@ import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
-
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
-import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
+import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useDeleteCochera } from "../../hooks/Cochera/UseEliminateCochera.tsx";
 import { useUpdateCochera } from "../../hooks/Cochera/UseModifyCochera.tsx";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,7 @@ export const CocherasList = () => {
   const [filtroEstado, setFiltroEstado] = useState<"disponible" | "ocupada">("disponible");
   const { cocheras, loading, error, cantDesocupadas, cantOcupadas } = useCocheras();
   const cocherasFiltradas = cocheras.filter((cochera) => cochera.state === filtroEstado);
-  const { tipos, loading: loadingTipos, error: errorTipos } = UseTipoVehiculos();
+  const { tipos, loading: loadingTipos, error: errorTipos } = useTipoVehiculos();
   
   const {loading: loadingEdit, 
     error: errorEdit, 
@@ -114,6 +113,7 @@ export const CocherasList = () => {
                     
                     
                       {filtroEstado === "disponible" ?(
+                        /* Botones para cocheras disponibles */
                         <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
                           <button
                             className="text-blue-700 font-medium hover:underline"
@@ -121,11 +121,13 @@ export const CocherasList = () => {
                           >
                           Editar
                           </button>
+                            {/* Boton de reservar */}
                           <button
                           className="text-blue-700 font-medium hover:underline"
                           >
                           <Default_Link route={`/admin/realizar-reserva/${cochera.number}`} text="Reservar" />
                           </button>
+
                             <button
                             className="text-red-600 font-medium hover:underline"
                             onClick={() => handleDeleteClick(cochera.number)}
@@ -165,7 +167,7 @@ export const CocherasList = () => {
         </div>
       </div>
 
-      {/* --- MODAL ELIMINAR --- */}
+      {/* Modal eliminacion */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
@@ -197,7 +199,7 @@ export const CocherasList = () => {
         </div>
       )}
 
-      {/* --- MODAL EDITAR --- */}
+      {/* Modal de edicion */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div

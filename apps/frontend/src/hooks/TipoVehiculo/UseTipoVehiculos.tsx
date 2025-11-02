@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react";
 import type { TipoVehiculo } from "../../types/index";
 
-export const UseTipoVehiculos = ()=>{
+export const useTipoVehiculos = ()=>{
   const [tipos,setTiposVehiculo] = useState<TipoVehiculo[]>([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

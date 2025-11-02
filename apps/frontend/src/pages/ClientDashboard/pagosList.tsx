@@ -8,7 +8,7 @@ export const PagosList = ()=>{
     return (
       <>
       <div className = 'h-screen'> 
-        <div className="p-4 md:p-8 bg-gray-100 ">
+        <div className="p-4 sm:p-8 bg-gray-100 ">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold text-gray-800">Mis pagos pendientes</h1>
             </div>
@@ -19,8 +19,8 @@ export const PagosList = ()=>{
                 <p className="p-4 text-red-500">Error: {error}</p>
               ) : ( 
                 <div className="grid-container w-full border border-gray-300 sm:gap-4">
-                  {/* Columnas solo para md */}
-                  <div className="hidden md:grid grid-cols-3 bg-blue-700 text-white font-bold">
+                  {/* Columnas solo para sm */}
+                  <div className="hidden sm:grid grid-cols-3 bg-blue-700 text-white font-bold">
                     <div className="py-3 px-4">Monto</div>
                     <div className="py-3 px-4">Fecha Pago</div>
                     
@@ -31,14 +31,14 @@ export const PagosList = ()=>{
                   {cuotas.map((cuota, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-1 md:grid-cols-3 border-t border-gray-200 text-gray-800"
+                      className="grid grid-cols-1 sm:grid-cols-3 border-t border-gray-200 text-gray-800"
                       >
                       <div className="py-3 px-4">
-                        <span className="font-semibold md:hidden">Monto: </span>
+                        <span className="font-semibold sm:hidden">Monto: </span>
                         ${cuota.monto.toFixed(2)}
                       </div>
                       <div className="py-3 px-4">
-                        <span className="font-semibold md:hidden">Fecha Pago: </span>
+                        <span className="font-semibold sm:hidden">Fecha Pago: </span>
                         {new Date(cuota.fechaPago).toLocaleDateString("es-AR", {
                           day: "2-digit",
                           month: "long",

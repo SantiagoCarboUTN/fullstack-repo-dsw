@@ -1,11 +1,20 @@
 import { useState } from "react";
 
-export const UseEliminateTipoVehiculo = () => {
+export const useDeleteTipoVehiculo = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const eliminateTipoVehiculo = async (id: number) => {
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+
     if (!confirm("¿Seguro que deseas eliminar este tipo de vehículo?")) return;
 
     setLoading(true);
@@ -13,7 +22,7 @@ export const UseEliminateTipoVehiculo = () => {
     setSuccess(false);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/tipoVehiculo/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/tipoVehiculo/${deleteId}`, {
         method: "DELETE",
       });
 
@@ -28,7 +37,9 @@ export const UseEliminateTipoVehiculo = () => {
     } finally {
       setLoading(false);
     }
+    setDeleteModalOpen(false);
   };
 
-  return { eliminateTipoVehiculo, loading, error, success };
+
+  return {  loading, error, success,handleConfirmDelete,handleDeleteClick,setDeleteModalOpen,isDeleteModalOpen };
 };

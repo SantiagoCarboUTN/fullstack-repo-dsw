@@ -1,11 +1,11 @@
 import type { TipoVehiculo } from "../../types/TipoVehiculoType.tsx";
-import { UseTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
+import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos.tsx";
 import { useCreateCochera } from "../../hooks/Cochera/UseCreateCochera.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 
 export const AltaCochera = ()=>{
-  const { tipos, loading:loadingTipos, error:errorTipos } = UseTipoVehiculos();
+  const { tipos, loading:loadingTipos, error:errorTipos } = useTipoVehiculos();
   const { handleSubmit,handleNumberChange,handleTipoVehiculoChange, 
     loading: loadingCreate, 
     error: errorCreate,
@@ -33,6 +33,7 @@ export const AltaCochera = ()=>{
           ) : errorTipos ? (
             <p className="p-4 text-red-500">Error: {errorTipos}</p>
           ) : ( 
+          /* Muestro los tv disponibles */
           <select 
            className="border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
            required
@@ -67,6 +68,7 @@ export const AltaCochera = ()=>{
             }}
           />
         </div>
+        {/* Boton de creación */}
         <div className="text-center">
             <SubmitButton
                text="Crear cochera"

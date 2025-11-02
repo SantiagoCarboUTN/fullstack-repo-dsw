@@ -9,7 +9,7 @@ export const Reportes = () => {
   const [selectedYear, setSelectedYear] = useState(currentYear - 1);
   const { cuotas, loading, error } = useCuotas("pagada");
 
-  // 🔹 Agrupar por mes
+  /* agrupo por mes */
   const agruparPorMes = (year: number) =>
     Array.from({ length: 12 }, (_, i) => {
       const total = cuotas
@@ -27,7 +27,7 @@ export const Reportes = () => {
   const currentData = agruparPorMes(currentYear);
   const selectedData = agruparPorMes(selectedYear);
 
-  // 🔹 Totales
+  /* Totales */
   const totalActual = currentData.reduce((a, b) => a + b.total, 0);
   const totalSeleccionado = selectedData.reduce((a, b) => a + b.total, 0);
   const diferencia = totalActual - totalSeleccionado;
@@ -39,26 +39,26 @@ export const Reportes = () => {
     <div className="flex flex-col items-center gap-8 p-6">
       <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-700 text-center">Reportes de Recaudación</h2>
 
-      {/* Selector de año */}
-  <div className = 'flex flex-row items-center gap-2'>   
-  <label className="font-medium  text-lg">
-    Seleccionar año:
-  </label>
-  <input
-    type="number"
-    value={selectedYear}
-    onChange={(e) => setSelectedYear(Number(e.target.value))}
-    placeholder = {(currentYear -1).toString()}
-    className=" border border-gray-300 p-4 rounded w-28 text-lg text-center 
-               text-blue-700 font-semibold 
-               focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-700 
-               transition duration-200 bg-white"
-  />
-</div> 
+        {/* Selector de año */}
+      <div className = 'flex flex-row items-center gap-2'>   
+        <label className="font-medium  text-lg">
+          Seleccionar año:
+        </label>
+        <input
+          type="number"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(Number(e.target.value))}
+          placeholder = {(currentYear -1).toString()}
+          className=" border border-gray-300 p-4 rounded w-28 text-lg text-center 
+                    text-blue-700 font-semibold 
+                    focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-700 
+                    transition duration-200 bg-white"
+        />
+      </div> 
 
 
 
-      {/* Gráficos */}
+      {/* Graficos */}
       <TotalRecaudadoChart year={currentYear} />
       <TotalRecaudadoChart year={selectedYear} />
 
@@ -106,12 +106,12 @@ export const Reportes = () => {
         </ul>
       </div>
 
-      {/* InfoCards */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mt-4 px-2">
-  <InfoCard label={`Total ${currentYear}:`} value={totalActual} />
-  <InfoCard label={`Total ${selectedYear}:`} value={totalSeleccionado} />
-  <InfoCard label="Diferencia:" value={diferencia} />
-</div>
+          {/* InfoCards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mt-4 px-2">
+        <InfoCard label={`Total ${currentYear}:`} value={totalActual} />
+        <InfoCard label={`Total ${selectedYear}:`} value={totalSeleccionado} />
+        <InfoCard label="Diferencia:" value={diferencia} />
+      </div>
 
     </div>
   );

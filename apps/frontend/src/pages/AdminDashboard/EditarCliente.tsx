@@ -10,8 +10,8 @@ export const EditClient = () => {
   const { id } = useParams();
   const { handleChange, handleSubmit, error, saving, form, setForm, successMessage } = useUpdateClient(id);
   const { loading, error: errorLoading, client } = useClient(id || "0");
-
-  // Inicializamos el form con los dtos del cliente que traemos con el hook useClient
+/* 
+   Inicializamos el form con los dtos del cliente que traemos con el hook useClient */
   useEffect(() => {
     if (client) {
       setForm({
