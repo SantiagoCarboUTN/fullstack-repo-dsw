@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "cochera": {
-    "number": 1,
+    "number": 233,
     "admin": 1
   },
   "vehiculo": "AB345AA",

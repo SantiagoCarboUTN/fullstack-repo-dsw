@@ -13,15 +13,15 @@ Content-Type: application/json
     "tipoVehiculo": 1,
     "state": "disponible",
     "admin": 1,
-    "sucursal":2
+    "sucursal":1
 }
 
 ### actualizar un tipo de servicio
-PUT http://localhost:3000/api/cochera/1/2345
+PUT http://localhost:3000/api/cochera/1/233
 Content-Type: application/json
 
 {
-    "state": "disponible"
+    "state": "ocupada"
 }
 
 ### eliminar un tipo de servicio

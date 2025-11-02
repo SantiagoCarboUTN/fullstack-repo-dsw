@@ -24,4 +24,4 @@ Content-Type: application/json
 }
 
 ### eliminar un cliente
-DELETE http://localhost:3000/api/clients/6
+DELETE http://localhost:3000/api/clients/2
