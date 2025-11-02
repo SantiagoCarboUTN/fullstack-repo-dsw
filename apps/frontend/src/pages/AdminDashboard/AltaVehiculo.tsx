@@ -60,8 +60,8 @@ export const Altavehiculo = () => {
               required
               onWheel={(e) => e.currentTarget.blur()} 
               onKeyDown={(e) => {
-              if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
-            }}
+                if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
+              }}
               value={clientId}
               onChange={handleClientChange}
               className="no-spinner border border-gray-300 p-4 rounded w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
@@ -83,6 +83,7 @@ export const Altavehiculo = () => {
                 value={tipoVehiculoId}
                 onChange={handleTipoVehiculoChange}
               >
+                {/* Me traigo los tipos */}
                 <option value="">Seleccione un tipo</option>
                 {tipos.map((t:TipoVehiculo) => (
                   <option key={t.id} value={t.id}>

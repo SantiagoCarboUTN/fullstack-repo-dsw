@@ -1,11 +1,10 @@
 import { useCreateTipoVehiculo } from "../../hooks/TipoVehiculo/UseCreateTipoVehiculo";
 import { useTipoVehiculos } from "../../hooks/TipoVehiculo/UseTipoVehiculos";
+import { useUpdateTipoVehiculo } from "../../hooks/TipoVehiculo/UseUpdateTipoVehiculo.tsx";
+import { DeleteModal } from "../../components/modals/DeleteModal.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
-import { useUpdateTipoVehiculo } from "../../hooks/TipoVehiculo/UseUpdateTipoVehiculo.tsx";
 import { useDeleteTipoVehiculo } from "../../hooks/TipoVehiculo/UseDeleteTipoVehiculo.tsx";
-import { DeleteModal } from "../../components/modals/DeleteModal.tsx";
-
 
 export const AgregarTipoVehiculo = () => {
   /* Hook create */
@@ -74,36 +73,38 @@ export const AgregarTipoVehiculo = () => {
           <div className="px-4 py-2 text-left">Descripción</div>
           <div className="px-4 py-2 text-left">Acciones</div>
         </div>
+        
+        <div className="bg-white shadow-md overflow-hidden">
+            {loadingTipos ? (
+              <p className="p-4">Cargando tipos...</p>
+            ) : errorTipos ? (
+              <p className="p-4 text-red-500">Error: {errorTipos}</p>
+            ) : (
+              tipos.map((t) => (
+                <div key={t.id} className="grid grid-cols-2 sm:grid-cols-4 border-t border-gray-200 text-gray-800">
+                  <div className="hidden sm:block px-4 py-3">{t.id}</div>
+                  <div className="px-4 py-3 font-medium">{t.description}</div>
 
-        {loadingTipos ? (
-          <p className="p-4">Cargando tipos...</p>
-        ) : errorTipos ? (
-          <p className="p-4 text-red-500">Error: {errorTipos}</p>
-        ) : (
-          tipos.map((t) => (
-            <div key={t.id} className="grid grid-cols-2 sm:grid-cols-4 border-t border-gray-200 text-gray-800">
-              <div className="hidden sm:block px-4 py-3">{t.id}</div>
-              <div className="px-4 py-3 font-medium">{t.description}</div>
+                  {/* Editar */}
+                  <span
+                    className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline"
+                    onClick={() => handleEdit(t.id, t.description)}
+                  >
+                    Editar
+                  </span>
 
-              {/* Editar */}
-              <span
-                className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline"
-                onClick={() => handleEdit(t.id, t.description)}
-              >
-                Editar
-              </span>
+                  {/* Eliminar */}
+                  <span
+                    className="px-4 py-3 text-red-600 font-medium cursor-pointer hover:underline"
+                    onClick={() => handleDeleteClick(t.id)}
+                  >
+                    Eliminar
+                  </span>
 
-              {/* Eliminar */}
-              <span
-                className="px-4 py-3 text-red-600 font-medium cursor-pointer hover:underline"
-                onClick={() => handleDeleteClick(t.id)}
-              >
-                Eliminar
-              </span>
-
-            </div>
-          ))
-        )}
+                </div>
+              ))
+            )}
+          </div>
       </div>
 
       {/* modal de eliminar */}

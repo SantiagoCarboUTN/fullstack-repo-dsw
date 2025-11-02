@@ -64,7 +64,7 @@ export const CocherasList = () => {
           </button>
         </div>
 
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="bg-white shadow-md overflow-hidden">
           {loading ? (
             <p className="p-4">Cargando cocheras...</p>
           ) : error ? (
@@ -185,12 +185,19 @@ export const CocherasList = () => {
             <h3 className="text-xl font-semibold mb-4 text-blue-700 text-center">Editar Cochera</h3>
             <form onSubmit={handleSubmitEdit} className="flex flex-col gap-3">
               {/* Número */}
+              <label className="block text-gray-700 font-semibold mb-2 text-lg">
+                Número
+              </label>
               <input
                 type="number"
-                className="border border-gray-300 p-3 rounded w-full"
+                className="no-spinner border border-gray-300 p-3 rounded w-full"
                 value={editNumber}
                 onChange={(e) => setEditNumber(e.target.value)}
                 required
+                onWheel={(e) => e.currentTarget.blur()} 
+                onKeyDown={(e) => {
+                  if (["e", "E", "+", "-","ArrowUp","ArrowDown"].includes(e.key)) e.preventDefault();
+                }}
               />
 
               {/* Tipo de vehículo */}
