@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import App from '../App'
 import { Home } from '../pages/Home'
 import { Access } from '../pages/Access.tsx'
-import { Dashboard } from '../pages/AdminDashboard/Dashboard'
 import { RealizarReserva } from '../pages/AdminDashboard/RealizarReserva.tsx'
 import { Reportes } from '../pages/AdminDashboard/Reportes'
 import { LayoutAdmin } from '../components/layout/LayoutAdmin.tsx'
@@ -32,7 +31,7 @@ export const MyRouter = () => {
       <Route path='sign-up' element={<SignUp/>} />
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={<ReservasList />} />
         <Route path="realizar-reserva" element={<RealizarReserva />} />
         <Route path="/admin/realizar-reserva/:number" element={<RealizarReserva />} />
         <Route path="reportes" element={<Reportes />} />

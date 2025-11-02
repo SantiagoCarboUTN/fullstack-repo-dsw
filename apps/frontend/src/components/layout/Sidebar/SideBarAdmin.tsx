@@ -14,7 +14,7 @@ interface SideBarAdminProps {
 
 export const SideBarAdmin = ({ isOpen, setIsOpen, admin }:SideBarAdminProps) => {
   const links = [
-    { to: "/admin/dashboard", label: "Dashboard", icon: <BiHomeAlt /> },
+    { to: "/admin/dashboard", label: "Reservas", icon: <BiHomeAlt /> },
     { to: "/admin/alta-vehiculo", label: "Vehículos", icon: <BiCar /> },
     { to: "/admin/reportes", label: "Reportes", icon: <BiBarChart /> },
     { to: "/admin/clients", label: "Clientes", icon: <FaUserCheck /> },

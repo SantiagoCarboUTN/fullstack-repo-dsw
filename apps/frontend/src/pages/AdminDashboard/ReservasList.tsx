@@ -1,10 +1,10 @@
-import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard"
-import { ListReservaRow } from "../../components/ui/AdminDashboardUi/ListReservaRow"
+import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard.tsx"
+import { ListReservaRow } from "../../components/ui/AdminDashboardUi/ListReservaRow.tsx"
 import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
-import { useReservas } from "../../hooks/Reserva/UseReservas";
+import { useReservas } from "../../hooks/Reserva/UseReservas.tsx";
 
-export const Dashboard = () => {
+export const ReservasList = () => {
   const { reservas, loading, error } = useReservas();
   const {cantDesocupadas,cantOcupadas} = useCocheras()
   return (

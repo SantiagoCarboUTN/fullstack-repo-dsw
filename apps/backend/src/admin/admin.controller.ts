@@ -47,6 +47,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    
     const admin = em.create(Admin, req.body.sanitizedInput);
     /* Creo servicios por defecto */
     const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [

@@ -19,9 +19,9 @@ export const orm = await MikroORM.init({
 export const syncSchema = async ()=>{
   const generator = orm.getSchemaGenerator()
     
- /*  await generator.dropSchema()
+  /* await generator.dropSchema()
   await generator.createSchema()  */
-  /* await orm.em.getConnection().execute('ALTER TABLE client AUTO_INCREMENT = 1;'); */
+  
   await generator.updateSchema()
   console.log('📦 Esquema sincronizado con la base de datos');
 }
