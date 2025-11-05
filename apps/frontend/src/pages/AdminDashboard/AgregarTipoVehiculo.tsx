@@ -29,8 +29,8 @@ export const AgregarTipoVehiculo = () => {
   return (
     <div className="flex flex-col items-center w-full px-4 py-10">
       {/* Formulario de cracion */}
-      <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-700 text-center">
+      <div className="bg-white p-8 lg:p-12 rounded-lg shadow-md w-full max-w-3xl mb-10">
+        <h2 className="text-3xl lg:text-4xl font-bold mb-8 text-blue-700 text-center">
           Registrar Tipo de Vehículo
         </h2>
 
@@ -61,18 +61,14 @@ export const AgregarTipoVehiculo = () => {
       {/* Listado */}
       <div className="grid-container w-full border border-gray-300 sm:gap-4 text-sm max-w-4xl">
         {/* Cabecera para mayor a sm */}
-        <div className="hidden sm:grid grid-cols-4 bg-gray-800 text-white font-bold">
+        <div className="grid grid-cols-4 bg-gray-800 text-white font-bold">
           <div className="px-4 py-2 text-left">ID</div>
           <div className="px-4 py-2 text-left">Descripción</div>
-          <div className="px-4 py-2 text-center">Acciones</div>
+          <div className="hidden lg:block px-4 py-2 text-center">Acciones</div>
+          <div className=" px-4 py-2 text-center col-span-2  lg:hidden ">Acciones</div>
         </div>
 
-        {/* Cabecera para pantalla menor a sm */}
-        <div className="grid grid-cols-2 bg-gray-800 text-white font-bold sm:hidden">
-          <div className="px-4 py-2 text-left">Descripción</div>
-          <div className="px-4 py-2 text-left">Acciones</div>
-        </div>
-        
+    
         <div className="bg-white shadow-md overflow-hidden">
             {loadingTipos ? (
               <p className="p-4">Cargando tipos...</p>
@@ -80,25 +76,29 @@ export const AgregarTipoVehiculo = () => {
               <p className="p-4 text-red-500">Error: {errorTipos}</p>
             ) : (
               tipos.map((t) => (
-                <div key={t.id} className="grid grid-cols-2 sm:grid-cols-4 border-t border-gray-200 text-gray-800">
-                  <div className="hidden sm:block px-4 py-3">{t.id}</div>
-                  <div className="px-4 py-3 font-medium">{t.description}</div>
+                <div key={t.id} className="grid grid-cols-4 border-t border-gray-200 text-gray-800">
+                  <div className="px-4 py-3">
+                    <p className="text-gray-600 cursor-pointer">{t.id}</p>
+                  </div>
+                  <div className="px-4 py-3 ">
+                    <p className="text-gray-600 cursor-pointer">{t.description}</p>
+                  </div>
 
                   {/* Editar */}
-                  <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none sm:grid-cols-2">
+                  <div className="px-4 py-3 grid grid-cols-2 col-span-2 gap-2 justify-center leading-none lg:col-span-1">
                      <span
-                    className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline"
+                    className="px-4 py-3 text-blue-700 hover:underline"
                     onClick={() => handleEdit(t.id, t.description)}
                     >
                       Editar
                     </span>
                          {/* Eliminar */}
-                    <span
-                    className="px-4 py-3 text-red-600 font-medium cursor-pointer hover:underline"
-                    onClick={() => handleDeleteClick(t.id)}
-                  >
-                    Eliminar
-                  </span>
+                      <span
+                      className="px-4 py-3 text-red-700 hover:underline"
+                      onClick={() => handleDeleteClick(t.id)}
+                    >
+                      Eliminar
+                    </span>
                   </div>
                  
 

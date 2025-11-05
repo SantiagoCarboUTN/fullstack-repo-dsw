@@ -21,7 +21,7 @@ export const MisServicios= ()=>{
             </p>
           </div>
 
-          <button className="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition w-full sm:w-auto text-center"
+          <button className="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition w-full lg:w-auto text-center"
           onClick={() => navigate("/admin/alta-servicio")}>
             +Agregar Servicio
           </button>
@@ -31,7 +31,7 @@ export const MisServicios= ()=>{
         ) : error ? (
           <p className="p-4 text-red-500 text-center">Error: {error}</p>
         ) : (
-          <div className="grid grid-cols-1 mx-auto sm:grid-cols-3 gap-4 w-full max-w-5xl">
+          <div className="grid grid-cols-2 mx-auto lg:grid-cols-3 gap-4 w-full max-w-5xl">
             {tipos.map((tipo) => (
               <div key={tipo.id} className="rounded-xl p-6 pb-10 bg-white">
                 <div className="bg-white rounded-lg p-4 text-center font-semibold mb-4">

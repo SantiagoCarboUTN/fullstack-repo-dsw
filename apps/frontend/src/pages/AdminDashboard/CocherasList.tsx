@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard";
-import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 import { MessageBox } from "../../components/ui/messageBox.tsx";
 import { SubmitButton } from "../../components/ui/SubmitButton";
@@ -44,7 +43,7 @@ export const CocherasList = () => {
 
   return (
     <>
-      <div className="p-8 grid grid-cols-1 gap-1 place-items-center sm:grid-cols-2 ">
+      <div className="p-8 grid grid-cols-1 gap-4 place-items-center lg:grid-cols-2 ">
         <button onClick={() => setFiltroEstado("ocupada")}>
           <InfoCard label="Cocheras Ocupadas" value={cantOcupadas} />
         </button>
@@ -53,7 +52,7 @@ export const CocherasList = () => {
         </button>
       </div>
 
-      <div className="p-2 bg-gray-100 min-h-screen sm:p-8">
+      <div className="p-2 bg-gray-100 min-h-screen lg:p-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Cocheras</h1>
           <button
@@ -70,74 +69,74 @@ export const CocherasList = () => {
           ) : error ? (
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
-          <div className="grid-container w-full border border-gray-300 sm:gap-4 text-sm">
-                        {/* Columnas solo para md */}
-                  <div className="hidden md:grid grid-cols-7 bg-gray-800 text-white font-bold">
+          <div className="grid-container w-full border border-gray-300 lg:gap-4 text-sm">
+                        {/* Columnas solo para lg */}
+                  <div className="hidden lg:grid bg-gray-800 text-white font-bold lg:grid-cols-8">
                     <div className="px-4 py-2 text-left">Número</div>
                     <div className="px-4 py-2 text-left">Estado</div>
-                    <div className="px-4 py-2 text-left">Tipo de vehiculo</div>
+                    <div className="px-4 py-2 text-left">Tipo</div>
                     <div className="px-4 py-2 text-left">Ubicación</div>
+                    <div></div>
                     <div className="px-4 py-2 text-center col-span-2">Acciones</div>
-
+                        {/* Columnad para sm, md y lg */}
                   </div>
-                     <div className="grid grid-cols-4 bg-gray-800 text-white text-xs font-bold sm:hidden">
+                     <div className="grid grid-cols-4 bg-gray-800 text-white text-xs font-bold lg:hidden">
                     <div className="px-4 py-2 text-left">Numero</div>
                     <div className="px-4 py-2 text-center col-span-2">Datos</div>
                     <div className="px-4 py-2 text-center">Acciones</div>
                     
                   </div>
                    {cocherasFiltradas.map((cochera) => (
-                 <div key={cochera.number} className="grid grid-cols-4 sm:grid-cols-7 border-t border-gray-200 text-gray-800">
-                    <div className=" px-4 py-3">
-                      <p className="">{cochera.number}</p>
+                 <div key={cochera.number} className="grid grid-cols-4 border-t border-gray-200 text-gray-800 lg:grid-cols-8">
+                    <div className="px-4 py-3">
+                      <p className="text-gray-600 cursor-pointer">{cochera.number}</p>
                     </div>
-
-                    <div className="hidden sm:block px-4 py-3 ">
-                      <p className="font-medium text-xs sm:text-gray-600">{cochera.state}</p>
+                      {/* Filas para lg */}
+                    <div className="hidden lg:block px-4 py-3 ">
+                      <p className="text-gray-600 cursor-pointer">{cochera.state}</p>
                     </div>
-                    <div className="px-4 py-3 col-span-2 leading-none sm:hidden ">
+                    <div className="hidden lg:block px-4 py-3 ">
+                      <p className="text-gray-600 cursor-pointer">{cochera.tipoVehiculo.description}</p>
+                    </div>
+                    <div className="hidden lg:block px-4 py-3 ">
+                      <p className="text-gray-600 cursor-pointer">{cochera.sucursal.direction}</p>
+                    </div>
+                      {/* filas para sm, md */}
+                    <div className="px-4 py-3 col-span-2 leading-none lg:hidden ">
                       <span className="font-semibold text-xs">Tipo </span>
                       <p className="text-gray-600 text-xs cursor-pointer">{cochera.tipoVehiculo.description}</p>
                       <span className="font-semibold text-xs">Estado </span>
-                      <p className="font-medium text-xs sm:text-gray-600">{cochera.state}</p>
-
+                      <p className="font-medium text-xs lg:text-gray-600">{cochera.state}</p>
                     </div>
-                    <div className="hidden sm:block px-4 py-3 ">
-                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.tipoVehiculo.description}</p>
-                    </div>
-                    <div className="hidden sm:block px-4 py-3 ">
-                      <p className="text-gray-600 text-xs cursor-pointer">{cochera.sucursal.direction}</p>
-                    </div>
-
                     
-                    <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none sm:grid-cols-3 sm:col-span-2">
-                    
+                    <div className="py-3 px-4 grid grid-cols-1 gap-2 justify-center leading-none 
+                    lg:grid-cols-3 lg:col-span-2 lg:col-span-4">
                     
                       {filtroEstado === "disponible" ?(
                         /* Botones para cocheras disponibles */
-                        <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
+                        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:col-span-3">
                           <button
-                            className="text-blue-700 font-medium hover:underline"
+                            className="text-blue-700 text-left lg:text-center font-medium hover:underline"
                             onClick={() => handleEdit(cochera.number)}
                           >
                           Editar
                           </button>
                             {/* Boton de reservar */}
                           <button
-                          className="text-blue-700 font-medium hover:underline"
-                          >
-                          <Default_Link route={`/admin/realizar-reserva/${cochera.number}`} text="Reservar" />
+                          className="text-blue-700 font-medium text-left hover:underline lg:text-center"
+                          onClick={()=>navigate(`/admin/realizar-reserva/${cochera.number}`)}>
+                          Reservar
                           </button>
 
                             <button
-                            className="text-red-600 font-medium hover:underline"
+                            className="text-red-600 text-left font-medium hover:underline lg:text-center"
                             onClick={() => handleDeleteClick(cochera.number)}
                           >
                             Eliminar
                           </button>
                         </div>
                           ): (
-                            <div className="grid grid-cols-1 sm:grid-cols-3 sm:col-span-3">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 lg:col-span-3">
                               <button
                                 className="text-blue-700 font-medium hover:underline"
                                 onClick={() => handleEdit(cochera.number)}
@@ -146,13 +145,13 @@ export const CocherasList = () => {
                               </button>
                             <button
                               disabled
-                              className="hidden sm:block text-gray-600 font-medium "
+                              className="hidden lg:block text-gray-600 font-medium "
                             >
                               Reservada
                             </button>
                             <button
                               disabled
-                              className="hidden sm:block text-gray-600 font-medium "
+                              className="hidden lg:block text-gray-600 font-medium "
                             >
                               Eliminar
                             </button>
@@ -160,7 +159,7 @@ export const CocherasList = () => {
                           
                           )}
                         </div>
-                        </div>
+                  </div>
                 ))}
           </div>
             
