@@ -10,7 +10,7 @@ export const VerReserva = ()=>{
   
   return (
     <>
-    <div className = 'h-screen p-4 flex flex-col sm:flex-row gap-4'>
+    <div className = 'lg:h-screen p-4 flex flex-col lg:flex-row gap-4'>
         <div className="flex-1 flex justify-center">
           <ReservaInfoCard
             label="Reserva"
@@ -35,13 +35,13 @@ export const VerReserva = ()=>{
           ) : error ? (
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
-            <div className="grid-container w-full rounded-3xl min-h-screen shadow-md bg-white border border-gray-300 sm:gap-4 overflow-y-auto h-auto">
+            <div className="grid-container w-full rounded-3xl min-h-screen shadow-md bg-white border border-gray-300 lg:gap-4 overflow-y-auto h-auto">
               {/* Columnas solo para md */}
               <h2 className="text-2xl font-bold text-blue-700 mb-4 px-4 pt-4 text-center">
                 Lista de cuotas
               </h2>
 
-              <div className="hidden sm:grid grid-cols-4 bg-blue-700 text-white font-bold">
+              <div className="hidden lg:grid grid-cols-4 bg-blue-700 text-white font-bold">
                 <div className="py-3 px-4">Estado</div>
                 <div className="py-3 px-4">Fecha vencimiento</div>
                 <div className="py-3 px-4">Monto</div>
@@ -53,15 +53,15 @@ export const VerReserva = ()=>{
               {cuotas.map((cuota, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 sm:grid-cols-4 border-t border-gray-200 text-gray-800"
+                  className="grid grid-cols-1 lg:grid-cols-4 border-t border-gray-200 text-gray-800"
                 >
                   <div className="py-3 px-4">
-                    <span className="font-semibold sm:hidden">Estado: </span>
+                    <span className="font-semibold lg:hidden">Estado: </span>
                     {cuota.state}
                   </div>
 
                   <div className="py-3 px-4">
-                    <span className="font-semibold sm:hidden">Fecha vencimiento: </span>
+                    <span className="font-semibold lg:hidden">Fecha vencimiento: </span>
                     {new Date(cuota.fechaPago).toLocaleString("es-AR", {
                       day: "2-digit",
                       month: "long",
@@ -70,7 +70,7 @@ export const VerReserva = ()=>{
                   </div>
 
                   <div className="py-3 px-4">
-                    <span className="font-semibold sm:hidden">Monto: </span>
+                    <span className="font-semibold lg:hidden">Monto: </span>
                     {cuota.monto}
                   </div>                  
                     <div className="py-3 px-4 flex items-center">

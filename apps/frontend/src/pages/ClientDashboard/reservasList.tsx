@@ -13,12 +13,12 @@ export const ReservasList = ()=>{
     return (
       <>
       <div className = 'h-screen'>
-        <div className="p-4 sm:p-8 bg-gray-100 ">
+        <div className="p-4 lg:p-8 bg-gray-100 ">
            {/* Filtro por estaso: */}
             <select
                 value={filtroEstado}
                 onChange={(e) => setFiltroEstado(e.target.value as "activa" | "finalizada" )}
-                className="mb-4 p-2 border rounded w-full sm:w-auto"
+                className="mb-4 p-2 border rounded w-full lg:w-auto"
               >
                 <option value="activa">Activas</option>
                 <option value="finalizada">Finalizadas</option>
@@ -34,9 +34,9 @@ export const ReservasList = ()=>{
               ) : error ? (
                 <p className="p-4 text-red-500">Error: {error}</p>
               ) : (
-                <div className="grid-container w-full border border-gray-300 sm:gap-4">
+                <div className="grid-container w-full border border-gray-300 lg:gap-4">
                   {/* Columnas solo para md */}
-                  <div className="hidden sm:grid grid-cols-5 bg-blue-700 text-white font-bold">
+                  <div className="hidden lg:grid grid-cols-5 bg-blue-700 text-white font-bold">
                     <div className="py-3 px-4">Vehiculo</div>
                     <div className="py-3 px-4">Fecha Fin</div>
                     <div className="py-3 px-4">Sucursal</div>
@@ -49,15 +49,15 @@ export const ReservasList = ()=>{
                   {reservasFiltradas.map((reserva, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-1 sm:grid-cols-5 border-t border-gray-200 text-gray-800"
+                      className="grid grid-cols-1 lg:grid-cols-5 border-t border-gray-200 text-gray-800"
                     >
                       <div className="py-3 px-4">
-                        <span className="font-semibold sm:hidden">Vehículo: </span>
+                        <span className="font-semibold lg:hidden">Vehículo: </span>
                         {reserva.vehiculo.patente}
                       </div>
 
                       <div className="py-3 px-4">
-                        <span className="font-semibold sm:hidden">Fecha fin: </span>
+                        <span className="font-semibold lg:hidden">Fecha fin: </span>
                         {new Date(reserva.fechaFin).toLocaleString("es-AR", {
                           day: "2-digit",
                           month: "long",
@@ -68,12 +68,12 @@ export const ReservasList = ()=>{
                       </div>
 
                       <div className="py-3 px-4">
-                        <span className="font-semibold sm:hidden">Sucursal: </span>
+                        <span className="font-semibold lg:hidden">Sucursal: </span>
                         {reserva.cochera.sucursal.razonSocial}
                       </div>
 
                       <div className="py-3 px-4">
-                        <span className="font-semibold sm:hidden">N° Cochera: </span>
+                        <span className="font-semibold lg:hidden">N° Cochera: </span>
                         {reserva.cochera.number}
                       </div>
 
