@@ -20,6 +20,7 @@ import { EditClient } from '../pages/AdminDashboard/EditarCliente.tsx'
 import { MisServicios } from '../pages/AdminDashboard/MisServicios.tsx'
 import { EditService } from '../pages/AdminDashboard/EditarServicio.tsx'
 import { AltaTipoServicio } from '../pages/AdminDashboard/AgregarTipoServicio.tsx'
+import { ReservasAdminList } from '../pages/AdminDashboard/ReservasList.tsx'
 
 export const MyRouter = () => {
   return (
@@ -31,7 +32,7 @@ export const MyRouter = () => {
       <Route path='sign-up' element={<SignUp/>} />
  {/* Admin con rutas anidadas */}
       <Route path="admin" element={<LayoutAdmin />}>
-        <Route path="dashboard" element={<ReservasList />} />
+        <Route path="dashboard" element={<ReservasAdminList />} />
         <Route path="realizar-reserva" element={<RealizarReserva />} />
         <Route path="/admin/realizar-reserva/:number" element={<RealizarReserva />} />
         <Route path="reportes" element={<Reportes />} />

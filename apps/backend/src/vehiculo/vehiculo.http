@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
     "modelo":"yamaha2000",
-    "patente": "ABC123"
+    "patente": "ABC456"
 }
 
 ### eliminar un vehículo

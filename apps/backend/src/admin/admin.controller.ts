@@ -51,9 +51,9 @@ async function add(req: Request, res: Response) {
     const admin = em.create(Admin, req.body.sanitizedInput);
     /* Creo servicios por defecto */
     const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [
-      {denom:"mensual", cantCuotas:1,precioCuota:100 },
-      {denom:"trimestral", cantCuotas:3,precioCuota:90 },
-      {denom:"anual", cantCuotas:12,precioCuota:80 }
+      {denom:"Mensual", cantCuotas:1,precioCuota:100 },
+      {denom:"Trimestral", cantCuotas:3,precioCuota:90 },
+      {denom:"Anual", cantCuotas:12,precioCuota:80 }
     ]
     for (let i = 0; i < servicios.length; i++) {
         const tserv = em.create(TipoServicio, {

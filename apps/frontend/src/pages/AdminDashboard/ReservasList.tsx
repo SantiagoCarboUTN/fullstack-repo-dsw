@@ -1,16 +1,15 @@
 import { InfoCard } from "../../components/ui/AdminDashboardUi/InfoCard.tsx"
-import { ListReservaRow } from "../../components/ui/AdminDashboardUi/ListReservaRow.tsx"
 import { Default_Link } from "../../components/ui/default_link.tsx";
 import { useCocheras } from "../../hooks/Cochera/UseCocheras.tsx";
 import { useReservas } from "../../hooks/Reserva/UseReservas.tsx";
 
-export const ReservasList = () => {
+export const ReservasAdminList = () => {
   const { reservas, loading, error } = useReservas();
   const {cantDesocupadas,cantOcupadas} = useCocheras()
   return (
     <>
     <div className = 'h-screen'>
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-0 place-items-center">
+      <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-4 place-items-center">
         <InfoCard label="Reservas Activas" value={cantOcupadas} />
         <InfoCard label="Cocheras Disponibles" value={cantDesocupadas} />
       </div>
@@ -29,32 +28,79 @@ export const ReservasList = () => {
           ) : error ? (
             <p className="p-4 text-red-500">Error: {error}</p>
           ) : (
-            <table className="w-full text-left border-collapse">
-              <thead className="bg-blue-700 text-white">
-                <tr>
-                  <th className="py-3 px-4">Patente</th>
-                  <th className="py-3 px-4">Cliente</th>
-                  <th className="py-3 px-4">Fecha inicio</th>
-                  <th className="py-3 px-4">N° Cochera</th>
-                  <th className="py-3 px-4 text-center">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reservas.map((reserva, index) => (
-                  <ListReservaRow
-                    key={index}
-                    patente={reserva.vehiculo.patente}
-                    cliente={reserva.vehiculo.client.complete_name}
-                    hora={ new Date(reserva.fechaInicio).toLocaleString("es-AR", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric"
-                    })} // o formateada con toLocaleTimeString()
-                    cochera={reserva.cochera.number.toString()}
-                  />
+        <div className="grid-container w-full border border-gray-300 lg:gap-4 text-sm">
+                        {/* Columnas solo para lg */}
+                  <div className="hidden lg:grid bg-gray-800 text-white font-bold lg:grid-cols-8">
+                    <div className="px-4 py-2 text-left">Patente</div>
+                    <div className="px-4 py-2 text-left">Cliente</div>
+                    <div className="px-4 py-2 text-left col-span-2">Fecha Inicio</div>
+                    <div className="px-4 py-2 text-left">N° Cochera</div>
+                    <div className="px-4 py-2 text-center col-span-2">Acciones</div>
+                  </div>
+                    {/* Columnas para sm, md y lg */}
+                  <div className="grid grid-cols-3 bg-gray-800 text-white text-xs font-bold lg:hidden">
+                    <div className="px-4 py-2 text-left">Vehiculo</div>
+                    <div className="px-4 py-2 text-left">Datos</div>
+                    <div className="px-4 py-2 text-left">Acciones</div>
+                  </div>
+          
+                {reservas.map((reserva,index) => (
+                  <div key={index} className="grid grid-cols-3 gap-0 border-t border-gray-200 text-gray-800 lg:grid-cols-8">
+
+                    <div className="hidden px-4 py-3 lg:block">
+                      <p className="text-gray-600 cursor-pointer">{reserva.vehiculo.patente}</p>
+                    </div>
+                    {/* Filas para sm y md */}
+                    <div className="px-4 py-3 lg:hidden">
+
+                      <span className="font-semibold text-xs"> Patente:</span>
+                      <p className="font-medium text-xs text-gray-600">{reserva.vehiculo.patente}</p>
+
+                      <span className="font-semibold text-xs"> Cliente:</span>
+                      <p className="font-medium text-xs text-gray-600">{reserva.vehiculo.client.complete_name}</p>
+
+                    </div>
+
+                    <div className="px-4 py-3 lg:hidden">
+
+                      <span className="font-semibold text-xs"> Cochera:</span>
+                      <p className="font-medium text-xs text-gray-600">{reserva.cochera.number}</p>
+
+                      <span className="font-semibold text-xs"> Inicio:</span>
+                      <p className="font-medium text-xs text-gray-600">{new Date(reserva.fechaInicio).toLocaleString("es-AR", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "2-digit",
+                        })}</p>
+
+                    </div>
+                    
+                    {/* Filas para lg */}
+                    <div className="hidden px-4 py-3 lg:block">
+                      <p className="text-gray-600 cursor-pointer">{reserva.vehiculo.client.complete_name}</p>
+                    </div>
+                    <div className="hidden px-4 py-3 lg:block col-span-2">
+                      <p className="text-gray-600 cursor-pointer">{new Date(reserva.fechaFin).toLocaleString("es-AR", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric"
+                        })}</p>
+                    </div>
+                    <div className="hidden px-4 py-3 lg:block">
+                      <p className="text-gray-600 cursor-pointer">{reserva.cochera.number}</p>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 lg:col-span-2">
+                      <span className="px-4 py-3 text-blue-700 font-medium cursor-pointer hover:underline">
+                        Editar
+                      </span>
+                      <span className="px-4 py-3 text-red-700 font-medium cursor-pointer hover:underline">
+                        Cancelar
+                      </span>
+                  
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+            </div>
           )}
         </div>
       </div>

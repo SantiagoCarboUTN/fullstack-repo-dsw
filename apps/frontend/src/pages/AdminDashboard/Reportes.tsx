@@ -107,7 +107,7 @@ export const Reportes = () => {
       </div>
 
           {/* InfoCards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mt-4 px-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-5xl mt-4 px-2">
         <InfoCard label={`Total ${currentYear}:`} value={totalActual} />
         <InfoCard label={`Total ${selectedYear}:`} value={totalSeleccionado} />
         <InfoCard label="Diferencia:" value={diferencia} />
