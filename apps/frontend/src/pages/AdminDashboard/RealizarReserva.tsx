@@ -18,10 +18,6 @@ export const RealizarReserva = () => {
   
   const { tipos, loading: loadingTipos, error: errorTipos } = useAllTiposServicio();
   
-
-
-
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 md:p-12 rounded-lg shadow-md w-full max-w-3xl">
@@ -112,7 +108,7 @@ export const RealizarReserva = () => {
               ))}
             </select>
             )}
-  </div> 
+          </div> 
           
 
           {/* Fecha de inicio */}
@@ -136,7 +132,7 @@ export const RealizarReserva = () => {
               text="Crear Reserva"
               loadingText="Guardando..."
               loading={loading}
-                        />
+            />
           </div>
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
           {reserva && <p className="text-green-500 text-center mt-4">Reserva creada con éxito</p>}

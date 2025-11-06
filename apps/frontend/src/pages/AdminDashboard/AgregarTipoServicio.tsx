@@ -76,7 +76,7 @@ export const AltaTipoServicio = ()=>{
         {/* Boton de creación */}
         <div className="text-center">
             <SubmitButton
-               text="Crear cochera"
+               text="Crear servicio"
                loadingText="Guardando..."
                 loading={loadingCreate}
                       />
