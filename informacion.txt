@@ -1,6 +1,0 @@
---> Usamos proxy en monorepo para poder correr tanto el front como el back y se pueden comunicar entre ellos
-
--->
-coto:
-- Cambiar home page
--Agregar sign up admin(admin + sucursal e imagen url)
