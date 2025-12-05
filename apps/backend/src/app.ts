@@ -31,7 +31,7 @@ app.use((req,res,next)=>{
 
 app.use("/api/pagos",PagosRouter)
 app.use("/api/webhook",WebhookRouter)
-
+app.use("/api/user")
 app.use("/api/vehiculo", VehiculoRouter)
 
 app.use("/api/tipoVehiculo", TipoVehiculoRouter)
