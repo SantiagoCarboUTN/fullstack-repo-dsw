@@ -83,7 +83,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try { 
     const id = Number.parseInt(req.params.id);
-    const cliente = await em.findOneOrFail(Client,  id, {populate:["vehiculos"]} );
+    const cliente = await em.findOneOrFail(Client,  id)/* ,{populate:["vehiculos"]} ); */ /* --> comento para compilar, ver client entity */
 
     await em.removeAndFlush(cliente);
     res.status(200).json({ message: 'Cliente eliminado' , data:cliente});

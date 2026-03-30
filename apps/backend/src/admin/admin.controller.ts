@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { orm} from '../shared/db/orm.js';
 import { Admin } from './admin.entity.js';
 import { TipoServicio } from '../tipoServicio/tserv.entity.js';
+import { Reserva } from '../reserva/reserva.entity.js';
 
 const em = orm.em
 
@@ -50,7 +51,7 @@ async function add(req: Request, res: Response) {
     
     const admin = em.create(Admin, req.body.sanitizedInput);
     /* Creo servicios por defecto */
-    const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [
+/*     const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [
       {denom:"Mensual", cantCuotas:1,precioCuota:100 },
       {denom:"Trimestral", cantCuotas:3,precioCuota:90 },
       {denom:"Anual", cantCuotas:12,precioCuota:80 }
@@ -60,12 +61,11 @@ async function add(req: Request, res: Response) {
           admin,
           cantCuotas:servicios[i].cantCuotas,
           precioCuota:servicios[i].precioCuota,
-          nombre:servicios[i].denom,
-          reservas:[]
+          nombre:servicios[i].denom
         });
         admin.TiposServicio.add(tserv)
       }
-    
+     */
     await em.persistAndFlush(admin);
     res.status(201).json({ message: 'Administrador creado', data: admin });
   }catch (error:any) { 

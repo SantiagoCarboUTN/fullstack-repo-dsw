@@ -30,13 +30,13 @@ export class User extends BaseEntity {
   @Property({nullable:true})
     dni!: string;
     
-  @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.ALL]})
+  @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.owner, {cascade:[Cascade.ALL]})
     vehiculos = new Collection<Vehiculo>(this);
   
-  @OneToMany(() => Cochera, (cochera) => cochera.admin, { cascade: [Cascade.ALL] })
+  @OneToMany(() => Cochera, (cochera) => cochera.owner, { cascade: [Cascade.ALL] })
   cocheras = new Collection<Cochera>(this);
   
- @OneToMany(() => TipoServicio, (cochera) => cochera.admin, { cascade: [Cascade.ALL],nullable:true })
+ @OneToMany(() => TipoServicio, (cochera) => cochera.owner, { cascade: [Cascade.ALL]})
   TiposServicio = new Collection<TipoServicio>(this);
 
   toJSON() {

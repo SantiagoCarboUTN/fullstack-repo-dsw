@@ -26,8 +26,8 @@ export class Client extends BaseEntity {
   @Property({nullable:true})
     dni!: string;
     
-  @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.ALL]})
-    vehiculos = new Collection<Vehiculo>(this);
+  /* @OneToMany (()=>Vehiculo, (vehiculo)=>vehiculo.client, {cascade:[Cascade.ALL]})
+    vehiculos = new Collection<Vehiculo>(this); */ /* Comento para poder compilar */
   
   toJSON() {
     const { password, ...rest } = this;

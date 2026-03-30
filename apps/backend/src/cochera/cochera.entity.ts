@@ -1,9 +1,10 @@
 import { Entity,Property,Rel,Cascade,Collection,PrimaryKey,ManyToOne, OneToMany} from "@mikro-orm/core";
 import { TipoVehiculo } from "../tipoVehiculo/tv.entity.js";
 import { Admin } from "../admin/admin.entity.js";
-import { Vehiculo } from "../vehiculo/vehiculo.entity.js";
 import { Reserva } from "../reserva/reserva.entity.js";
 import { Sucursal } from "../sucursal/sucursal.entity.js";
+
+import { User } from "../users/user.entity.js";
 @Entity()
 export class Cochera {
   @PrimaryKey({ nullable: false })
@@ -18,6 +19,9 @@ export class Cochera {
   @ManyToOne(() => Admin, { primary:true })
     admin!: Rel<Admin>
 
+  @ManyToOne(() => User, { primary:true })
+    owner!: Rel<Admin>
+    
   @ManyToOne(() => Sucursal, { nullable:true})
     sucursal!: Rel<Sucursal>
 

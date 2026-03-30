@@ -4,13 +4,14 @@ import { Vehiculo } from '../vehiculo/vehiculo.entity.js';
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
 import { TipoServicio } from '../tipoServicio/tserv.entity.js';
 import { Cuota } from '../cuotas/cuotas.entity.js';
+import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 @Entity()
-export class Reserva{
-
- @ManyToOne(() => Cochera, { primary: true })
+export class Reserva extends BaseEntity{
+ 
+ @ManyToOne(() => Cochera, {nullable: false})
   cochera!: Rel<Cochera>;
 
-@ManyToOne(() => Vehiculo, { primary: true })
+@ManyToOne(() => Vehiculo, {nullable:false})
   vehiculo!: Rel<Vehiculo>;
 
 @PrimaryKey({type:Date})

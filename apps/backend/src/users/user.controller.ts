@@ -3,6 +3,7 @@ import { orm} from '../shared/db/orm.js';
 import { populate } from 'dotenv';
 import { ForeignKeyConstraintViolationException, UniqueConstraintViolationException, ValidationError } from '@mikro-orm/core';
 import { User } from './user.entity.js';
+import { TipoServicio } from '../tipoServicio/tserv.entity.js';
 
 const em = orm.em
 
@@ -53,6 +54,23 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
   try {
     const newUser = em.create(User, req.body.sanitizedInput);
+    if(req.body.sanitizedInput.type == 'Admin'){
+      const servicios:{denom:string, cantCuotas:number, precioCuota:number}[] = [
+      {denom:"Mensual", cantCuotas:1,precioCuota:100 },
+      {denom:"Trimestral", cantCuotas:3,precioCuota:90 },
+      {denom:"Anual", cantCuotas:12,precioCuota:80 }
+    ]
+    for (let i = 0; i < servicios.length; i++) {
+        const tserv = em.create(TipoServicio, {
+          owner: newUser,
+          cantCuotas:servicios[i].cantCuotas,
+          precioCuota:servicios[i].precioCuota,
+          nombre:servicios[i].denom
+        });
+        newUser.TiposServicio.add(tserv)
+      }
+    
+    }
     await em.flush();
     res.status(201).json({ message: 'user creado', data: newUser });
   }catch (error:any) { 

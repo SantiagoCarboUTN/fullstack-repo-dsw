@@ -3,6 +3,7 @@ import { Client } from '../clients/client.entity.js'
 import { TipoVehiculo } from '../tipoVehiculo/tv.entity.js';
 
 import { Reserva } from '../reserva/reserva.entity.js';
+import { User } from '../users/user.entity.js';
 
 @Entity()
 export class Vehiculo{
@@ -11,9 +12,11 @@ export class Vehiculo{
   @Property({ nullable: false })
   modelo!: string
   
-  @ManyToOne(() => Client, { nullable: false})
+/*   @ManyToOne(() => Client, { nullable: false})
   client!: Rel<Client>
-
+ */
+  @ManyToOne(() => User, { nullable: false})
+  owner!: Rel<User>
   @ManyToOne(() => TipoVehiculo, { nullable: true })
   tipoVehiculo!: Rel<TipoVehiculo>
 
